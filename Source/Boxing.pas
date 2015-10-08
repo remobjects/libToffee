@@ -6,19 +6,19 @@ uses
   Foundation;
 
 type
-  __ElementaBoxedStructDestructor = public procedure (o: ^Void);
+  __ElementsBoxedStructDestructor = public procedure (o: ^Void);
 
-  __ElementaBoxedStruct = public class(NSObject) // We're explicitly NOT implementing INSCopying and INSCoding
+  __ElementsBoxedStruct = public class(NSObject) // We're explicitly NOT implementing INSCopying and INSCoding
   private
     fValue: ^Void;
-    fDtor: __ElementaBoxedStructDestructor;
+    fDtor: __ElementsBoxedStructDestructor;
   public
-    constructor (aValue: ^Void; aDtor: __ElementaBoxedStructDestructor); // Presume already "copied" & malloced
+    constructor (aValue: ^Void; aDtor: __ElementsBoxedStructDestructor); // Presume already "copied" & malloced
     finalizer;
     method description: String; override;
-    class method boxedStructWithValue(aValue: ^Void; aDtor: __ElementaBoxedStructDestructor): __ElementaBoxedStruct;
-    class method valueForStruct(aStruct: NSObject; aDtor: __ElementaBoxedStructDestructor): ^Void;
-    property Dtor: __ElementaBoxedStructDestructor read fDtor;
+    class method boxedStructWithValue(aValue: ^Void; aDtor: __ElementsBoxedStructDestructor): __ElementsBoxedStruct;
+    class method valueForStruct(aStruct: NSObject; aDtor: __ElementsBoxedStructDestructor): ^Void;
+    property Dtor: __ElementsBoxedStructDestructor read fDtor;
     property Value: ^Void read fValue;    
     { INSCopying }
     method copyWithZone(zone: ^NSZone): not nullable id;
@@ -27,14 +27,14 @@ type
     method initWithCoder(aDecoder: not nullable NSCoder): nullable instancetype;    
   end;
 
-  __ElementaBoxedChar = public class(NSObject, INSCopying, INSCoding)
+  __ElementsBoxedChar = public class(NSObject, INSCopying, INSCoding)
   public
     constructor withChar(aChar: Char);
-    class method boxedCharWithChar(aChar: Char): __ElementaBoxedChar;
+    class method boxedCharWithChar(aChar: Char): __ElementsBoxedChar;
     method description: String; override;
     property charValue: Char; readonly;
-    operator Implicit(aValue: __ElementaBoxedChar): NSNumber;
-    operator Implicit(aValue: __ElementaBoxedChar): Char;
+    operator Implicit(aValue: __ElementsBoxedChar): NSNumber;
+    operator Implicit(aValue: __ElementsBoxedChar): Char;
     { INSCopying }
     method copyWithZone(zone: ^NSZone): not nullable id;
     { INSCoding }
@@ -42,14 +42,14 @@ type
     method initWithCoder(aDecoder: not nullable NSCoder): nullable instancetype;
   end;
 
-  __ElementaBoxedAnsiChar = public class(NSObject, INSCopying, INSCoding)
+  __ElementsBoxedAnsiChar = public class(NSObject, INSCopying, INSCoding)
   public
     constructor withAnsiChar(aAnsiChar: AnsiChar);
-    class method boxedAnsiCharWithAnsiChar(aAnsiChar: AnsiChar): __ElementaBoxedAnsiChar;
+    class method boxedAnsiCharWithAnsiChar(aAnsiChar: AnsiChar): __ElementsBoxedAnsiChar;
     method description: String; override;
     property ansiCharValue: AnsiChar; readonly;
-    operator Implicit(aValue: __ElementaBoxedAnsiChar): NSNumber;
-    operator Implicit(aValue: __ElementaBoxedAnsiChar): AnsiChar;
+    operator Implicit(aValue: __ElementsBoxedAnsiChar): NSNumber;
+    operator Implicit(aValue: __ElementsBoxedAnsiChar): AnsiChar;
     { INSCopying }
     method copyWithZone(zone: ^NSZone): not nullable id;
     { INSCoding }
@@ -59,140 +59,140 @@ type
 
 implementation
 
-{ __ElementaBoxedChar }
+{ __ElementsBoxedChar }
 
-constructor __ElementaBoxedChar withChar(aChar: Char);
+constructor __ElementsBoxedChar withChar(aChar: Char);
 begin
   charValue := aChar;
 end;
 
-method __ElementaBoxedChar.description: String;
+method __ElementsBoxedChar.description: String;
 begin
   result := NSString.stringWithFormat("%c", charValue);
 end;
 
-operator __ElementaBoxedChar.Implicit(aValue: __ElementaBoxedChar): NSNumber;
+operator __ElementsBoxedChar.Implicit(aValue: __ElementsBoxedChar): NSNumber;
 begin
   result := NSNumber.numberWithUnsignedInt(aValue.charValue as Int16);
 end;
 
-operator __ElementaBoxedChar.Implicit(aValue: __ElementaBoxedChar): Char;
+operator __ElementsBoxedChar.Implicit(aValue: __ElementsBoxedChar): Char;
 begin
   result := aValue.charValue;
 end;
 
-class method __ElementaBoxedChar.boxedCharWithChar(aChar: Char): __ElementaBoxedChar;
+class method __ElementsBoxedChar.boxedCharWithChar(aChar: Char): __ElementsBoxedChar;
 begin
-  exit new __ElementaBoxedChar withChar(aChar);
+  exit new __ElementsBoxedChar withChar(aChar);
 end;
 
-method __ElementaBoxedChar.copyWithZone(zone: ^NSZone): not nullable id;
+method __ElementsBoxedChar.copyWithZone(zone: ^NSZone): not nullable id;
 begin
-  result := __ElementaBoxedChar.allocWithZone(zone).initWithChar(charValue) as not nullable;
+  result := __ElementsBoxedChar.allocWithZone(zone).initWithChar(charValue) as not nullable;
 end;
 
-method __ElementaBoxedChar.initWithCoder(aDecoder: not nullable NSCoder): nullable instancetype;
+method __ElementsBoxedChar.initWithCoder(aDecoder: not nullable NSCoder): nullable instancetype;
 begin
   var len: NSUInteger;
   var ch: ^Char := ^Char(aDecoder.decodeBytesWithReturnedLength(var len));
   charValue := ch^;
 end;
 
-method __ElementaBoxedChar.encodeWithCoder(aCoder: not nullable NSCoder);
+method __ElementsBoxedChar.encodeWithCoder(aCoder: not nullable NSCoder);
 begin
   var ch := charValue;
   aCoder.encodeBytes(@ch) length(2);
 end;
 
-{ __ElementaBoxedAnsiChar }
+{ __ElementsBoxedAnsiChar }
 
-constructor __ElementaBoxedAnsiChar withAnsiChar(aAnsiChar: AnsiChar);
+constructor __ElementsBoxedAnsiChar withAnsiChar(aAnsiChar: AnsiChar);
 begin
   ansiCharValue := aAnsiChar;
 end;
 
-method __ElementaBoxedAnsiChar.description: String;
+method __ElementsBoxedAnsiChar.description: String;
 begin
   result := NSString.stringWithFormat("%c", ansiCharValue);
 end;
 
-operator __ElementaBoxedAnsiChar.Implicit(aValue: __ElementaBoxedAnsiChar): NSNumber;
+operator __ElementsBoxedAnsiChar.Implicit(aValue: __ElementsBoxedAnsiChar): NSNumber;
 begin
   result := NSNumber.numberWithUnsignedChar(aValue.ansiCharValue as Byte);
 end;
 
-operator __ElementaBoxedAnsiChar.Implicit(aValue: __ElementaBoxedAnsiChar): AnsiChar;
+operator __ElementsBoxedAnsiChar.Implicit(aValue: __ElementsBoxedAnsiChar): AnsiChar;
 begin
   result := aValue.ansiCharValue;
 end;
 
-class method __ElementaBoxedAnsiChar.boxedAnsiCharWithAnsiChar(aAnsiChar: AnsiChar): __ElementaBoxedAnsiChar;
+class method __ElementsBoxedAnsiChar.boxedAnsiCharWithAnsiChar(aAnsiChar: AnsiChar): __ElementsBoxedAnsiChar;
 begin
-  exit new __ElementaBoxedAnsiChar withAnsiChar(aAnsiChar);
+  exit new __ElementsBoxedAnsiChar withAnsiChar(aAnsiChar);
 end;
 
-method __ElementaBoxedAnsiChar.copyWithZone(zone: ^NSZone): not nullable id;
+method __ElementsBoxedAnsiChar.copyWithZone(zone: ^NSZone): not nullable id;
 begin
-  result := __ElementaBoxedAnsiChar.allocWithZone(zone).initWithAnsiChar(ansiCharValue) as not nullable;
+  result := __ElementsBoxedAnsiChar.allocWithZone(zone).initWithAnsiChar(ansiCharValue) as not nullable;
 end;
 
-method __ElementaBoxedAnsiChar.initWithCoder(aDecoder: not nullable NSCoder): nullable instancetype;
+method __ElementsBoxedAnsiChar.initWithCoder(aDecoder: not nullable NSCoder): nullable instancetype;
 begin
   var len: NSUInteger;
   var ch: ^AnsiChar := ^AnsiChar(aDecoder.decodeBytesWithReturnedLength(var len));
   ansiCharValue := ch^;
 end;
 
-method __ElementaBoxedAnsiChar.encodeWithCoder(aCoder: not nullable NSCoder);
+method __ElementsBoxedAnsiChar.encodeWithCoder(aCoder: not nullable NSCoder);
 begin
   var ch := ansiCharValue;
   aCoder.encodeBytes(@ch) length(2);
 end;
 
-{ __ElementaBoxedStruct }
+{ __ElementsBoxedStruct }
 
-constructor __ElementaBoxedStruct(aValue: ^Void; aDtor: __ElementaBoxedStructDestructor);
+constructor __ElementsBoxedStruct(aValue: ^Void; aDtor: __ElementsBoxedStructDestructor);
 begin
   fValue := aValue;
   fDtor := aDtor;
 end;
 
-finalizer __ElementaBoxedStruct;
+finalizer __ElementsBoxedStruct;
 begin
   if fDtor <> nil then
     fDtor(fValue);
   free(fValue);
 end;
 
-method __ElementaBoxedStruct.description: String;
+method __ElementsBoxedStruct.description: String;
 begin
   result := "<Boxed Struct Type>"
 end;
 
-class method __ElementaBoxedStruct.boxedStructWithValue(aValue: ^Void; aDtor: __ElementaBoxedStructDestructor): __ElementaBoxedStruct;
+class method __ElementsBoxedStruct.boxedStructWithValue(aValue: ^Void; aDtor: __ElementsBoxedStructDestructor): __ElementsBoxedStruct;
 begin
-  exit new __ElementaBoxedStruct(aValue, aDtor);
+  exit new __ElementsBoxedStruct(aValue, aDtor);
 end;
 
-class method __ElementaBoxedStruct.valueForStruct(aStruct: Object; aDtor: __ElementaBoxedStructDestructor): ^Void;
+class method __ElementsBoxedStruct.valueForStruct(aStruct: Object; aDtor: __ElementsBoxedStructDestructor): ^Void;
 begin
-  var lSelf := __ElementaBoxedStruct(aStruct);
+  var lSelf := __ElementsBoxedStruct(aStruct);
   if lSelf.Dtor <> aDtor then
     raise new NSException withName('InvalidCastException') reason ('Destructor does not match for boxed struct') userInfo(nil);
   exit lSelf.fValue;
 end;
 
-method __ElementaBoxedStruct.copyWithZone(zone: ^NSZone): not nullable id;
+method __ElementsBoxedStruct.copyWithZone(zone: ^NSZone): not nullable id;
 begin
   raise new NSException("NSCopying is not supported for boxed structs.")
 end;
 
-method __ElementaBoxedStruct.initWithCoder(aDecoder: not nullable NSCoder): nullable instancetype;
+method __ElementsBoxedStruct.initWithCoder(aDecoder: not nullable NSCoder): nullable instancetype;
 begin
   raise new NSException("Encoding/decoding is not supported for boxed structs.")
 end;
 
-method __ElementaBoxedStruct.encodeWithCoder(aCoder: not nullable NSCoder);
+method __ElementsBoxedStruct.encodeWithCoder(aCoder: not nullable NSCoder);
 begin
   raise new NSException("Encoding/decoding is not supported for boxed structs.")
 end;
