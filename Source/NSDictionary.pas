@@ -10,7 +10,7 @@ type
   NSDictionaryTestBlock = block(key: id; obj: id; stop: ^Boolean): Boolean;
 
   NSDictionary<TKey, TValue> = public class mapped to Foundation.NSDictionary
-    where TKey is class, TKey is INSCopying, TValue is class;
+    where TKey is class, TValue is class;
   public
     { Class Constructors }
     class method dictionary: id; mapped to dictionary;

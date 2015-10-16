@@ -7,7 +7,7 @@ uses
 
 type
   NSMutableDictionary<TKey, TValue> = public class(RemObjects.Elements.System.NSDictionary<TKey, TValue>) mapped to Foundation.NSMutableDictionary
-    where TKey is class, TKey is INSCopying, TValue is class;
+    where TKey is class, TValue is class;
   public
     { Class Constructors }
     class method dictionary: id; mapped to dictionary;
@@ -72,8 +72,8 @@ type
     method removeObjectForKey(aKey: not nullable TKey); mapped to removeObjectForKey(aKey);
     method removeObjectsForKeys(keyArray: not nullable NSArray<TKey>); mapped to removeObjectsForKeys(keyArray);
     method setDictionary(otherDictionary: not nullable NSDictionary<TKey,TValue>); mapped to setDictionary(otherDictionary);
-    method setObject(anObject: TValue) forKey(aKey: not nullable TKey); mapped to setObject(anObject) forKey(INSCopying(aKey));
-    method setObject(anObject: TValue) forKeyedSubscript(aKey: not nullable TKey); mapped to setObject(anObject) forKeyedSubscript(INSCopying(aKey));
+    method setObject(anObject: TValue) forKey(aKey: not nullable TKey); mapped to setObject(anObject) forKey(aKey);
+    method setObject(anObject: TValue) forKeyedSubscript(aKey: not nullable TKey); mapped to setObject(anObject) forKeyedSubscript(aKey);
   end;
 
 implementation

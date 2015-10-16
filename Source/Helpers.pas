@@ -135,9 +135,9 @@ end;
 method __ElementsCocoaVersionAtLeast(aMaj, aMin: Integer; aRev: Integer := 0): Boolean;
 begin
   __ElementsLoadCocoaVersion;
-  if aMaj <  __ElementsLoadedCocoaVersion[1] then exit false;
-  if aMin <  __ElementsLoadedCocoaVersion[2] then exit false;
-  if aRev <  __ElementsLoadedCocoaVersion[3] then exit false;
+  if aMaj > __ElementsLoadedCocoaVersion[1] then exit false;
+  if aMin > __ElementsLoadedCocoaVersion[2] then exit false;
+  if aRev > __ElementsLoadedCocoaVersion[3] then exit false;
   exit true;
 end;
 
