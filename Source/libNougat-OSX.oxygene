@@ -13,11 +13,11 @@
         <CreateHeaderFile>True</CreateHeaderFile>
         <Name>libNougat (OS X)</Name>
         <GenerateDebugInfo>True</GenerateDebugInfo>
+        <DefineConstants>OSX;MACOS</DefineConstants>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
         <Optimize>false</Optimize>
         <OutputPath>.\bin\Debug</OutputPath>
-        <DefineConstants>DEBUG;TRACE;</DefineConstants>
         <EnableAsserts>True</EnableAsserts>
         <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
         <CaptureConsoleOutput>False</CaptureConsoleOutput>

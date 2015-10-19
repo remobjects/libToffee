@@ -22,7 +22,7 @@ type
     property Value: ^Void read fValue;
     { INSObject }
     method isEqual(object: id): Boolean; override;
-    method isEqualTo(object: id): Boolean; override;
+    method isEqualTo(object: id): Boolean; {$IF OSX}override;{$ENDIF}
     { INSCopying }
     method copyWithZone(zone: ^NSZone): not nullable id;
     { INSCoding }
@@ -43,11 +43,11 @@ type
     operator Implicit(aValue: __ElementsBoxedChar): Char;
     { INSObject }
     method isEqual(object: id): Boolean; override;
-    method isEqualTo(object: id): Boolean; override;
-    method isGreaterThan(object: id): Boolean; override;
-    method isGreaterThanOrEqualTo(object: id): Boolean; override;
-    method isLessThan(object: id): Boolean; override;
-    method isLessThanOrEqualTo(object: id): Boolean; override;
+    method isEqualTo(object: id): Boolean; {$IF OSX}override;{$ENDIF}
+    method isGreaterThan(object: id): Boolean; {$IF OSX}override;{$ENDIF}
+    method isGreaterThanOrEqualTo(object: id): Boolean; {$IF OSX}override;{$ENDIF}
+    method isLessThan(object: id): Boolean; {$IF OSX}override;{$ENDIF}
+    method isLessThanOrEqualTo(object: id): Boolean; {$IF OSX}override;{$ENDIF}
     { INSCopying }
     method copyWithZone(zone: ^NSZone): not nullable id;
     { INSCoding }
@@ -68,11 +68,11 @@ type
     operator Implicit(aValue: __ElementsBoxedAnsiChar): AnsiChar;
     { INSObject }
     method isEqual(object: id): Boolean; override;
-    method isEqualTo(object: id): Boolean; override;
-    method isGreaterThan(object: id): Boolean; override;
-    method isGreaterThanOrEqualTo(object: id): Boolean; override;
-    method isLessThan(object: id): Boolean; override;
-    method isLessThanOrEqualTo(object: id): Boolean; override;
+    method isEqualTo(object: id): Boolean; {$IF OSX}override;{$ENDIF}
+    method isGreaterThan(object: id): Boolean; {$IF OSX}override;{$ENDIF}
+    method isGreaterThanOrEqualTo(object: id): Boolean; {$IF OSX}override;{$ENDIF}
+    method isLessThan(object: id): Boolean; {$IF OSX}override;{$ENDIF}
+    method isLessThanOrEqualTo(object: id): Boolean; {$IF OSX}override;{$ENDIF}
     { INSCopying }
     method copyWithZone(zone: ^NSZone): not nullable id;
     { INSCoding }
@@ -130,28 +130,28 @@ end;
 method __ElementsBoxedChar.isGreaterThan(object: id): Boolean;
 begin
   result := ((object is __ElementsBoxedChar) and (charValue > (object as __ElementsBoxedChar).charValue)) or
-            ((object is __ElementsBoxedAnsiChar) and (charValue > (object as __ElementsBoxedAnsiChar).ansiCharValue)) or
+            ((object is __ElementsBoxedAnsiChar) and (charValue > Char((object as __ElementsBoxedAnsiChar).ansiCharValue))) or
             ((object is NSString) and (stringValue > (object as NSString)));
 end;
 
 method __ElementsBoxedChar.isGreaterThanOrEqualTo(object: id): Boolean;
 begin
   result := ((object is __ElementsBoxedChar) and (charValue >= (object as __ElementsBoxedChar).charValue)) or
-            ((object is __ElementsBoxedAnsiChar) and (charValue >= (object as __ElementsBoxedAnsiChar).ansiCharValue)) or
+            ((object is __ElementsBoxedAnsiChar) and (charValue >= Char((object as __ElementsBoxedAnsiChar).ansiCharValue))) or
             ((object is NSString) and (stringValue >= (object as NSString)));
 end;
 
 method __ElementsBoxedChar.isLessThan(object: id): Boolean;
 begin
   result := ((object is __ElementsBoxedChar) and (charValue < (object as __ElementsBoxedChar).charValue)) or
-            ((object is __ElementsBoxedAnsiChar) and (charValue < (object as __ElementsBoxedAnsiChar).ansiCharValue)) or
+            ((object is __ElementsBoxedAnsiChar) and (charValue < Char((object as __ElementsBoxedAnsiChar).ansiCharValue))) or
             ((object is NSString) and (stringValue < (object as NSString)));
 end;
 
 method __ElementsBoxedChar.isLessThanOrEqualTo(object: id): Boolean;
 begin
   result := ((object is __ElementsBoxedChar) and (charValue <= (object as __ElementsBoxedChar).charValue)) or
-            ((object is __ElementsBoxedAnsiChar) and (charValue <= (object as __ElementsBoxedAnsiChar).ansiCharValue)) or
+            ((object is __ElementsBoxedAnsiChar) and (charValue <= Char((object as __ElementsBoxedAnsiChar).ansiCharValue))) or
             ((object is NSString) and (stringValue <= (object as NSString)));
 end;
 

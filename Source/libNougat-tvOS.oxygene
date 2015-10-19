@@ -13,11 +13,11 @@
         <Name>libNougat (tvOS)</Name>
         <GenerateDebugInfo>True</GenerateDebugInfo>
         <DeploymentTargetVersion>9.0</DeploymentTargetVersion>
+        <DefineConstants>TVOS</DefineConstants>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
         <Optimize>false</Optimize>
         <OutputPath>.\bin\Debug</OutputPath>
-        <DefineConstants>DEBUG;TRACE;</DefineConstants>
         <EnableAsserts>True</EnableAsserts>
         <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
         <CaptureConsoleOutput>False</CaptureConsoleOutput>

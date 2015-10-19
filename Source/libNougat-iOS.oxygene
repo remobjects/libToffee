@@ -15,11 +15,11 @@
         <Architecture>arm64,armv7s,armv7</Architecture>
         <SimulatorArchitectures>x86_64,i386</SimulatorArchitectures>
         <DeploymentTargetVersion>7.0</DeploymentTargetVersion>
+        <DefineConstants>IOS</DefineConstants>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
         <Optimize>false</Optimize>
         <OutputPath>.\bin\Debug</OutputPath>
-        <DefineConstants>DEBUG;TRACE;</DefineConstants>
         <EnableAsserts>True</EnableAsserts>
         <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
         <CaptureConsoleOutput>False</CaptureConsoleOutput>

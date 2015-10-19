@@ -15,11 +15,11 @@
         <Architecture>armv7k</Architecture>
         <SimulatorArchitectures>i386</SimulatorArchitectures>
         <DeploymentTargetVersion>2.0</DeploymentTargetVersion>
+        <DefineConstants>WATCHOS</DefineConstants>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
         <Optimize>false</Optimize>
         <OutputPath>.\bin\Debug</OutputPath>
-        <DefineConstants>DEBUG;TRACE;</DefineConstants>
         <EnableAsserts>True</EnableAsserts>
         <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
         <CaptureConsoleOutput>False</CaptureConsoleOutput>
