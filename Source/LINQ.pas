@@ -194,14 +194,14 @@ end;
 
 extension method Foundation.INSFastEnumeration.OrderBy(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration;
 begin
-  var lOrdered := orderBy(aBlock) comparator( (a,b) -> aBlock(b).compare(aBlock(a)) );
+  var lOrdered := orderBy(aBlock) comparator( (a,b) -> aBlock(a).compare(aBlock(b)) );
   for each i in lOrdered do
     yield i;
 end;
 
 extension method Foundation.INSFastEnumeration.OrderByDescending(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration;
 begin
-  var lOrdered := orderBy(aBlock) comparator( (a, b) -> aBlock(a).compare(aBlock(b)) );
+  var lOrdered := orderBy(aBlock) comparator( (a, b) -> aBlock(b).compare(aBlock(a)) );
   for each i in lOrdered do
     yield i;
 end;
