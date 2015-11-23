@@ -16,9 +16,10 @@ type
     class method setWithObjects(firstObject: id; params param1: array of id); mapped to setWithObjects(firstObject, param1);
     class method setWithObjects(objects: ^T) count(cnt: NSUInteger): id; mapped to setWithObjects(^id(objects)) count(cnt);
     class method setWithSet(&set: NSSet<T>): id; mapped to setWithSet(&set);
-
     { Instance Methods }
+{$HIDE W8}
     method addObserver(observer: NSObject) forKeyPath(keyPath: NSString) options(options: NSKeyValueObservingOptions) context(var context); mapped to addObserver(observer) forKeyPath(keyPath) options(options) context(@context);
+{$SHOW W8}
     method containsObject(anObject: T): Boolean; mapped to containsObject(anObject);
     method descriptionWithLocale(locale: id): NSString; mapped to descriptionWithLocale(locale);
     method enumerateObjectsUsingBlock(&block: block(obj: T; stop: ^Boolean)); mapped to enumerateObjectsUsingBlock(NSSetEnumerateBlock(&block));

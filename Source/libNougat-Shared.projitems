@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Futures.pas" />
     <Compile Include="$(MSBuildThisFileDirectory)INSFastEnumeration.pas" />
     <Compile Include="$(MSBuildThisFileDirectory)LINQ.pas" />
+    <Compile Include="$(MSBuildThisFileDirectory)Task.pas" />
     <None Include="$(MSBuildThisFileDirectory)LinqHelpers.pas" />
     <Compile Include="$(MSBuildThisFileDirectory)Macros.pas" />
     <Compile Include="$(MSBuildThisFileDirectory)NSArray.pas" />
