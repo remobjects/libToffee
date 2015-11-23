@@ -34,7 +34,7 @@ type
     property AsyncState: Object read fAsyncState;
     property IsFaulted: Boolean read fException <> nil;
     property IsCompleted: Boolean read fState = TaskState.Done; 
-    method &Await(aCompletion: IAwaitCompletion): Boolean; // true = yield; false = long done
+    method &Await(aCompletion: __ElementsIAwaitCompletion): Boolean; // true = yield; false = long done
 
     {$HIDE W38}
     method Wait; reintroduce;virtual;
@@ -80,7 +80,7 @@ type
     method run; override; empty;
   end;
 
-  IAwaitCompletion = public interface
+  __ElementsIAwaitCompletion = public interface
     method moveNext(aState: Object);
   end;
 
@@ -312,7 +312,7 @@ begin
   fTask.Done(nil);
 end;
 
-method __ElementsTask.Await(aCompletion: IAwaitCompletion): Boolean;
+method __ElementsTask.Await(aCompletion: __ElementsIAwaitCompletion): Boolean;
 begin
   if IsCompleted then exit false;
   var q := __ElementsTask.ThreadSyncHelper.GetThreadContext;
