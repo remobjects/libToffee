@@ -53,6 +53,8 @@ type
     constructor(aDelegate: Object; aState: Object); empty;
   public
     constructor(aIn: TaskBlockGen<T>; aState: Object := nil);
+    method ContinueWith(aAction: block(aTask: __ElementsTask1<T>); aState: Object := nil): __ElementsTask;
+    method ContinueWith<TR>(aAction: block(aTask: __ElementsTask1<T>): TR; aState: Object := nil): __ElementsTask1<TR>;
     method run; override;
     property &Result: T read getResult;
   end;
@@ -279,7 +281,6 @@ begin
 end;
 
 
-
 constructor __ElementsTaskCompletionSource<T>(aState: Object);
 begin
   fTask := new TaskCompletionSourceTask<T>(Object(nil), aState);
@@ -299,6 +300,23 @@ begin
   fTask.Done(ex);
 end;
 
+method __ElementsTask1<T>.ContinueWith(aAction: block(aTask: __ElementsTask1<T>); aState: Object := nil): __ElementsTask;
+begin
+  result := new __ElementsTask(-> aAction(self), aState);
+  result.fState := TaskState.Queued;
+
+  AddOrRunContinueWith(result);
+end;
+
+method __ElementsTask1<T>.ContinueWith<TR>(aAction: block(aTask: __ElementsTask1<T>): TR; aState: Object := nil): __ElementsTask1<TR>;
+begin
+  var r: TaskBlockGen<TR> := -> aAction(self);
+  result := new __ElementsTask1(r, aState);
+  result.fState := TaskState.Queued;
+
+  AddOrRunContinueWith(result);
+end;
+   
 method __ElementsTaskCompletionSource<T>.SetResult(val: T);
 begin
   fTask.fLock.lock;
@@ -323,7 +341,10 @@ begin
       end);
     end);
   end else
-    ContinueWith(a -> aCompletion.moveNext(a), nil);
+    ContinueWith(a -> begin 
+      aCompletion.moveNext(a);      
+      end, nil);
+    
   exit true;
 end;
 
