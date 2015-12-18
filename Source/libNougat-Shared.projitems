@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ArrayUtils.pas" />
+    <Compile Include="$(MSBuildThisFileDirectory)Attributes.pas" />
     <Compile Include="$(MSBuildThisFileDirectory)Boxing.pas" />
     <Compile Include="$(MSBuildThisFileDirectory)Futures.pas" />
     <Compile Include="$(MSBuildThisFileDirectory)INSFastEnumeration.pas" />
