@@ -2,7 +2,6 @@
 
 interface
 
-
 type
   __Elements_ProtoReadType = public (varint = 0, b64 = 1, length = 2, message = 3, b32 = 5, startgroup = 4, endgroup = 6);
 
@@ -97,6 +96,5 @@ begin
   result := ^Int64(aSelf)^;
   aSelf := aSelf + 8;
 end;
-
 
 end.

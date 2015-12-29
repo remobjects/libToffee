@@ -1,12 +1,14 @@
 ﻿namespace RemObjects.Elements.System;
 
 interface
+
 uses
   Foundation;
 
 type
   __ElementsAttribute = public class(Object)
   end;
+  
   Attribute = public __ElementsAttribute;
   
   AttributeTargets = public flags (
@@ -19,13 +21,13 @@ type
     &Interface = 1 shl 10,
     &Parameter = 1 shl 11,
     &ReturnValue = 1 shl 13);
+    
   __ElementsAttributeUsageAttribute = public class(Attribute)
   public
     constructor (aValidOn: AttributeTargets); 
     property ValidOn: AttributeTargets; readonly;
   end;
   AttributeUsageAttribute = public __ElementsAttributeUsageAttribute;
-
 
 type
   AttributeData = ^Void;
@@ -35,7 +37,6 @@ method __ElementsReadAttribute(aAttributesPtr, aEnd: ^Byte; aTargetParameter: In
 method __ElementsGetAttributesBlockForFunction(aMethod: ^Void): ^Byte; public;
 method __ElementsGetAttributesBlockForMethod(aClass: &Class; aInstance: Boolean; aSel: SEL): ^Byte; public;
   
-
 type
   ElementsTypeMetadata = public record
   private
@@ -49,12 +50,14 @@ type
     Events: ^ElementsEventsData;
     StaticFields: ^ElementsFieldsData;
   end;
+  
   ElementsEventsData = public record
   private
   public
     Count, ElementSize: IntPtr;
     Data: array[0..0] of ElementsEventData;
   end;
+  
   ElementsEventData = public record
   private
   public
@@ -63,12 +66,14 @@ type
     &Remove,
     &Raise: SEL;
   end;
+  
   ElementsFieldsData = public record
   private
   public
     Count, ElementSize: IntPtr;
     Data: array[0..0] of ElementsFieldData;
   end;
+  
   ElementsFieldData = public record
   private
   public
@@ -77,18 +82,18 @@ type
     FieldSignature: ^AnsiChar; 
   end;
   
-  method GetClassMetadata(aClass: &Class): ^ElementsTypeMetadata; inline; public;
-  method GetAttributesForType(aClass: &Class; aTypeFilter: &Class): NSArray<Attribute>; inline; public;
-  method GetAttributesForFunction(aMethod: ^Void; aTypeFilter: &Class): NSArray<Attribute>; inline; public;
-  method GetAttributesForFunctionResult(aMethod: ^Void; aTypeFilter: &Class): NSArray<Attribute>; inline; public;
-  method GetAttributesForFunctionParameter(aMethod: ^Void; aTypeFilter: &Class; aIndex: Integer): NSArray<Attribute>; inline; public;
-  method GetAttributesForMethod(aClass: &Class; aInstance: Boolean; aSel: SEL; aTypeFilter: &Class): NSArray<Attribute>; inline; public;
-  method GetAttributesForMethodResult(aClass: &Class; aInstance: Boolean; aSel: SEL; aTypeFilter: &Class): NSArray<Attribute>; inline; public;
-  method GetAttributesForMethodParameter(aClass: &Class; aInstance: Boolean; aSel: SEL; aTypeFilter: &Class; aIndex: Integer): NSArray<Attribute>; inline; public;
-  method GetAttributesForProperty(aClass: &Class; aIndexInList: Integer; aTypeFilter: &Class): NSArray<Attribute>; inline; public;
-  method GetAttributesForEvent(aClass: &Class; aIndexInList: Integer; aTypeFilter: &Class): NSArray<Attribute>; inline; public;
-  method GetAttributesForField(aClass: &Class; aIndexInList: Integer; aTypeFilter: &Class): NSArray<Attribute>; inline; public;
-  method GetAttributesForStaticField(aClass: &Class; aIndexInList: Integer; aTypeFilter: &Class): NSArray<Attribute>; inline; public;
+method GetClassMetadata(aClass: &Class): ^ElementsTypeMetadata; inline; public;
+method GetAttributesForType(aClass: &Class; aTypeFilter: &Class): NSArray<Attribute>; inline; public;
+method GetAttributesForFunction(aMethod: ^Void; aTypeFilter: &Class): NSArray<Attribute>; inline; public;
+method GetAttributesForFunctionResult(aMethod: ^Void; aTypeFilter: &Class): NSArray<Attribute>; inline; public;
+method GetAttributesForFunctionParameter(aMethod: ^Void; aTypeFilter: &Class; aIndex: Integer): NSArray<Attribute>; inline; public;
+method GetAttributesForMethod(aClass: &Class; aInstance: Boolean; aSel: SEL; aTypeFilter: &Class): NSArray<Attribute>; inline; public;
+method GetAttributesForMethodResult(aClass: &Class; aInstance: Boolean; aSel: SEL; aTypeFilter: &Class): NSArray<Attribute>; inline; public;
+method GetAttributesForMethodParameter(aClass: &Class; aInstance: Boolean; aSel: SEL; aTypeFilter: &Class; aIndex: Integer): NSArray<Attribute>; inline; public;
+method GetAttributesForProperty(aClass: &Class; aIndexInList: Integer; aTypeFilter: &Class): NSArray<Attribute>; inline; public;
+method GetAttributesForEvent(aClass: &Class; aIndexInList: Integer; aTypeFilter: &Class): NSArray<Attribute>; inline; public;
+method GetAttributesForField(aClass: &Class; aIndexInList: Integer; aTypeFilter: &Class): NSArray<Attribute>; inline; public;
+method GetAttributesForStaticField(aClass: &Class; aIndexInList: Integer; aTypeFilter: &Class): NSArray<Attribute>; inline; public;
 
 implementation
 
@@ -96,7 +101,6 @@ constructor AttributeUsageAttribute(aValidOn: AttributeTargets);
 begin
   ValidOn := aValidOn;
 end;
-
 
 method __ElementsReadAttribute(aAttributesPtr, aEnd: ^Byte; aTargetParameter: Integer; aTypeFilter: &Class): Attribute; 
 begin
@@ -326,7 +330,5 @@ begin
   end;
   exit nil;
 end;
-
-
 
 end.
