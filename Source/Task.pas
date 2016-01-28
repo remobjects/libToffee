@@ -9,6 +9,11 @@ type
   TaskState = enum(Created, Queued, Started, Done) of Integer;
   TaskBlock = public block();
   TaskBlockGen<T> = public block(): T;
+
+  TaskCompletionSource<T> = public __ElementsTaskCompletionSource<T>;
+  Task = public __ElementsTask;
+  Task1<T> = public __ElementsTask1<T>;
+  
   __ElementsTask = public class
   assembly
     fState: TaskState;
@@ -17,7 +22,7 @@ type
     fDelegate: Object; // callable<T>; runnable
     fDoneHandlers: Object; // nil, NSMutableArrayList or task
     fLock: NSCondition := new NSCondition;
-    method run; virtual;
+    method DoRun; virtual;
     method Done(ex: NSException); 
     method AddOrRunContinueWith(aTask: __ElementsTask);
     constructor(aDelegate: Object; aState: Object);
@@ -37,62 +42,53 @@ type
     method &Await(aCompletion: __ElementsIAwaitCompletion): Boolean; // true = yield; false = long done
 
     {$HIDE W38}
-    method Wait; reintroduce;virtual;
+    method Wait; reintroduce; virtual;
     {$SHOW W38}
     method Wait(aTimeoutMSec: Integer): Boolean; virtual;
 
     method Start(aScheduler: dispatch_queue_t := nil); virtual;
-
-    
-    class property ThreadSyncHelper: IThreadSyncHelper := new DefaultThreadSyncHelper;
+  
+    class property ThreadSyncHelper: IThreadSyncHelper := new __ElementsDefaultThreadSyncHelper;
   end;
+  
   __ElementsTask1<T> = public class(__ElementsTask)
   assembly
     fResult: T;
-    method getResult: T;
     constructor(aDelegate: Object; aState: Object); empty;
+    method getResult: T;
+    method DoRun; override;
   public
     constructor(aIn: TaskBlockGen<T>; aState: Object := nil);
     method ContinueWith(aAction: block(aTask: __ElementsTask1<T>); aState: Object := nil): __ElementsTask;
     method ContinueWith<TR>(aAction: block(aTask: __ElementsTask1<T>): TR; aState: Object := nil): __ElementsTask1<TR>;
-    method run; override;
     property &Result: T read getResult;
   end;
-
   
   __ElementsTaskCompletionSource<T> = public class
   private 
     fTask: __ElementsTask1<T>;
   public
     constructor(aState: Object := nil);
-
     method SetException(ex: NSException);
     method SetResult(val: T);
-
     property Task: __ElementsTask1<T> read fTask;
   end;
 
-  TaskCompletionSource<T> = public __ElementsTaskCompletionSource<T>;
-  Task = public __ElementsTask;
-  Task1<T> = public __ElementsTask1<T>;
-
   TaskCompletionSourceTask<T> = class(__ElementsTask1<T>)
   assembly
-  public
-    method run; override; empty;
+    method DoRun; override; empty;
   end;
 
   __ElementsIAwaitCompletion = public interface
     method moveNext(aState: Object);
   end;
 
- IThreadSyncHelper = public interface
+  IThreadSyncHelper = public interface
     method GetThreadContext: dispatch_queue_t;
     method SyncBack(aContext: dispatch_queue_t; aAction: dispatch_block_t);
   end;
 
-  DefaultThreadSyncHelper = public class(IThreadSyncHelper)
-  private
+  __ElementsDefaultThreadSyncHelper = public class(IThreadSyncHelper)
   public
     method SyncBack(aContext: dispatch_queue_t; aAction: dispatch_block_t);
     method GetThreadContext: dispatch_queue_t;
@@ -100,7 +96,7 @@ type
 
 implementation
 
-
+{ __ElementsTask }
 
 constructor __ElementsTask(aDelegate: Object; aState: Object);
 begin
@@ -114,7 +110,7 @@ begin
   constructor(Object(aIn), aState);
 end;
 
-method __ElementsTask.run;
+method __ElementsTask.DoRun;
 begin
   fLock.lock;
   try
@@ -147,11 +143,12 @@ begin
   if lCW <> nil then begin
     var lTask := __ElementsTask(lCW);
     if lTask <> nil then begin
-      lTask.run;
-    end else begin
+      lTask.DoRun;
+    end
+    else begin
       var lList := NSMutableArray<__ElementsTask>(lCW);
       for i: Integer := 0 to lList.count -1 do
-        lList[i].run;
+        lList[i].DoRun;
     end;
   end;
 end;
@@ -176,21 +173,25 @@ end;
 method __ElementsTask.AddOrRunContinueWith(aTask: __ElementsTask);
 begin
   var lDone := false;
-  if fState = TaskState.Done then lDone := true
+  if fState = TaskState.Done then begin
+    lDone := true
+  end
   else locking self do begin
-    if fState = TaskState.Done then lDone := true
+    if fState = TaskState.Done then begin
+      lDone := true
+    end
+    else if fDoneHandlers = nil then begin
+      fDoneHandlers := aTask
+    end
     else begin
-      if fDoneHandlers = nil then fDoneHandlers := aTask
-      else begin
-        var lNew := new NSMutableArray<__ElementsTask>();
-        lNew.addObject(duck<__ElementsTask>(fDoneHandlers));
-        lNew.addObject(aTask);
-        fDoneHandlers := lNew;
-      end;
+      var lNew := new NSMutableArray<__ElementsTask>();
+      lNew.addObject(duck<__ElementsTask>(fDoneHandlers));
+      lNew.addObject(aTask);
+      fDoneHandlers := lNew;
     end;
   end;
   if lDone then begin
-    aTask.run;
+    aTask.DoRun;
   end;
 end;
 
@@ -210,15 +211,21 @@ end;
 
 method __ElementsTask.Wait(aTimeoutMSec: Integer): Boolean;
 begin
-  if fState = TaskState.Done then exit true;
+  if fState = TaskState.Done then
+    exit true;
+    
   fLock.lock;
   try
-    if fState = TaskState.Done then exit true;
+    if fState = TaskState.Done then
+      exit true;
+      
     var lTO := NSDate.date.dateByAddingTimeInterval(aTimeoutMSec * 0.001);
     while fState <> TaskState.Done do begin
-      if not fLock.waitUntilDate(lTO) then exit false;
+      if not fLock.waitUntilDate(lTO) then
+        exit false;
     end;
-    exit true;
+    
+    result := true;
   finally
     fLock.unlock;
   end;
@@ -228,13 +235,14 @@ method __ElementsTask.Start(aScheduler: dispatch_queue_t);
 begin
   fLock.lock;
   try
-    if fState <> TaskState.Created then raise new NSException withName(NSInvalidArgumentException) reason('Task already started/queued/done') userInfo(nil);
+    if fState <> TaskState.Created then
+      raise new NSException withName(NSInvalidArgumentException) reason('Task already started/queued/done') userInfo(nil);
     fState := TaskState.Queued;
   finally
     fLock.unlock;
   end;
 
-  dispatch_async(coalesce(aScheduler, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)), -> run());
+  dispatch_async(coalesce(aScheduler, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)), -> DoRun());
 end;
 
 class method __ElementsTask.Run(aIn: TaskBlock): __ElementsTask;
@@ -249,15 +257,37 @@ begin
   result.Start;
 end;
 
+method __ElementsTask.Await(aCompletion: __ElementsIAwaitCompletion): Boolean;
+begin
+  if IsCompleted then
+    exit false;
+    
+  var q := __ElementsTask.ThreadSyncHelper.GetThreadContext;
+  if q <> nil then begin
+    ContinueWith(a -> begin
+      __ElementsTask.ThreadSyncHelper.SyncBack(q, -> begin 
+        aCompletion.moveNext(a);
+      end);
+    end);
+  end else
+    ContinueWith(a -> begin 
+      aCompletion.moveNext(a);      
+    end, nil);
+    
+  result := true;
+end;
+
+{ __ElementsTask1<T> }
+
 method __ElementsTask1<T>.getResult: T;
 begin
   Wait();
   if fException <> nil then 
     raise fException;
-  exit fResult;
+  result := fResult;
 end;
 
-method __ElementsTask1<T>.run;
+method __ElementsTask1<T>.DoRun;
 begin
   fLock.lock;
   try
@@ -280,6 +310,24 @@ begin
   inherited constructor(aIn, aState);
 end;
 
+method __ElementsTask1<T>.ContinueWith(aAction: block(aTask: __ElementsTask1<T>); aState: Object := nil): __ElementsTask;
+begin
+  result := new __ElementsTask(-> aAction(self), aState);
+  result.fState := TaskState.Queued;
+
+  AddOrRunContinueWith(result);
+end;
+
+method __ElementsTask1<T>.ContinueWith<TR>(aAction: block(aTask: __ElementsTask1<T>): TR; aState: Object := nil): __ElementsTask1<TR>;
+begin
+  var r: TaskBlockGen<TR> := -> aAction(self);
+  result := new __ElementsTask1(r, aState);
+  result.fState := TaskState.Queued;
+
+  AddOrRunContinueWith(result);
+end;
+   
+{ __ElementsTaskCompletionSource<T> }
 
 constructor __ElementsTaskCompletionSource<T>(aState: Object);
 begin
@@ -300,23 +348,6 @@ begin
   fTask.Done(ex);
 end;
 
-method __ElementsTask1<T>.ContinueWith(aAction: block(aTask: __ElementsTask1<T>); aState: Object := nil): __ElementsTask;
-begin
-  result := new __ElementsTask(-> aAction(self), aState);
-  result.fState := TaskState.Queued;
-
-  AddOrRunContinueWith(result);
-end;
-
-method __ElementsTask1<T>.ContinueWith<TR>(aAction: block(aTask: __ElementsTask1<T>): TR; aState: Object := nil): __ElementsTask1<TR>;
-begin
-  var r: TaskBlockGen<TR> := -> aAction(self);
-  result := new __ElementsTask1(r, aState);
-  result.fState := TaskState.Queued;
-
-  AddOrRunContinueWith(result);
-end;
-   
 method __ElementsTaskCompletionSource<T>.SetResult(val: T);
 begin
   fTask.fLock.lock;
@@ -330,32 +361,15 @@ begin
   fTask.Done(nil);
 end;
 
-method __ElementsTask.Await(aCompletion: __ElementsIAwaitCompletion): Boolean;
-begin
-  if IsCompleted then exit false;
-  var q := __ElementsTask.ThreadSyncHelper.GetThreadContext;
-  if q <> nil then begin
-    ContinueWith(a -> begin
-      __ElementsTask.ThreadSyncHelper.SyncBack(q, -> begin 
-        aCompletion.moveNext(a);
-      end);
-    end);
-  end else
-    ContinueWith(a -> begin 
-      aCompletion.moveNext(a);      
-      end, nil);
-    
-  exit true;
-end;
+{ __ElementsDefaultThreadSyncHelper }
 
-method DefaultThreadSyncHelper.GetThreadContext: dispatch_queue_t;
+method __ElementsDefaultThreadSyncHelper.GetThreadContext: dispatch_queue_t;
 begin
   if NSThread.isMainThread then
-    exit dispatch_get_main_queue;
-  exit nil;
+    result := dispatch_get_main_queue;
 end;
 
-method DefaultThreadSyncHelper.SyncBack(aContext: dispatch_queue_t; aAction: dispatch_block_t);
+method __ElementsDefaultThreadSyncHelper.SyncBack(aContext: dispatch_queue_t; aAction: dispatch_block_t);
 begin
   dispatch_async(aContext, aAction);
 end;
