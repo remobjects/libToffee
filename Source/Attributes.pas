@@ -249,7 +249,7 @@ end;
 
 method GetAttributesForType(aClass: &Class; aTypeFilter: &Class): NSArray<Attribute>; 
 begin
-  var lTmp :=GetClassMetadata(aclass);
+  var lTmp := GetClassMetadata(aClass);
   if lTmp = nil then exit nil;
   var lTmp2 := ^Byte(lTmp^.CustomAttributes);
   exit __ElementsReadAttributes(var lTmp2, 0, aTypeFilter);
