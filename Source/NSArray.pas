@@ -6,9 +6,9 @@ uses
   Foundation;
 
 type
-  NSArrayEnumerateBlock = block (obj: id; idx: NSUInteger; stop: ^Boolean);
-  NSArrayTestBlock = block (obj: id; idx: NSUInteger; stop: ^Boolean): Boolean;
-  NSArraySortMethod = method(obj1: id; obj: id; context: ^Void): NSInteger;
+  NSArrayEnumerateBlock = public block (obj: id; idx: NSUInteger; stop: ^Boolean);
+  NSArrayTestBlock = public block (obj: id; idx: NSUInteger; stop: ^Boolean): Boolean;
+  NSArraySortMethod = public method(obj1: id; obj: id; context: ^Void): NSInteger;
 
   NSArray<T> = public class(INSFastEnumeration<T>) mapped to Foundation.NSArray
     where T is class;

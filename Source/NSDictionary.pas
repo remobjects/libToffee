@@ -6,8 +6,8 @@ uses
   Foundation;
 
 type
-  NSDictionaryEnumerateBlock = block(key: id; obj: id; stop: ^Boolean); 
-  NSDictionaryTestBlock = block(key: id; obj: id; stop: ^Boolean): Boolean;
+  NSDictionaryEnumerateBlock = public block(key: id; obj: id; stop: ^Boolean); 
+  NSDictionaryTestBlock = public block(key: id; obj: id; stop: ^Boolean): Boolean;
 
   NSDictionary<TKey, TValue> = public class mapped to Foundation.NSDictionary
     where TKey is class, TValue is class;

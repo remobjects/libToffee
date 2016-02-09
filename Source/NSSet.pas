@@ -6,8 +6,8 @@ uses
   Foundation;
 
 type
-  NSSetEnumerateBlock = block(obj: id; stop: ^Boolean);
-  NSSetTestBlock = block(obj: id; stop: ^Boolean): Boolean;
+  NSSetEnumerateBlock = public block(obj: id; stop: ^Boolean);
+  NSSetTestBlock = public block(obj: id; stop: ^Boolean): Boolean;
 
   NSSet<T> = public class(RemObjects.Elements.System.INSFastEnumeration<T>) mapped to Foundation.NSSet
     where T is class;
