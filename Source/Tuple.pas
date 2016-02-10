@@ -103,42 +103,42 @@ end;
 
 class method Tuple.&New<T1>(aItem1: T1): &Tuple1<T1>;
 begin
-   exit &Tuple1<T1>(NSArray.arrayWithObjects(Wrap(aItem1), nil));
+   exit &Tuple1<T1>(Foundation.NSArray.arrayWithObjects(Wrap(aItem1), nil));
 end;
 
 class method Tuple.&New<T1, T2>(aItem1: T1; aItem2: T2): &Tuple2<T1, T2>;
 begin
-   exit &Tuple2<T1, T2>(NSArray.arrayWithObjects(Wrap(aItem1), Wrap(aItem2), nil));
+   exit &Tuple2<T1, T2>(Foundation.NSArray.arrayWithObjects(Wrap(aItem1), Wrap(aItem2), nil));
 end;
 
 class method Tuple.&New<T1, T2, T3>(aItem1: T1; aItem2: T2; aItem3: T3): &Tuple3<T1, T2, T3>;
 begin
-   exit &Tuple3<T1, T2, T3>(NSArray.arrayWithObjects(Wrap(aItem1), Wrap(aItem2), Wrap(aItem3), nil));
+   exit &Tuple3<T1, T2, T3>(Foundation.NSArray.arrayWithObjects(Wrap(aItem1), Wrap(aItem2), Wrap(aItem3), nil));
 end;
 
 class method Tuple.&New<T1, T2, T3, T4>(aItem1: T1; aItem2: T2; aItem3: T3;  aItem4: T4): &Tuple4<T1, T2, T3, T4>;
 begin
-   exit &Tuple4<T1, T2, T3, T4>(NSArray.arrayWithObjects(Wrap(aItem1), Wrap(aItem2), Wrap(aItem3), Wrap(aItem4), nil));
+   exit &Tuple4<T1, T2, T3, T4>(Foundation.NSArray.arrayWithObjects(Wrap(aItem1), Wrap(aItem2), Wrap(aItem3), Wrap(aItem4), nil));
 end;
 
 class method Tuple.&New<T1, T2, T3, T4, T5>(aItem1: T1; aItem2: T2; aItem3: T3;  aItem4: T4; aItem5: T5): &Tuple5<T1, T2, T3, T4, T5>;
 begin
-   exit &Tuple5<T1, T2, T3, T4, T5>(NSArray.arrayWithObjects(Wrap(aItem1), Wrap(aItem2), Wrap(aItem3), Wrap(aItem4), Wrap(aItem5), nil));
+   exit &Tuple5<T1, T2, T3, T4, T5>(Foundation.NSArray.arrayWithObjects(Wrap(aItem1), Wrap(aItem2), Wrap(aItem3), Wrap(aItem4), Wrap(aItem5), nil));
 end;
 
 class method Tuple.&New<T1, T2, T3, T4, T5, T6>(aItem1: T1; aItem2: T2; aItem3: T3;  aItem4: T4; aItem5: T5; aItem6: T6): &Tuple6<T1, T2, T3, T4, T5, T6>;
 begin
-   exit &Tuple6<T1, T2, T3, T4, T5, T6>(NSArray.arrayWithObjects(Wrap(aItem1), Wrap(aItem2), Wrap(aItem3), Wrap(aItem4), Wrap(aItem5), Wrap(aItem6), nil));
+   exit &Tuple6<T1, T2, T3, T4, T5, T6>(Foundation.NSArray.arrayWithObjects(Wrap(aItem1), Wrap(aItem2), Wrap(aItem3), Wrap(aItem4), Wrap(aItem5), Wrap(aItem6), nil));
 end;
 
 class method Tuple.&New<T1, T2, T3, T4, T5, T6, T7>(aItem1: T1; aItem2: T2; aItem3: T3;  aItem4: T4; aItem5: T5; aItem6: T6; aItem7: T7): &Tuple7<T1, T2, T3, T4, T5, T6, T7>;
 begin
- exit &Tuple7<T1, T2, T3, T4, T5, T6, T7>(NSArray.arrayWithObjects(Wrap(aItem1), Wrap(aItem2), Wrap(aItem3), Wrap(aItem4), Wrap(aItem5), Wrap(aItem6), Wrap(aItem7), nil));
+ exit &Tuple7<T1, T2, T3, T4, T5, T6, T7>(Foundation.NSArray.arrayWithObjects(Wrap(aItem1), Wrap(aItem2), Wrap(aItem3), Wrap(aItem4), Wrap(aItem5), Wrap(aItem6), Wrap(aItem7), nil));
 end;
 
 class method Tuple.&New<T1, T2, T3, T4, T5, T6, T7, T8>(aItem1: T1; aItem2: T2; aItem3: T3;  aItem4: T4; aItem5: T5; aItem6: T6; aItem7: T7; aItem8: T8): &Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>;
 begin
- exit &Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>(NSArray.arrayWithObjects(Wrap(aItem1), Wrap(aItem2), Wrap(aItem3), Wrap(aItem4), Wrap(aItem5), Wrap(aItem6), Wrap(aItem7), Wrap(aItem8), nil));
+ exit &Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>(Foundation.NSArray.arrayWithObjects(Wrap(aItem1), Wrap(aItem2), Wrap(aItem3), Wrap(aItem4), Wrap(aItem5), Wrap(aItem6), Wrap(aItem7), Wrap(aItem8), nil));
 end;
 
 end.

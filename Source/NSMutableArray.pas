@@ -16,8 +16,8 @@ type
     class method arrayWithContentsOfURL(aURL: not nullable NSURL): id; mapped to arrayWithContentsOfURL(aURL);
     class method arrayWithObject(anObject: not nullable T): id; mapped to arrayWithObject(anObject);
     class method arrayWithObjects(objects: ^T) count(count: NSUInteger): id; mapped to arrayWithObjects(^id(objects)) count(count);
-    class method arrayWithObjects(firstObject: not nullable id; params param1: array of id): id; mapped to arrayWithObjects(firstObject, param1);
-    (*
+        class method arrayWithObjects(params objects: array of id): id; mapped to arrayWithObjects(^id(@objects[0])) count (length(objects));
+(*
     { Instance Methods }
     method addObserver(anObserver: Object) toObjectsAtIndexes(indexes: NSIndexSet) forKeyPath(keyPath: NSString) options(options: NSKeyValueObservingOptions) context(context: ^Void); mapped to addObserver(anObserver) toObjectsAtIndexes(indexes) forKeyPath(keyPath) options(options) context(context);
     method arrayByAddingObject(anObject: T): NSArray<T>; mapped to arrayByAddingObject(anObject);
