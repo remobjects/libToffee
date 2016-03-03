@@ -31,6 +31,7 @@ extension method Foundation.INSFastEnumeration.Intersect(aSecond: not nullable F
 extension method Foundation.INSFastEnumeration.Except(aSecond: not nullable Foundation.INSFastEnumeration; aComparator: NSComparator := nil): not nullable Foundation.INSFastEnumeration; iterator; public;
 
 extension method Foundation.INSFastEnumeration.FirstOrDefault: nullable id; public;
+extension method Foundation.INSFastEnumeration.FirstOrDefault(aBlock: not nullable PredicateBlock): nullable id; public;
 extension method Foundation.INSFastEnumeration.Count: NSInteger; public;
 extension method Foundation.INSFastEnumeration.Any(): Boolean; public;
 
@@ -56,6 +57,7 @@ extension method RemObjects.Elements.System.INSFastEnumeration<T>.Intersect(aSec
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Except(aSecond: not nullable Foundation.INSFastEnumeration; aComparator: NSComparator := nil): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.FirstOrDefault: {nullable} T; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.FirstOrDefault(aBlock: not nullable block(aItem: not nullable T): Boolean): {nullable} T; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Count: NSInteger; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Any(): Boolean; inline; public;
 
@@ -312,6 +314,18 @@ begin
     result := lState.itemsPtr[0];
 end;
 
+extension method Foundation.INSFastEnumeration.FirstOrDefault(aBlock: not nullable PredicateBlock): nullable id;
+begin
+  for each i in self do
+  begin
+    if aBlock(i) then
+    begin
+      exit i;
+    end;
+  end;
+  exit nil;
+end;
+
 extension method Foundation.INSFastEnumeration.Any(): Boolean;
 begin
   var lState: NSFastEnumerationState := default(NSFastEnumerationState);
@@ -412,6 +426,11 @@ end;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.FirstOrDefault: {nullable} T; 
 begin
   exit Foundation.INSFastEnumeration(self).FirstOrDefault;
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.FirstOrDefault(aBlock: not nullable block(aItem: not nullable T): Boolean): {nullable} T;
+begin
+  exit Foundation.INSFastEnumeration(self).FirstOrDefault(PredicateBlock(aBlock));
 end;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Any(): Boolean;
