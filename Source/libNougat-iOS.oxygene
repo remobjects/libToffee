@@ -35,12 +35,12 @@
         <GenerateBitcode>True</GenerateBitcode>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="Foundation.fx"/>
-        <Reference Include="rtl.fx"/>
+        <Reference Include="Foundation"/>
+        <Reference Include="rtl"/>
     </ItemGroup>
     <ItemGroup/>
     <ItemGroup/>
-    <Import Project="$(MSBuildExtensionsPath)/RemObjects Software/Oxygene/RemObjects.Oxygene.Nougat.targets"/>
+    <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Nougat.targets"/>
     <PropertyGroup>
         <PreBuildEvent/>
     </PropertyGroup>
