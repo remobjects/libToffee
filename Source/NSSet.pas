@@ -16,7 +16,7 @@ type
     class method &set: id; mapped to &set;
     class method setWithArray(&array: NSArray<T>): id; mapped to setWithArray(&array);
     class method setWithObject(&object: T): id; mapped to setWithObject(&object);
-    class method setWithObjects(firstObject: id; params param1: array of id); mapped to setWithObjects(firstObject, param1);
+    //class method setWithObjects(firstObject: id; params param1: array of id); mapped to setWithObjects(firstObject, param1);
     class method setWithObjects(objects: ^T) count(cnt: NSUInteger): id; mapped to setWithObjects(^id(objects)) count(cnt);
     class method setWithSet(&set: NSSet<T>): id; mapped to setWithSet(&set);
 
