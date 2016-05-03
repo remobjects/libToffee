@@ -32,5 +32,6 @@
         <Compile Include="$(MSBuildThisFileDirectory)Helpers.pas"/>
         <Compile Include="$(MSBuildThisFileDirectory)NougatErrorException.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)VersionHelpers.pas"/>
+		<Compile Include="$(MSBuildThisFileDirectory)Globals.pas"/>
     </ItemGroup>
 </Project>

@@ -17,7 +17,7 @@ type
     class method dictionaryWithObject(anObject: not nullable TValue) forKey(aKey: not nullable TKey): id; mapped to dictionaryWithObject(anObject) forKey(aKey);
     class method dictionaryWithObjects(objects: not nullable NSArray<TValue>) forKeys(keys: not nullable NSArray<TKey>): id; mapped to dictionaryWithObjects(objects) forKeys(keys);
     class method dictionaryWithObjects(objects: ^TValue) forKeys(keys: ^TKey) count(count: NSUInteger): id; mapped to dictionaryWithObjects(^id(objects)) forKeys(^id(keys)) count(count);
-    class method dictionaryWithObjectsAndKeys(firstObject: not nullable id; params param1: array of id): id; mapped to dictionaryWithObjectsAndKeys(firstObject, param1);
+    //class method dictionaryWithObjectsAndKeys(firstObject: not nullable id; params param1: array of id): id; mapped to dictionaryWithObjectsAndKeys(firstObject, param1);
     class method sharedKeySetForKeys(keys: not nullable NSArray<TKey>): id; mapped to sharedKeySetForKeys(keys);
     (*
     { Instance Methods }   
