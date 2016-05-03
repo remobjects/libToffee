@@ -69,15 +69,9 @@ extension method RemObjects.Elements.System.INSFastEnumeration<T>.Any(): Boolean
 // Useful helper methods
 extension method Foundation.INSFastEnumeration.array: not nullable NSArray; public;
 extension method Foundation.INSFastEnumeration.dictionary(aKeyBlock: IDBlock; aValueBlock: IDBlock): not nullable NSDictionary; public;
-extension method Foundation.INSFastEnumeration.ToList: not nullable NSMutableArray; public;
-extension method Foundation.INSFastEnumeration.ToArray: not nullable NSArray; public;
-extension method Foundation.INSFastEnumeration.ToDictionary(aKeyBlock: IDBlock; aValueBlock: IDBlock): not nullable NSDictionary; public;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.array: not nullable  NSArray; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.dictionary(aKeyBlock: block(aItem: id): id; aValueBlock: block(aItem: id): id): not nullable NSDictionary; inline; public;
-extension method RemObjects.Elements.System.INSFastEnumeration<T>.ToList: not nullable NSMutableArray<T>; inline; public;
-extension method RemObjects.Elements.System.INSFastEnumeration<T>.ToArray<T>: not nullable  NSArray<T>; inline; public;
-extension method RemObjects.Elements.System.INSFastEnumeration<T>.ToDictionary(aKeyBlock: block(aItem: id): id; aValueBlock: block(aItem: id): id): not nullable NSDictionary; inline; public;
 
 // Internal Helpers
 extension method Foundation.INSFastEnumeration.orderBy(aBlock: not nullable block(aItem: id): id) comparator(aComparator: NSComparator): not nullable Foundation.INSFastEnumeration; public;
@@ -289,21 +283,6 @@ begin
     NSMutableDictionary(result)[aKeyBlock(i)] := aValueBlock(i);
 end;
 
-extension method Foundation.INSFastEnumeration.ToArray(): not nullable NSArray;
-begin
-  result := array;
-end;
-
-extension method Foundation.INSFastEnumeration.ToList(): not nullable NSMutableArray;
-begin
-  result := self.array().mutableCopy() as not nullable;
-end;
-
-extension method Foundation.INSFastEnumeration.ToDictionary(aKeyBlock: IDBlock; aValueBlock: IDBlock): not nullable NSDictionary;
-begin
-  result := dictionary(aKeyBlock, aValueBlock);
-end;
-
 extension method Foundation.INSFastEnumeration.FirstOrDefault(): nullable id;
 begin
   var lState: NSFastEnumerationState := default(NSFastEnumerationState);
@@ -430,21 +409,6 @@ begin
 end;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.dictionary(aKeyBlock: block(aItem: id): id; aValueBlock: block(aItem: id): id): not nullable NSDictionary;
-begin
-  exit Foundation.INSFastEnumeration(self).dictionary(IDBlock(aKeyBlock), IDBlock(aValueBlock));
-end;
-
-extension method RemObjects.Elements.System.INSFastEnumeration<T>.ToArray<T>: not nullable NSArray<T>; 
-begin
-  exit Foundation.INSFastEnumeration(self).array();
-end;
-
-extension method RemObjects.Elements.System.INSFastEnumeration<T>.ToList: not nullable  NSMutableArray<T>; 
-begin
-  exit Foundation.INSFastEnumeration(self).array().mutableCopy() as not nullable;
-end;
-
-extension method RemObjects.Elements.System.INSFastEnumeration<T>.ToDictionary(aKeyBlock: block(aItem: id): id; aValueBlock: block(aItem: id): id): not nullable NSDictionary;
 begin
   exit Foundation.INSFastEnumeration(self).dictionary(IDBlock(aKeyBlock), IDBlock(aValueBlock));
 end;
