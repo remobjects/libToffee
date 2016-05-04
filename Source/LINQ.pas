@@ -5,6 +5,8 @@ interface
 uses
   Foundation;
 
+[assembly: NamespaceAlias('Linq', ['RemObjects.Elements.Linq'])]
+
 type
   PredicateBlock = public block(aItem: not nullable id): Boolean;
   IDBlock = public block(aItem: not nullable id): id;
