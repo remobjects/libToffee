@@ -192,14 +192,28 @@ end;
 
 extension method Foundation.INSFastEnumeration.OrderBy(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration;
 begin
-  var lOrdered := orderBy(aBlock) comparator( (a,b) -> aBlock(a).compare(aBlock(b)) );
+  var lOrdered := orderBy(aBlock) comparator( (a,b) -> begin
+      var va := aBlock(a);
+      var vb := aBlock(b);
+      if va = nil then
+        if vb = nil then exit NSComparisonResult.OrderedSame else exit NSComparisonResult.OrderedAscending;
+      if vb = nil then exit NSComparisonResult.OrderedDescending;
+      exit va.compare(vb)
+    end);
   for each i in lOrdered do
     yield i;
 end;
 
 extension method Foundation.INSFastEnumeration.OrderByDescending(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration;
 begin
-  var lOrdered := orderBy(aBlock) comparator( (a, b) -> aBlock(b).compare(aBlock(a)) );
+  var lOrdered := orderBy(aBlock) comparator( (a,b) -> begin
+      var va := aBlock(a);
+      var vb := aBlock(b);
+      if va = nil then
+        if vb = nil then exit NSComparisonResult.OrderedSame else exit NSComparisonResult.OrderedDescending;
+        if vb = nil then exit NSComparisonResult.OrderedAscending;
+      exit va.compare(vb)
+    end);
   for each i in lOrdered do
     yield i;
 end;
