@@ -212,7 +212,7 @@ begin
       if va = nil then
         if vb = nil then exit NSComparisonResult.OrderedSame else exit NSComparisonResult.OrderedDescending;
         if vb = nil then exit NSComparisonResult.OrderedAscending;
-      exit va.compare(vb)
+      exit vb.compare(va)
     end);
   for each i in lOrdered do
     yield i;
