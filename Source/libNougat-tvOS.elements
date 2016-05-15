@@ -2,7 +2,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="4.0">
     <PropertyGroup>
         <RootNamespace>RemObjects.Elements.System</RootNamespace>
-        <ProjectGuid>9F1ACE20-C2CA-42A3-8CA5-C67C0B75088C</ProjectGuid>
+        <ProjectGuid>{9f1ace20-c2ca-42a3-8ca5-c67c0b75088c}</ProjectGuid>
         <OutputType>StaticLibrary</OutputType>
         <AssemblyName>Nougat</AssemblyName>
         <AllowLegacyOutParams>False</AllowLegacyOutParams>

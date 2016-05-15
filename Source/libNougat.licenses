@@ -1,0 +1,130 @@
+58b1a79ae3021cdf9897e86920691a91ceb5dc4b69017c39490915b591b1654ca60d39dc05f77c41b7a0fba570d9e32c9bace24f6b3c8333b97ac2cba9578bc2a6d3675c9cdcf624b40e9c791773e378335c9bfe20f2efbce800c20e532efcb0d2987d15f9bfc37bc770ffc5448260f8f241f62a493dcc34f765bee5dd09a282323ba293cdf052e11e1195d61bb97754e9de9447aba9221f94886cc3514144dca63fb13c4a69ece01a85bd197b44a2fff5c940a265b0443e675ee62a00ce50b2afc784ba8cf268f6194b17ceeca1c6498bbb0afa3c9b657e02b8b57b739fa8373592438bb7f032259e96c7c335f874dc0e4efb7e0ee337dd11c58688a758a261
+5afd8bdf0168ee89c82761fefba3bc0fdea8ccc2a374abee5fa3eb8b448dc7e858ab2edaa1c5a1d50f31587cb04fe878e5f396e71fb8507a3e7dd78f90ae20f78eb8bff7876cc77acfd831c45bb7315db2ffa448b79144ffd2bd95806210e0d17f7b9b18b1b1120da1eb3f0e0dfb7171e474b451435a2029e8c098bb380631af
+//
+// libNougat Oxygene
+//
+
+[License]
+LicenseType=Project
+Product=Oxygene
+Platform=Cocoa
+AllowBeta=1
+AllowFull=1
+
+DisplayName=libNougat Contributor License for Oxygene
+ProjectName=libNougat (OS X)
+ProjectFileName=libNougat-OSX.elements
+ProjectGuid={104f50c3-3a92-4d03-919d-0de94acc0dbd}
+ProjectAssemblyName=Nougat
+ProjectOutputType=StaticLibrary
+
+[License]
+LicenseType=Project
+Product=Oxygene
+Platform=Cocoa
+AllowBeta=1
+AllowFull=1
+
+DisplayName=libNougat Contributor License for Oxygene
+ProjectName=libNougat (iOS)
+ProjectFileName=libNougat-iOS.elements
+ProjectGuid={477ec1b1-0aa5-47d6-a4c3-ef8d5081190e}
+ProjectAssemblyName=Nougat
+ProjectOutputType=StaticLibrary
+
+[License]
+LicenseType=Project
+Product=Oxygene
+Platform=Cocoa
+AllowBeta=1
+AllowFull=1
+
+DisplayName=libNougat Contributor License for Oxygene
+ProjectName=libNougat (tvOS)
+ProjectFileName=libNougat-tvOS.elements
+ProjectGuid={9f1ace20-c2ca-42a3-8ca5-c67c0b75088c}
+ProjectAssemblyName=Nougat
+ProjectOutputType=StaticLibrary
+
+[License]
+LicenseType=Project
+Product=Oxygene
+Platform=Cocoa
+AllowBeta=1
+AllowFull=1
+
+DisplayName=libNougat Contributor License for Oxygene
+ProjectName=libNougat (watchOS)
+ProjectFileName=libNougat-watchOS.elements
+ProjectGuid={ab0d5693-f617-4ebb-821e-ed5f46ce6ff0}
+ProjectAssemblyName=Nougat
+ProjectOutputType=StaticLibrary
+
+//
+// libNougat Silver
+//
+
+[License]
+LicenseType=Project
+Product=Silver
+Platform=Cocoa
+AllowBeta=1
+AllowFull=1
+
+DisplayName=libNougat Contributor License for Silver
+ProjectName=libNougat (OS X)
+ProjectFileName=libNougat-OSX.elements
+ProjectGuid={104f50c3-3a92-4d03-919d-0de94acc0dbd}
+ProjectAssemblyName=Nougat
+ProjectOutputType=StaticLibrary
+
+[License]
+LicenseType=Project
+Product=Silver
+Platform=Cocoa
+AllowBeta=1
+AllowFull=1
+
+DisplayName=libNougat Contributor License for Silver
+ProjectName=libNougat (iOS)
+ProjectFileName=libNougat-iOS.elements
+ProjectGuid={477ec1b1-0aa5-47d6-a4c3-ef8d5081190e}
+ProjectAssemblyName=Nougat
+ProjectOutputType=StaticLibrary
+
+[License]
+LicenseType=Project
+Product=Silver
+Platform=Cocoa
+AllowBeta=1
+AllowFull=1
+
+DisplayName=libNougat Contributor License for Silver
+ProjectName=libNougat (tvOS)
+ProjectFileName=libNougat-tvOS.elements
+ProjectGuid={9f1ace20-c2ca-42a3-8ca5-c67c0b75088c}
+ProjectAssemblyName=Nougat
+ProjectOutputType=StaticLibrary
+
+[License]
+LicenseType=Project
+Product=Silver
+Platform=Cocoa
+AllowBeta=1
+AllowFull=1
+
+DisplayName=libNougat Contributor License for Silver
+ProjectName=libNougat (watchOS)
+ProjectFileName=libNougat-watchOS.elements
+ProjectGuid={ab0d5693-f617-4ebb-821e-ed5f46ce6ff0}
+ProjectAssemblyName=Nougat
+ProjectOutputType=StaticLibrary
+
+[SignatureInfo]
+LicenseFileStartDate=2016-05-13
+LicenseFileEndDate=2016-05-17
+P1=1941418653834837385
+P2=11164790690682488485
+P3=3774295574
+P4=417260969
+
