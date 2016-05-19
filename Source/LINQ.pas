@@ -330,7 +330,8 @@ end;
 
 extension method Foundation.INSFastEnumeration.Count: NSInteger;
 begin
-  if (self is NSArray) then exit (self as NSArray).count;
+  if self is NSArray then exit (self as NSArray).count;
+  if self.respondsToSelector(selector(count)) then exit (self as id).count;
 
   var lState: NSFastEnumerationState := default(NSFastEnumerationState);
   var lObjects: array[0..LOOP_SIZE-1] of id;
