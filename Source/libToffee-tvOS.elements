@@ -2,20 +2,18 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="4.0">
     <PropertyGroup>
         <RootNamespace>RemObjects.Elements.System</RootNamespace>
-        <ProjectGuid>{ab0d5693-f617-4ebb-821e-ed5f46ce6ff0}</ProjectGuid>
+        <ProjectGuid>{9f1ace20-c2ca-42a3-8ca5-c67c0b75088c}</ProjectGuid>
         <OutputType>StaticLibrary</OutputType>
-        <AssemblyName>Nougat</AssemblyName>
+        <AssemblyName>Toffee</AssemblyName>
         <AllowLegacyOutParams>False</AllowLegacyOutParams>
         <AllowLegacyCreate>False</AllowLegacyCreate>
         <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
-        <SDK>watchOS</SDK>
+        <SDK>tvOS</SDK>
         <CreateHeaderFile>True</CreateHeaderFile>
-        <Name>libNougat (watchOS)</Name>
+        <Name>libToffee (tvOS)</Name>
         <GenerateDebugInfo>True</GenerateDebugInfo>
-        <Architecture>armv7k</Architecture>
-        <SimulatorArchitectures>i386</SimulatorArchitectures>
-        <DeploymentTargetVersion>2.0</DeploymentTargetVersion>
-        <DefineConstants>WATCHOS</DefineConstants>
+        <DeploymentTargetVersion>9.0</DeploymentTargetVersion>
+        <DefineConstants>TVOS</DefineConstants>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
         <Optimize>false</Optimize>
@@ -40,9 +38,9 @@
     </ItemGroup>
     <ItemGroup/>
     <ItemGroup/>
-    <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Nougat.targets"/>
+    <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Toffee.targets"/>
     <PropertyGroup>
         <PreBuildEvent/>
     </PropertyGroup>
-    <Import Project="libNougat-Shared.projitems" Label="Shared"/>
+    <Import Project="libToffee-Shared.projitems" Label="Shared"/>
 </Project>

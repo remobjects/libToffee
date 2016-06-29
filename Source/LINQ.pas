@@ -82,7 +82,7 @@ extension method Foundation.INSFastEnumeration.orderBy(aBlock: not nullable bloc
 //extension method NSArray.orderBy(aBlock: not nullable block(aItem: id): Int32; aComparator: NSComparator): not nullable Foundation.INSFastEnumeration; //iterator; public;
 
 type
-  __Nougat_Linq_Helpers = public static class
+  __Toffee_Linq_Helpers = public static class
   private
     class method IntForHelper(aStart, aEnd, aStep: Integer; aBackward: Boolean; aMethod: ForSelector<id>): not nullable INSFastEnumeration; iterator;
   public
@@ -162,7 +162,7 @@ begin
   end;
 end;
 
-// Segmentation fault: 11: 65577: Nougat: Passing "array of id" to ^id parameter
+// Segmentation fault: 11: 65577: Toffee: Passing "array of id" to ^id parameter
 extension method Foundation.INSFastEnumeration.SkipWhile(aBlock: not nullable PredicateBlock): not nullable Foundation.INSFastEnumeration;
 begin
   var lState: NSFastEnumerationState := default(NSFastEnumerationState);
@@ -449,12 +449,12 @@ begin
   exit Foundation.INSFastEnumeration(self).dictionary(IDBlock(aKeyBlock), IDBlock(aValueBlock));
 end;
 
-class method __Nougat_Linq_Helpers.ForHelper<T>(aStart: Integer; aEnd: Integer; aStep: Integer; aBackward: Boolean; aMethod: ForSelector<T>): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
+class method __Toffee_Linq_Helpers.ForHelper<T>(aStart: Integer; aEnd: Integer; aStep: Integer; aBackward: Boolean; aMethod: ForSelector<T>): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
 begin
   exit IntForHelper(aStart, aEnd, aStep, aBackward, aMethod);
 end;
 
-class method __Nougat_Linq_Helpers.IntForHelper(aStart: Integer; aEnd: Integer; aStep: Integer; aBackward: Boolean; aMethod: ForSelector<id>): not nullable INSFastEnumeration;
+class method __Toffee_Linq_Helpers.IntForHelper(aStart: Integer; aEnd: Integer; aStep: Integer; aBackward: Boolean; aMethod: ForSelector<id>): not nullable INSFastEnumeration;
 begin
   if aBackward then
     for i: Integer := aStart downto aEnd step aStep do

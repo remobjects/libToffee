@@ -6,7 +6,7 @@ uses
   Foundation;
 
 type
-  NSException_Nougat = public extension class (NSException)
+  NSException_Toffee = public extension class (NSException)
   private
   protected
   public
@@ -15,7 +15,7 @@ type
 
 implementation
 
-method NSException_Nougat.init(aMessage: String): instancetype;
+method NSException_Toffee.init(aMessage: String): instancetype;
 begin
   var lClass := self.class.description; // Can't be inlined as self is set to nil during the init call.
   result := self.initWithName(lClass) reason(aMessage) userInfo(nil);

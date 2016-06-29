@@ -1,6 +1,6 @@
 ﻿import Foundation
 
-public class NougatErrorException : NSException { 
+public class ToffeeErrorException : NSException { 
 	public let error: NSError
 	
 	public init(error: NSError) {
@@ -16,8 +16,8 @@ public class NougatErrorException : NSException {
 //
 //
 
-public func __ElementsCreateExceptionWithError(_ error: NSError) -> NougatErrorException {
-	return NougatErrorException(error: error)
+public func __ElementsCreateExceptionWithError(_ error: NSError) -> ToffeeErrorException {
+	return ToffeeErrorException(error: error)
 }
 
 public func __ElementsWillThrowError(_ error: NSError) {

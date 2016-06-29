@@ -6,7 +6,7 @@
         <SharedGUID>30DEB81A-AFE1-4431-A80C-9C3380070FFD</SharedGUID>
     </PropertyGroup>
     <PropertyGroup Label="Configuration">
-        <Import_RootNamespace>libNougatShared</Import_RootNamespace>
+        <Import_RootNamespace>libToffeeShared</Import_RootNamespace>
     </PropertyGroup>
     <ItemGroup>
         <Compile Include="$(MSBuildThisFileDirectory)ArrayUtils.pas"/>
@@ -30,7 +30,7 @@
         <Compile Include="$(MSBuildThisFileDirectory)Protocols.pas"/>
         <Compile Include="$(MSBuildThisFileDirectory)Tuple.pas"/>
         <Compile Include="$(MSBuildThisFileDirectory)Helpers.pas"/>
-        <Compile Include="$(MSBuildThisFileDirectory)NougatErrorException.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)ToffeeErrorException.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)VersionHelpers.pas"/>
 		<Compile Include="$(MSBuildThisFileDirectory)Globals.pas"/>
     </ItemGroup>

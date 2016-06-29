@@ -4,10 +4,10 @@
         <ProjectGuid>30DEB81A-AFE1-4431-A80C-9C3380070FFD</ProjectGuid>
     </PropertyGroup>
     <PropertyGroup>
-        <Name>libNougat (Shared)</Name>
+        <Name>libToffee (Shared)</Name>
         <RootNamespace>RemObjects.Elements.System</RootNamespace>
     </PropertyGroup>
-    <Import Project="libNougat-Shared.projitems" Label="Shared"/>
+    <Import Project="libToffee-Shared.projitems" Label="Shared"/>
     <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.SharedProject.targets"/>
     <PropertyGroup>
         <PreBuildEvent/>

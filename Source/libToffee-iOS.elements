@@ -4,13 +4,13 @@
         <RootNamespace>RemObjects.Elements.System</RootNamespace>
         <ProjectGuid>{477ec1b1-0aa5-47d6-a4c3-ef8d5081190e}</ProjectGuid>
         <OutputType>StaticLibrary</OutputType>
-        <AssemblyName>Nougat</AssemblyName>
+        <AssemblyName>Toffee</AssemblyName>
         <AllowLegacyOutParams>False</AllowLegacyOutParams>
         <AllowLegacyCreate>False</AllowLegacyCreate>
         <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
         <SDK>iOS</SDK>
         <CreateHeaderFile>True</CreateHeaderFile>
-        <Name>libNougat (iOS)</Name>
+        <Name>libToffee (iOS)</Name>
         <GenerateDebugInfo>True</GenerateDebugInfo>
         <Architecture>arm64,armv7s,armv7</Architecture>
         <SimulatorArchitectures>x86_64,i386</SimulatorArchitectures>
@@ -40,9 +40,9 @@
     </ItemGroup>
     <ItemGroup/>
     <ItemGroup/>
-    <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Nougat.targets"/>
+    <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Toffee.targets"/>
     <PropertyGroup>
         <PreBuildEvent/>
     </PropertyGroup>
-    <Import Project="libNougat-Shared.projitems" Label="Shared"/>
+    <Import Project="libToffee-Shared.projitems" Label="Shared"/>
 </Project>

@@ -1,15 +1,15 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # RemObjects Fire
-Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "libNougat (OS X)", "libNougat-OSX.elements", "{104F50C3-3A92-4D03-919D-0DE94ACC0DBD}"
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "libToffee (OS X)", "libToffee-OSX.elements", "{104F50C3-3A92-4D03-919D-0DE94ACC0DBD}"
 EndProject
-Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "libNougat (Shared)", "libNougat-Shared.elements", "{30DEB81A-AFE1-4431-A80C-9C3380070FFD}"
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "libToffee (Shared)", "libToffee-Shared.elements", "{30DEB81A-AFE1-4431-A80C-9C3380070FFD}"
 EndProject
-Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "libNougat (iOS)", "libNougat-iOS.elements", "{477EC1B1-0AA5-47D6-A4C3-EF8D5081190E}"
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "libToffee (iOS)", "libToffee-iOS.elements", "{477EC1B1-0AA5-47D6-A4C3-EF8D5081190E}"
 EndProject
-Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "libNougat (tvOS)", "libNougat-tvOS.elements", "{9F1ACE20-C2CA-42A3-8CA5-C67C0B75088C}"
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "libToffee (tvOS)", "libToffee-tvOS.elements", "{9F1ACE20-C2CA-42A3-8CA5-C67C0B75088C}"
 EndProject
-Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "libNougat (watchOS)", "libNougat-watchOS.elements", "{AB0D5693-F617-4EBB-821E-ED5F46CE6FF0}"
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "libToffee (watchOS)", "libToffee-watchOS.elements", "{AB0D5693-F617-4EBB-821E-ED5F46CE6FF0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
