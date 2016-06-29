@@ -11,7 +11,7 @@
         <SDK>OS X</SDK>
         <DeploymentTargetVersion>10.6</DeploymentTargetVersion>
         <CreateHeaderFile>True</CreateHeaderFile>
-        <Name>libToffee (OS X)</Name>
+        <Name>libToffee (macOS)</Name>
         <GenerateDebugInfo>True</GenerateDebugInfo>
         <DefineConstants>OSX;MACOS</DefineConstants>
     </PropertyGroup>
