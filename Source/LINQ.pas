@@ -82,6 +82,12 @@ extension method Foundation.INSFastEnumeration.orderBy(aBlock: not nullable bloc
 //extension method NSArray.orderBy(aBlock: not nullable block(aItem: id): Int32; aComparator: NSComparator): not nullable Foundation.INSFastEnumeration; //iterator; public;
 
 type
+  //
+  //
+  // CAUTION: Magic type name. 
+  // The compiler will use __Toffee_Linq_Helpers() to assist with LINQ support
+  //
+  //
   __Toffee_Linq_Helpers = public static class
   private
     class method IntForHelper(aStart, aEnd, aStep: Integer; aBackward: Boolean; aMethod: ForSelector<id>): not nullable INSFastEnumeration; iterator;
