@@ -74,8 +74,9 @@ extension method RemObjects.Elements.System.INSFastEnumeration<T>.Any(): Boolean
 extension method Foundation.INSFastEnumeration.array: not nullable NSArray; public;
 extension method Foundation.INSFastEnumeration.dictionary(aKeyBlock: IDBlock; aValueBlock: IDBlock): not nullable NSDictionary; public;
 
-extension method RemObjects.Elements.System.INSFastEnumeration<T>.array: not nullable  NSArray; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.array: not nullable NSArray<T>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.dictionary(aKeyBlock: block(aItem: id): id; aValueBlock: block(aItem: id): id): not nullable NSDictionary; inline; public;
+//extension method RemObjects.Elements.System.INSFastEnumeration<T>.dictionary<K,V>(aKeyBlock: block(aItem: T): K; aValueBlock: block(aItem: T): V): not nullable NSDictionary<K, V>; inline; public;
 
 // Internal Helpers
 extension method Foundation.INSFastEnumeration.orderBy(aBlock: not nullable block(aItem: id): id) comparator(aComparator: NSComparator): not nullable Foundation.INSFastEnumeration; public;
@@ -445,15 +446,21 @@ begin
   exit Foundation.INSFastEnumeration(self).Count;
 end;
 
-extension method RemObjects.Elements.System.INSFastEnumeration<T>.array: not nullable NSArray; 
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.array: not nullable NSArray<T>; 
 begin
-  exit Foundation.INSFastEnumeration(self).array();
+  exit Foundation.INSFastEnumeration(self).array() as NSArray<T>;
 end;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.dictionary(aKeyBlock: block(aItem: id): id; aValueBlock: block(aItem: id): id): not nullable NSDictionary;
 begin
   exit Foundation.INSFastEnumeration(self).dictionary(IDBlock(aKeyBlock), IDBlock(aValueBlock));
 end;
+
+//76496: Toffee: internal error and cant match complex generic extension method
+/*extension method RemObjects.Elements.System.INSFastEnumeration<T>.dictionary<K,V>(aKeyBlock: block(aItem: T): K; aValueBlock: block(aItem: T): V): not nullable NSDictionary<K, V>;
+begin
+  exit Foundation.INSFastEnumeration(self).dictionary(IDBlock(aKeyBlock), IDBlock(aValueBlock));
+end;*/
 
 class method __Toffee_Linq_Helpers.ForHelper<T>(aStart: Integer; aEnd: Integer; aStep: Integer; aBackward: Boolean; aMethod: ForSelector<T>): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
 begin
