@@ -76,7 +76,7 @@ extension method Foundation.INSFastEnumeration.dictionary(aKeyBlock: IDBlock; aV
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.array: not nullable NSArray<T>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.dictionary(aKeyBlock: block(aItem: id): id; aValueBlock: block(aItem: id): id): not nullable NSDictionary; inline; public;
-//extension method RemObjects.Elements.System.INSFastEnumeration<T>.dictionary<K,V>(aKeyBlock: block(aItem: T): K; aValueBlock: block(aItem: T): V): not nullable NSDictionary<K, V>; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.dictionary<T,K,V>(aKeyBlock: block(aItem: T): K; aValueBlock: block(aItem: T): V): not nullable NSDictionary<K, V>; inline; public;
 
 // Internal Helpers
 extension method Foundation.INSFastEnumeration.orderBy(aBlock: not nullable block(aItem: id): id) comparator(aComparator: NSComparator): not nullable Foundation.INSFastEnumeration; public;
@@ -457,10 +457,10 @@ begin
 end;
 
 //76496: Toffee: internal error and cant match complex generic extension method
-/*extension method RemObjects.Elements.System.INSFastEnumeration<T>.dictionary<K,V>(aKeyBlock: block(aItem: T): K; aValueBlock: block(aItem: T): V): not nullable NSDictionary<K, V>;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.dictionary<T,K,V>(aKeyBlock: block(aItem: T): K; aValueBlock: block(aItem: T): V): not nullable NSDictionary<K, V>;
 begin
   exit Foundation.INSFastEnumeration(self).dictionary(IDBlock(aKeyBlock), IDBlock(aValueBlock));
-end;*/
+end;
 
 class method __Toffee_Linq_Helpers.ForHelper<T>(aStart: Integer; aEnd: Integer; aStep: Integer; aBackward: Boolean; aMethod: ForSelector<T>): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
 begin
