@@ -20,6 +20,10 @@ type
     class method valueForStruct(aStruct: NSObject; aDtor: __ElementsBoxedStructDestructor): ^Void;
     property Dtor: __ElementsBoxedStructDestructor read fDtor;
     property Value: ^Void read fValue;
+    operator Equal(object1: __ElementsBoxedStruct; object2: id): Boolean;
+    operator Equal(object1: id; object2: __ElementsBoxedStruct): Boolean;
+    operator NotEqual(object1: __ElementsBoxedStruct; object2: id): Boolean;
+    operator NotEqual(object1: id; object2: __ElementsBoxedStruct): Boolean;
     { INSObject }
     method isEqual(object: id): Boolean; override;
     method isEqualTo(object: id): Boolean; {$IF OSX}override;{$ENDIF}
@@ -41,6 +45,10 @@ type
     property stringValue: NSString read stringValue;
     operator Implicit(aValue: __ElementsBoxedChar): NSNumber;
     operator Implicit(aValue: __ElementsBoxedChar): Char;
+    operator Equal(object1: __ElementsBoxedChar; object2: id): Boolean;
+    operator Equal(object1: id; object2: __ElementsBoxedChar): Boolean;
+    operator NotEqual(object1: __ElementsBoxedChar; object2: id): Boolean;
+    operator NotEqual(object1: id; object2: __ElementsBoxedChar): Boolean;
     { INSObject }
     method isEqual(object: id): Boolean; override;
     method isEqualTo(object: id): Boolean; {$IF OSX}override;{$ENDIF}
@@ -66,6 +74,10 @@ type
     property stringValue: NSString read stringValue;
     operator Implicit(aValue: __ElementsBoxedAnsiChar): NSNumber;
     operator Implicit(aValue: __ElementsBoxedAnsiChar): AnsiChar;
+    operator Equal(object1: __ElementsBoxedAnsiChar; object2: id): Boolean;
+    operator Equal(object1: id; object2: __ElementsBoxedAnsiChar): Boolean;
+    operator NotEqual(object1: __ElementsBoxedAnsiChar; object2: id): Boolean;
+    operator NotEqual(object1: id; object2: __ElementsBoxedAnsiChar): Boolean;
     { INSObject }
     method isEqual(object: id): Boolean; override;
     method isEqualTo(object: id): Boolean; {$IF OSX}override;{$ENDIF}
@@ -102,6 +114,30 @@ end;
 operator __ElementsBoxedChar.Implicit(aValue: __ElementsBoxedChar): Char;
 begin
   result := aValue.charValue;
+end;
+
+operator __ElementsBoxedChar.Equal(object1: __ElementsBoxedChar; object2: id): Boolean;
+begin
+  if object1 = nil then exit object2 = nil;
+  result := object1.isEqualTo(object2);
+end;
+
+operator __ElementsBoxedChar.Equal(object1: id; object2: __ElementsBoxedChar): Boolean;
+begin
+  if object2 = nil then exit object1 = nil;
+  result := object2.isEqualTo(object1);
+end;
+
+operator __ElementsBoxedChar.NotEqual(object1: __ElementsBoxedChar; object2: id): Boolean;
+begin
+  if object1 = nil then exit object2 ≠ nil;
+  result := not object1.isEqualTo(object2);  
+end;
+
+operator __ElementsBoxedChar.NotEqual(object1: id; object2: __ElementsBoxedChar): Boolean;
+begin
+  if object2 = nil then exit object1 ≠ nil;
+  result := not object2.isEqualTo(object1);
 end;
 
 class method __ElementsBoxedChar.boxedCharWithChar(aChar: Char): __ElementsBoxedChar;
@@ -193,6 +229,30 @@ end;
 operator __ElementsBoxedAnsiChar.Implicit(aValue: __ElementsBoxedAnsiChar): AnsiChar;
 begin
   result := aValue.ansiCharValue;
+end;
+
+operator __ElementsBoxedAnsiChar.Equal(object1: __ElementsBoxedAnsiChar; object2: id): Boolean;
+begin
+  if object1 = nil then exit object2 = nil;
+  result := object1.isEqualTo(object2);
+end;
+
+operator __ElementsBoxedAnsiChar.Equal(object1: id; object2: __ElementsBoxedAnsiChar): Boolean;
+begin
+  if object2 = nil then exit object1 = nil;
+  result := object2.isEqualTo(object1);
+end;
+
+operator __ElementsBoxedAnsiChar.NotEqual(object1: __ElementsBoxedAnsiChar; object2: id): Boolean;
+begin
+  if object1 = nil then exit object2 ≠ nil;
+  result := not object1.isEqualTo(object2);  
+end;
+
+operator __ElementsBoxedAnsiChar.NotEqual(object1: id; object2: __ElementsBoxedAnsiChar): Boolean;
+begin
+  if object2 = nil then exit object1 ≠ nil;
+  result := not object2.isEqualTo(object1);
 end;
 
 method __ElementsBoxedAnsiChar.stringValue: NSString;
@@ -298,14 +358,43 @@ begin
 end;
 
 { INSObject }
+
 method __ElementsBoxedStruct.isEqual(object: id): Boolean;
 begin
+  if object is __ElementsBoxedStruct then begin
+    if (object as __ElementsBoxedStruct).Value = Value then exit true; // exact same pointer? then thye must be equal
+    {$HINT need to call isEqual on the boxed struct, if implemented}
+  end;
   result := false;
 end;
 
 method __ElementsBoxedStruct.isEqualTo(object: id): Boolean;
 begin
-  result := false;
+  result := isEqual(object);
+end;
+
+operator __ElementsBoxedStruct.Equal(object1: __ElementsBoxedStruct; object2: id): Boolean;
+begin
+  if object1 = nil then exit object2 = nil;
+  result := object1.isEqual(object2);
+end;
+
+operator __ElementsBoxedStruct.Equal(object1: id; object2: __ElementsBoxedStruct): Boolean;
+begin
+  if object2 = nil then exit object1 = nil;
+  result := object2.isEqual(object1);
+end;
+
+operator __ElementsBoxedStruct.NotEqual(object1: __ElementsBoxedStruct; object2: id): Boolean;
+begin
+  if object1 = nil then exit object2 ≠ nil;
+  result := not object1.isEqual(object2);
+end;
+
+operator __ElementsBoxedStruct.NotEqual(object1: id; object2: __ElementsBoxedStruct): Boolean;
+begin
+  if object2 = nil then exit object1 ≠ nil;
+  result := not object2.isEqual(object1);
 end;
 
 method __ElementsBoxedStruct.copyWithZone(zone: ^NSZone): not nullable id;
