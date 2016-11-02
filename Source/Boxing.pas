@@ -118,25 +118,25 @@ end;
 
 operator __ElementsBoxedChar.Equal(object1: __ElementsBoxedChar; object2: id): Boolean;
 begin
-  if object1 = nil then exit object2 = nil;
+  if not assigned(object1) then exit not assigned(object2);
   result := object1.isEqualTo(object2);
 end;
 
 operator __ElementsBoxedChar.Equal(object1: id; object2: __ElementsBoxedChar): Boolean;
 begin
-  if object2 = nil then exit object1 = nil;
+  if not assigned(object2) then exit not assigned(object1);
   result := object2.isEqualTo(object1);
 end;
 
 operator __ElementsBoxedChar.NotEqual(object1: __ElementsBoxedChar; object2: id): Boolean;
 begin
-  if object1 = nil then exit object2 ≠ nil;
+  if not assigned(object1) then exit assigned(object2);
   result := not object1.isEqualTo(object2);  
 end;
 
 operator __ElementsBoxedChar.NotEqual(object1: id; object2: __ElementsBoxedChar): Boolean;
 begin
-  if object2 = nil then exit object1 ≠ nil;
+  if not assigned(object2) then exit assigned(object1);
   result := not object2.isEqualTo(object1);
 end;
 
@@ -233,25 +233,25 @@ end;
 
 operator __ElementsBoxedAnsiChar.Equal(object1: __ElementsBoxedAnsiChar; object2: id): Boolean;
 begin
-  if object1 = nil then exit object2 = nil;
+  if not assigned(object1) then exit not assigned(object2);
   result := object1.isEqualTo(object2);
 end;
 
 operator __ElementsBoxedAnsiChar.Equal(object1: id; object2: __ElementsBoxedAnsiChar): Boolean;
 begin
-  if object2 = nil then exit object1 = nil;
+  if not assigned(object2) then exit not assigned(object1);
   result := object2.isEqualTo(object1);
 end;
 
 operator __ElementsBoxedAnsiChar.NotEqual(object1: __ElementsBoxedAnsiChar; object2: id): Boolean;
 begin
-  if object1 = nil then exit object2 ≠ nil;
+  if not assigned(object1) then exit assigned(object2);
   result := not object1.isEqualTo(object2);  
 end;
 
 operator __ElementsBoxedAnsiChar.NotEqual(object1: id; object2: __ElementsBoxedAnsiChar): Boolean;
 begin
-  if object2 = nil then exit object1 ≠ nil;
+  if not assigned(object2) then exit assigned(object1);
   result := not object2.isEqualTo(object1);
 end;
 
@@ -375,25 +375,25 @@ end;
 
 operator __ElementsBoxedStruct.Equal(object1: __ElementsBoxedStruct; object2: id): Boolean;
 begin
-  if object1 = nil then exit object2 = nil;
+  if not assigned(object1) then exit not assigned(object2);
   result := object1.isEqual(object2);
 end;
 
 operator __ElementsBoxedStruct.Equal(object1: id; object2: __ElementsBoxedStruct): Boolean;
 begin
-  if object2 = nil then exit object1 = nil;
+  if not assigned(object2) then exit not assigned(object1);
   result := object2.isEqual(object1);
 end;
 
 operator __ElementsBoxedStruct.NotEqual(object1: __ElementsBoxedStruct; object2: id): Boolean;
 begin
-  if object1 = nil then exit object2 ≠ nil;
+  if not assigned(object1) then exit assigned(object2);
   result := not object1.isEqual(object2);
 end;
 
 operator __ElementsBoxedStruct.NotEqual(object1: id; object2: __ElementsBoxedStruct): Boolean;
 begin
-  if object2 = nil then exit object1 ≠ nil;
+  if not assigned(object2) then exit assigned(object1);
   result := not object2.isEqual(object1);
 end;
 
