@@ -32,6 +32,7 @@ extension method Foundation.INSFastEnumeration.Distinct(aComparator: NSComparato
 extension method Foundation.INSFastEnumeration.Intersect(aSecond: not nullable Foundation.INSFastEnumeration; aComparator: NSComparator := nil): not nullable Foundation.INSFastEnumeration; iterator; public;
 extension method Foundation.INSFastEnumeration.Except(aSecond: not nullable Foundation.INSFastEnumeration; aComparator: NSComparator := nil): not nullable Foundation.INSFastEnumeration; iterator; public;
 
+extension method Foundation.INSFastEnumeration.Contains(aItem: id): Boolean; public;
 extension method Foundation.INSFastEnumeration.FirstOrDefault: nullable id; public;
 extension method Foundation.INSFastEnumeration.FirstOrDefault(aBlock: not nullable PredicateBlock): nullable id; public;
 extension method Foundation.INSFastEnumeration.Count: NSInteger; public;
@@ -58,6 +59,7 @@ extension method RemObjects.Elements.System.INSFastEnumeration<T>.Distinct(aComp
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Intersect(aSecond: not nullable Foundation.INSFastEnumeration; aComparator: NSComparator := nil): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Except(aSecond: not nullable Foundation.INSFastEnumeration; aComparator: NSComparator := nil): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
 
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Contains(aItem: T): Boolean; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.FirstOrDefault: {nullable} T; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.FirstOrDefault(aBlock: not nullable block(aItem: not nullable T): Boolean): {nullable} T; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Count: NSInteger; inline; public;
@@ -308,6 +310,20 @@ begin
     NSMutableDictionary(result)[aKeyBlock(i)] := aValueBlock(i);
 end;
 
+extension method Foundation.INSFastEnumeration.Contains(aItem: id): Boolean;
+begin
+  if self is NSArray then
+    exit (self as NSArray).containsObject(aItem);
+  for each i in self do begin
+    if (i = nil) then begin
+      if (aItem = nil) then exit true;
+    end
+    else begin
+      if i.isEqual(aItem) then exit true;
+    end;
+  end;
+end;
+
 extension method Foundation.INSFastEnumeration.FirstOrDefault(): nullable id;
 begin
   var lState: NSFastEnumerationState := default(NSFastEnumerationState);
@@ -424,6 +440,11 @@ end;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Except(aSecond: not nullable Foundation.INSFastEnumeration; aComparator: NSComparator := nil): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; 
 begin
   exit Foundation.INSFastEnumeration(self).Except(aSecond, aComparator);  
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Contains(aItem: T): Boolean;
+begin
+  exit Foundation.INSFastEnumeration(self).Contains(aItem);
 end;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.FirstOrDefault: {nullable} T; 
