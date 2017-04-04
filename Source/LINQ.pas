@@ -239,7 +239,7 @@ end;
 //
 //
 //
-extension method Foundation.INSFastEnumeration.Concat(aSecond: not nullable INSFastEnumeration): not nullable Foundation.INSFastEnumeration;
+extension method Foundation.INSFastEnumeration.Concat(aSecond: not nullable Foundation.INSFastEnumeration): not nullable Foundation.INSFastEnumeration;
 begin
   for each i in self do
     yield i;
@@ -258,7 +258,7 @@ end;
 //
 // Set Operators
 //
-extension method Foundation.INSFastEnumeration.Distinct(aComparator:not nullable  NSComparator := nil): not nullable Foundation.INSFastEnumeration;
+extension method Foundation.INSFastEnumeration.Distinct(aComparator: NSComparator := nil): not nullable Foundation.INSFastEnumeration;
 begin
   var lReturned := new NSMutableArray;
   for each i in self do

@@ -97,7 +97,7 @@ method GetAttributesForStaticField(aClass: &Class; aIndexInList: Integer; aTypeF
 
 implementation
 
-constructor AttributeUsageAttribute(aValidOn: AttributeTargets);
+constructor __ElementsAttributeUsageAttribute(aValidOn: AttributeTargets);
 begin
   ValidOn := aValidOn;
 end;

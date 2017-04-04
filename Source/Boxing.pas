@@ -17,7 +17,8 @@ type
     finalizer;
     method description: String; override;
     class method boxedStructWithValue(aValue: ^Void; aDtor: __ElementsBoxedStructDestructor): __ElementsBoxedStruct;
-    class method valueForStruct(aStruct: NSObject; aDtor: __ElementsBoxedStructDestructor): ^Void;
+    class method valueForStruct(aStruct: Object; aDtor: __ElementsBoxedStructDestructor): ^Void;
+    //
     property Dtor: __ElementsBoxedStructDestructor read fDtor;
     property Value: ^Void read fValue;
     operator Equal(object1: __ElementsBoxedStruct; object2: id): Boolean;
@@ -26,7 +27,7 @@ type
     operator NotEqual(object1: id; object2: __ElementsBoxedStruct): Boolean;
     { INSObject }
     method isEqual(object: id): Boolean; override;
-    method isEqualTo(object: id): Boolean; {$IF OSX}override;{$ENDIF}
+    method isEqualTo(object: id): Boolean; reintroduce;
     { INSCopying }
     method copyWithZone(zone: ^NSZone): not nullable id;
     { INSCoding }
@@ -51,11 +52,11 @@ type
     operator NotEqual(object1: id; object2: __ElementsBoxedChar): Boolean;
     { INSObject }
     method isEqual(object: id): Boolean; override;
-    method isEqualTo(object: id): Boolean; {$IF OSX}override;{$ENDIF}
-    method isGreaterThan(object: id): Boolean; {$IF OSX}override;{$ENDIF}
-    method isGreaterThanOrEqualTo(object: id): Boolean; {$IF OSX}override;{$ENDIF}
-    method isLessThan(object: id): Boolean; {$IF OSX}override;{$ENDIF}
-    method isLessThanOrEqualTo(object: id): Boolean; {$IF OSX}override;{$ENDIF}
+    method isEqualTo(object: id): Boolean; reintroduce;
+    method isGreaterThan(object: id): Boolean; reintroduce;
+    method isGreaterThanOrEqualTo(object: id): Boolean; reintroduce;
+    method isLessThan(object: id): Boolean; reintroduce;
+    method isLessThanOrEqualTo(object: id): Boolean; reintroduce;
     { INSCopying }
     method copyWithZone(zone: ^NSZone): not nullable id;
     { INSCoding }
@@ -80,11 +81,11 @@ type
     operator NotEqual(object1: id; object2: __ElementsBoxedAnsiChar): Boolean;
     { INSObject }
     method isEqual(object: id): Boolean; override;
-    method isEqualTo(object: id): Boolean; {$IF OSX}override;{$ENDIF}
-    method isGreaterThan(object: id): Boolean; {$IF OSX}override;{$ENDIF}
-    method isGreaterThanOrEqualTo(object: id): Boolean; {$IF OSX}override;{$ENDIF}
-    method isLessThan(object: id): Boolean; {$IF OSX}override;{$ENDIF}
-    method isLessThanOrEqualTo(object: id): Boolean; {$IF OSX}override;{$ENDIF}
+    method isEqualTo(object: id): Boolean; reintroduce;
+    method isGreaterThan(object: id): Boolean; reintroduce;
+    method isGreaterThanOrEqualTo(object: id): Boolean; reintroduce;
+    method isLessThan(object: id): Boolean; reintroduce;
+    method isLessThanOrEqualTo(object: id): Boolean; reintroduce;
     { INSCopying }
     method copyWithZone(zone: ^NSZone): not nullable id;
     { INSCoding }
