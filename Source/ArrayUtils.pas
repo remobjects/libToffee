@@ -6,12 +6,12 @@ uses
   Foundation;
 
 type
-  ArrayUtils = public static class 
+  ArrayUtils = public static class
   private
     class method intStringToSequence(val: String): INSFastEnumeration; iterator;
   public
     class method idArrayToSequence(val: array of id): INSFastEnumeration; iterator;
-    class method stringToSequence(val: String): RemObjects.Elements.System.INSFastEnumeration<nullable Char>; 
+    class method stringToSequence(val: String): RemObjects.Elements.System.INSFastEnumeration<nullable Char>;
     class method genericArrayToSequence<T>(val: array of T): RemObjects.Elements.System.INSFastEnumeration<T>; inline; where T is class;
     class method charArrayToSequence(val: array of AnsiChar): RemObjects.Elements.System.INSFastEnumeration<nullable AnsiChar>;
     class method wcharArrayToSequence(val: array of Char): RemObjects.Elements.System.INSFastEnumeration<nullable Char>;
@@ -29,8 +29,8 @@ type
   end;
 
   SimpleTypeIteratorMethod nested in ArrayUtils = method (aArray: ^Byte; aIndex: Integer): id;
-  
-  ArrayUtils__SimpleTypeIterator = class (INSFastEnumeration) 
+
+  ArrayUtils__SimpleTypeIterator = class (INSFastEnumeration)
   private
     fArray: ^Byte;
     fIndex: Integer;
@@ -103,7 +103,7 @@ begin
     yield val[i];
 end;
 
-class method ArrayUtils.stringToSequence(val: String): RemObjects.Elements.System.INSFastEnumeration<nullable Char>; 
+class method ArrayUtils.stringToSequence(val: String): RemObjects.Elements.System.INSFastEnumeration<nullable Char>;
 begin
   exit intStringToSequence(val)
 end;

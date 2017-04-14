@@ -1,15 +1,15 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0" DefaultTargets="Build">
-    <PropertyGroup Label="Globals">
-        <ProjectGuid>30DEB81A-AFE1-4431-A80C-9C3380070FFD</ProjectGuid>
-    </PropertyGroup>
-    <PropertyGroup>
-        <Name>libToffee (Shared)</Name>
-        <RootNamespace>RemObjects.Elements.System</RootNamespace>
-    </PropertyGroup>
-    <Import Project="libToffee-Shared.projitems" Label="Shared"/>
-    <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.SharedProject.targets"/>
-    <PropertyGroup>
-        <PreBuildEvent/>
-    </PropertyGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>30DEB81A-AFE1-4431-A80C-9C3380070FFD</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Name>libToffee (Shared)</Name>
+    <RootNamespace>RemObjects.Elements.System</RootNamespace>
+  </PropertyGroup>
+  <Import Project="libToffee-Shared.projitems" Label="Shared" />
+  <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.SharedProject.targets" />
+  <PropertyGroup>
+    <PreBuildEvent />
+  </PropertyGroup>
 </Project>

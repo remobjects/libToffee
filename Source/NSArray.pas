@@ -35,14 +35,14 @@ type
     method enumerateObjectsWithOptions(opts: NSEnumerationOptions) usingBlock(&block: not nullable block(obj: T; idx: NSUInteger; stop: ^Boolean)); mapped to enumerateObjectsWithOptions(opts) usingBlock(NSArrayEnumerateBlock(&block));
     method filteredArrayUsingPredicate(predicate: not nullable NSPredicate): NSArray<T>; mapped to filteredArrayUsingPredicate(predicate);
     method firstObjectCommonWithArray(otherArray: not nullable NSArray<T>): T; mapped to firstObjectCommonWithArray(otherArray);
-    //method getObjects(aBuffer: ^id) range(aRange: NSRange); mapped to getObjects(aBuffer) range(aRange);  
-    
-    method indexesOfObjectsAtIndexes(indexSet: not nullable NSIndexSet) options(opts: NSEnumerationOptions) passingTest(predicate: not nullable block(obj: T; idx: NSUInteger; stop: ^Boolean): Boolean): NSIndexSet; mapped to indexesOfObjectsAtIndexes(indexSet) options(opts) passingTest(NSArrayTestBlock(predicate)); 
+    //method getObjects(aBuffer: ^id) range(aRange: NSRange); mapped to getObjects(aBuffer) range(aRange);
+
+    method indexesOfObjectsAtIndexes(indexSet: not nullable NSIndexSet) options(opts: NSEnumerationOptions) passingTest(predicate: not nullable block(obj: T; idx: NSUInteger; stop: ^Boolean): Boolean): NSIndexSet; mapped to indexesOfObjectsAtIndexes(indexSet) options(opts) passingTest(NSArrayTestBlock(predicate));
     method indexesOfObjectsPassingTest(predicate: not nullable block(obj: T; idx: NSUInteger; stop: ^Boolean): Boolean): NSIndexSet; mapped to indexesOfObjectsPassingTest(NSArrayTestBlock(predicate));
     method indexesOfObjectsWithOptions(opts: NSEnumerationOptions) passingTest(predicate: not nullable block(obj: T; idx: NSUInteger; stop: ^Boolean): Boolean): NSIndexSet; mapped to indexesOfObjectsWithOptions(opts) passingTest(NSArrayTestBlock(predicate));
 
     method indexOfObject(anObject: not nullable T): NSUInteger; mapped to indexOfObject(anObject);
-    method indexOfObject(anObject: not nullable T) inRange(range: NSRange): NSUInteger; mapped to indexOfObject(anObject) inRange(range);    
+    method indexOfObject(anObject: not nullable T) inRange(range: NSRange): NSUInteger; mapped to indexOfObject(anObject) inRange(range);
     method indexOfObject(obj: not nullable T) inSortedRange(r: NSRange) options(opts: NSBinarySearchingOptions) usingComparator(cmp: not nullable NSComparator): NSUInteger; mapped to indexOfObject(obj) inSortedRange(r) options(opts) usingComparator(cmp);
     method indexOfObjectAtIndexes(indexSet: not nullable NSIndexSet) options(opts: NSEnumerationOptions) passingTest(predicate: block(obj: T; idx: NSUInteger; stop: ^Boolean): Boolean): NSUInteger; mapped to indexOfObjectAtIndexes(indexSet) options(opts) passingTest(NSArrayTestBlock(predicate));
     method indexOfObjectIdenticalTo(anObject: not nullable T): NSUInteger; mapped to indexOfObjectIdenticalTo(anObject);
@@ -50,20 +50,20 @@ type
     method indexOfObjectPassingTest(predicate: not nullable block(obj: T; idx: NSUInteger; stop: ^Boolean): Boolean): NSUInteger; mapped to indexOfObjectPassingTest(NSArrayTestBlock(predicate));
     method indexOfObjectWithOptions(opts: NSEnumerationOptions) passingTest(predicate: not nullable block(obj: T; idx: NSUInteger; stop: ^Boolean): Boolean): NSUInteger; mapped to indexOfObjectWithOptions(opts) passingTest(NSArrayTestBlock(predicate));
     method isEqualToArray(otherArray: not nullable NSArray<T>): Boolean; mapped to isEqualToArray(otherArray);
-    
+
     method makeObjectsPerformSelector(aSelector: SEL); mapped to makeObjectsPerformSelector(aSelector);
     method makeObjectsPerformSelector(aSelector: SEL) withObject(anObject: id); mapped to makeObjectsPerformSelector(aSelector) withObject(anObject);
     method objectAtIndex(&index: NSUInteger): not nullable T; mapped to objectAtIndex(&index);
     method objectAtIndexedSubscript(&index: NSUInteger): not nullable T; mapped to objectAtIndexedSubscript(&index);
-    
+
     method objectsAtIndexes(indexes: not nullable NSIndexSet): not nullable NSArray<T>; mapped to objectsAtIndexes(indexes);
     method pathsMatchingExtensions(filterTypes: not nullable NSArray<NSString>): NSArray; mapped to pathsMatchingExtensions(filterTypes);
     method removeObserver(anObserver: Object) fromObjectsAtIndexes(indexes: not nullable NSIndexSet) forKeyPath(keyPath: String); mapped to removeObserver(anObserver) fromObjectsAtIndexes(indexes) forKeyPath(keyPath);
     method removeObserver(anObserver: Object) fromObjectsAtIndexes(indexes: not nullable NSIndexSet) forKeyPath(keyPath: String) context(var context); mapped to removeObserver(anObserver) fromObjectsAtIndexes(indexes) forKeyPath(keyPath) context(@context);
     method sortedArrayHint: NSData; mapped to sortedArrayHint;
     method sortedArrayUsingComparator(cmp: not nullable NSComparator): not nullable NSArray<T>; mapped to sortedArrayUsingComparator(cmp);
-    method sortedArrayUsingDescriptors(sortDescriptors: not nullable NSArray<NSSortDescriptor>): not nullable NSArray<T>; mapped to sortedArrayUsingDescriptors(sortDescriptors);    
-    
+    method sortedArrayUsingDescriptors(sortDescriptors: not nullable NSArray<NSSortDescriptor>): not nullable NSArray<T>; mapped to sortedArrayUsingDescriptors(sortDescriptors);
+
     //Check with Carlo
     //- (NSArray *)sortedArrayUsingFunction:(NSInteger (*)(id, id, void *))comparator context:(void *)context
     //- (NSArray *)sortedArrayUsingFunction:(NSInteger (*)(id, id, void *))comparator context:(void *)context hint:(NSData *)hint

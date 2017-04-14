@@ -18,7 +18,7 @@ type
     fDescriptor: NSSortDescriptor;
     fSorted: NSArray;
     fSequence: sequence of id;
-    
+
     { INSFastEnumeration }
     method countByEnumeratingWithState(state: ^NSFastEnumerationState) objects(buffer: ^id) count(len: NSUInteger): NSUInteger;
 
@@ -48,11 +48,11 @@ begin
       result := result.Concat(IOrderedFastEnumeration(fSequence).sortDescriptors);
 end;
 
-method OrderedEnumerable.ThenOrderBy(aBlock: block(aItem: id): id): INSFastEnumeration; 
+method OrderedEnumerable.ThenOrderBy(aBlock: block(aItem: id): id): INSFastEnumeration;
 begin
   var lLocalComparator: NSComparator := (a,b) -> aBlock(b).compare(aBlock(a));
   var lLocalDescriptor := new NSSortDescriptor withKey('self') ascending(true) comparator(lLocalComparator);
-  
+
   var lAllDescriptors := NSArray.arrayWithObject(lLocalDescriptor).Concat(sortDescriptors()); // use + operator
 
   var lOrdered := fSequence.array().sortedArrayUsingDescriptors(lAllDescriptors.array());

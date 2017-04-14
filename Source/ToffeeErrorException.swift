@@ -1,8 +1,8 @@
 ﻿import Foundation
 
-public class ToffeeErrorException : NSException { 
+public class ToffeeErrorException : NSException {
 	public let error: NSError
-	
+
 	public init(error: NSError) {
 		super.init(name: "NSError Exception", reason: error.localizedDescription, userInfo: error.userInfo)
 		self.error = error
@@ -11,7 +11,7 @@ public class ToffeeErrorException : NSException {
 
 //
 //
-// CAUTION: Magic type name. 
+// CAUTION: Magic type name.
 // The compiler will use __ElementsThrowException() when implementing do {} catch {} clauses for Swift
 //
 //

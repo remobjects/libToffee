@@ -10,20 +10,20 @@ type
   public
     property Item1: T1 read duck<T1>(Tuple.Unwrap(mapped[0]));
   end;
-  
+
   &Tuple2<T1, T2> = public class mapped to Foundation.NSArray
   public
     property Item1: T1 read duck<T1>(Tuple.Unwrap(mapped[0]));
     property Item2: T2 read duck<T2>(Tuple.Unwrap(mapped[1]));
   end;
-  
+
   &Tuple3<T1, T2, T3> = public class mapped to Foundation.NSArray
   public
     property Item1: T1 read duck<T1>(Tuple.Unwrap(mapped[0]));
     property Item2: T2  read duck<T2>(Tuple.Unwrap(mapped[1]));
     property Item3: T3  read duck<T3>(Tuple.Unwrap(mapped[2]));
   end;
- 
+
   &Tuple4<T1, T2, T3, T4> = public class mapped to Foundation.NSArray
   public
     property Item1: T1 read duck<T1>(Tuple.Unwrap(mapped[0]));
@@ -31,7 +31,7 @@ type
     property Item3: T3  read duck<T3>(Tuple.Unwrap(mapped[2]));
     property Item4: T4  read duck<T4>(Tuple.Unwrap(mapped[3]));
   end;
- 
+
   &Tuple5<T1, T2, T3, T4, T5> = public class mapped to Foundation.NSArray
   public
     property Item1: T1 read duck<T1>(Tuple.Unwrap(mapped[0]));
@@ -40,7 +40,7 @@ type
     property Item4: T4  read duck<T4>(Tuple.Unwrap(mapped[3]));
     property Item5: T5  read duck<T5>(Tuple.Unwrap(mapped[4]));
   end;
-  
+
   &Tuple6<T1, T2, T3, T4, T5, T6> = public class mapped to Foundation.NSArray
   public
     property Item1: T1 read duck<T1>(Tuple.Unwrap(mapped[0]));
@@ -50,7 +50,7 @@ type
     property Item5: T5  read duck<T5>(Tuple.Unwrap(mapped[4]));
     property Item6: T6  read duck<T6>(Tuple.Unwrap(mapped[5]));
   end;
-  
+
   &Tuple7<T1, T2, T3, T4, T5, T6, T7> = public class mapped to Foundation.NSArray
   public
     property Item1: T1 read duck<T1>(Tuple.Unwrap(mapped[0]));
@@ -61,7 +61,7 @@ type
     property Item6: T6  read duck<T6>(Tuple.Unwrap(mapped[5]));
     property Item7: T7  read duck<T7>(Tuple.Unwrap(mapped[6]));
   end;
-  
+
   &Tuple8<T1, T2, T3, T4, T5, T6, T7, T8> = public class mapped to Foundation.NSArray
   public
     property Item1: T1 read duck<T1>(Tuple.Unwrap(mapped[0]));
@@ -73,7 +73,7 @@ type
     property Item7: T7  read duck<T7>(Tuple.Unwrap(mapped[6]));
     property Item8: T8  read duck<T8>(Tuple.Unwrap(mapped[7]));
   end;
-    
+
   Tuple = public static class
   assembly
     class method Unwrap(val: id): id; inline;
@@ -91,7 +91,7 @@ type
 
 implementation
 
-class method Tuple.Unwrap(val: id): id; 
+class method Tuple.Unwrap(val: id): id;
 begin
   if val = NSNull.null then exit nil else exit val;
 end;

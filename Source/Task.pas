@@ -13,17 +13,17 @@ type
   TaskCompletionSource<T> = public __ElementsTaskCompletionSource<T>;
   Task = public __ElementsTask;
   Task1<T> = public __ElementsTask1<T>;
-  
+
   __ElementsTask = public class
   assembly
     fState: TaskState;
     fException: NSException;
-    fAsyncState: Object; 
+    fAsyncState: Object;
     fDelegate: Object; // callable<T>; runnable
     fDoneHandlers: Object; // nil, NSMutableArrayList or task
     fLock: NSCondition := new NSCondition;
     method DoRun; virtual;
-    method Done(ex: NSException); 
+    method Done(ex: NSException);
     method AddOrRunContinueWith(aTask: __ElementsTask);
     constructor(aDelegate: Object; aState: Object);
   public
@@ -38,7 +38,7 @@ type
     property Exception: NSException read fException;
     property AsyncState: Object read fAsyncState;
     property IsFaulted: Boolean read fException <> nil;
-    property IsCompleted: Boolean read fState = TaskState.Done; 
+    property IsCompleted: Boolean read fState = TaskState.Done;
     method &Await(aCompletion: __ElementsIAwaitCompletion): Boolean; // true = yield; false = long done
 
     {$HIDE W38}
@@ -47,10 +47,10 @@ type
     method Wait(aTimeoutMSec: Integer): Boolean; virtual;
 
     method Start(aScheduler: dispatch_queue_t := nil); virtual;
-  
+
     class property ThreadSyncHelper: IThreadSyncHelper := new __ElementsDefaultThreadSyncHelper;
   end;
-  
+
   __ElementsTask1<T> = public class(__ElementsTask)
   assembly
     fResult: T;
@@ -63,9 +63,9 @@ type
     method ContinueWith<TR>(aAction: block(aTask: __ElementsTask1<T>): TR; aState: Object := nil): __ElementsTask1<TR>;
     property &Result: T read getResult;
   end;
-  
+
   __ElementsTaskCompletionSource<T> = public class
-  private 
+  private
     fTask: __ElementsTask1<T>;
   public
     constructor(aState: Object := nil);
@@ -213,18 +213,18 @@ method __ElementsTask.Wait(aTimeoutMSec: Integer): Boolean;
 begin
   if fState = TaskState.Done then
     exit true;
-    
+
   fLock.lock;
   try
     if fState = TaskState.Done then
       exit true;
-      
+
     var lTO := NSDate.date.dateByAddingTimeInterval(aTimeoutMSec * 0.001);
     while fState <> TaskState.Done do begin
       if not fLock.waitUntilDate(lTO) then
         exit false;
     end;
-    
+
     result := true;
   finally
     fLock.unlock;
@@ -261,19 +261,19 @@ method __ElementsTask.Await(aCompletion: __ElementsIAwaitCompletion): Boolean;
 begin
   if IsCompleted then
     exit false;
-    
+
   var q := __ElementsTask.ThreadSyncHelper.GetThreadContext;
   if q <> nil then begin
     ContinueWith(a -> begin
-      __ElementsTask.ThreadSyncHelper.SyncBack(q, -> begin 
+      __ElementsTask.ThreadSyncHelper.SyncBack(q, -> begin
         aCompletion.moveNext(a);
       end);
     end);
   end else
-    ContinueWith(a -> begin 
-      aCompletion.moveNext(a);      
+    ContinueWith(a -> begin
+      aCompletion.moveNext(a);
     end, nil);
-    
+
   result := true;
 end;
 
@@ -282,7 +282,7 @@ end;
 method __ElementsTask1<T>.getResult: T;
 begin
   Wait();
-  if fException <> nil then 
+  if fException <> nil then
     raise fException;
   result := fResult;
 end;
@@ -326,13 +326,13 @@ begin
 
   AddOrRunContinueWith(result);
 end;
-   
+
 { __ElementsTaskCompletionSource<T> }
 
 constructor __ElementsTaskCompletionSource<T>(aState: Object);
 begin
   fTask := new TaskCompletionSourceTask<T>(Object(nil), aState);
-  fTask.fState := TaskState.Started; 
+  fTask.fState := TaskState.Started;
 end;
 
 method __ElementsTaskCompletionSource<T>.SetException(ex: NSException);

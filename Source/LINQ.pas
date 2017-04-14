@@ -11,7 +11,7 @@ type
   PredicateBlock = public block(aItem: not nullable id): Boolean;
   IDBlock = public block(aItem: not nullable id): id;
   ForSelector<T> = public delegate(aIndex: Integer): T;
-  
+
 // Standard Linq Operators
 extension method Foundation.INSFastEnumeration.Where(aBlock: not nullable PredicateBlock): not nullable Foundation.INSFastEnumeration; iterator; public;
 extension method Foundation.INSFastEnumeration.Any(aBlock: not nullable PredicateBlock): Boolean; public;
@@ -87,7 +87,7 @@ extension method Foundation.INSFastEnumeration.orderBy(aBlock: not nullable bloc
 type
   //
   //
-  // CAUTION: Magic type name. 
+  // CAUTION: Magic type name.
   // The compiler will use __Toffee_Linq_Helpers() to assist with LINQ support
   //
   //
@@ -95,7 +95,7 @@ type
   private
     class method IntForHelper(aStart, aEnd, aStep: Integer; aBackward: Boolean; aMethod: ForSelector<id>): not nullable INSFastEnumeration; iterator;
   public
-    class method ForHelper<T>(aStart, aEnd, aStep: Integer; aBackward: Boolean; aMethod: ForSelector<T>): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; 
+    class method ForHelper<T>(aStart, aEnd, aStep: Integer; aBackward: Boolean; aMethod: ForSelector<T>): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
   end;
 
 implementation
@@ -372,32 +372,32 @@ end;
 //
 
 
-extension method RemObjects.Elements.System.INSFastEnumeration<T>.Where(aBlock: not nullable block(aItem: not nullable T): Boolean): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; 
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Where(aBlock: not nullable block(aItem: not nullable T): Boolean): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
 begin
   exit Foundation.INSFastEnumeration(self).Where(PredicateBlock(aBlock));
 end;
 
-extension method RemObjects.Elements.System.INSFastEnumeration<T>.Any(aBlock: not nullable block(aItem: not nullable T): Boolean): Boolean; 
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Any(aBlock: not nullable block(aItem: not nullable T): Boolean): Boolean;
 begin
   exit Foundation.INSFastEnumeration(self).Any(PredicateBlock(aBlock));
 end;
 
-extension method RemObjects.Elements.System.INSFastEnumeration<T>.Take(aCount: NSInteger): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; 
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Take(aCount: NSInteger): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
 begin
   exit Foundation.INSFastEnumeration(self).Take(aCount);
 end;
 
-extension method RemObjects.Elements.System.INSFastEnumeration<T>.Skip(aCount: NSInteger): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; 
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Skip(aCount: NSInteger): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
 begin
   exit Foundation.INSFastEnumeration(self).Skip(aCount);
 end;
 
-extension method RemObjects.Elements.System.INSFastEnumeration<T>.TakeWhile(aBlock: not nullable block(aItem: not nullable T): Boolean): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; 
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.TakeWhile(aBlock: not nullable block(aItem: not nullable T): Boolean): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
 begin
   exit Foundation.INSFastEnumeration(self).TakeWhile(PredicateBlock(aBlock));
 end;
 
-extension method RemObjects.Elements.System.INSFastEnumeration<T>.SkipWhile(aBlock: not nullable block(aItem: not nullable T): Boolean): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; 
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.SkipWhile(aBlock: not nullable block(aItem: not nullable T): Boolean): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
 begin
   exit Foundation.INSFastEnumeration(self).SkipWhile(PredicateBlock(aBlock));
 end;
@@ -412,34 +412,34 @@ begin
   exit Foundation.INSFastEnumeration(self).OrderByDescending(IDBlock(aBlock));
 end;
 
-extension method RemObjects.Elements.System.INSFastEnumeration<T>.Select<T, R>(aBlock: not nullable block(aItem: not nullable T): R): not nullable RemObjects.Elements.System.INSFastEnumeration<R>; 
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Select<T, R>(aBlock: not nullable block(aItem: not nullable T): R): not nullable RemObjects.Elements.System.INSFastEnumeration<R>;
 begin
   exit Foundation.INSFastEnumeration(self).Select(IDBlock(aBlock));
 end;
 
-extension method RemObjects.Elements.System.INSFastEnumeration<T>.Concat(aSecond: not nullable RemObjects.Elements.System.INSFastEnumeration<T>): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; 
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Concat(aSecond: not nullable RemObjects.Elements.System.INSFastEnumeration<T>): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
 begin
   exit Foundation.INSFastEnumeration(self).Concat(Foundation.INSFastEnumeration(aSecond));
 end;
 
-extension method RemObjects.Elements.System.INSFastEnumeration<T>.Reverse: not nullable RemObjects.Elements.System.INSFastEnumeration<T>; 
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Reverse: not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
 begin
   exit Foundation.INSFastEnumeration(self).Reverse;
 end;
 
-extension method RemObjects.Elements.System.INSFastEnumeration<T>.Distinct(aComparator: NSComparator := nil): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; 
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Distinct(aComparator: NSComparator := nil): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
 begin
   exit Foundation.INSFastEnumeration(self).Distinct(aComparator);
 end;
 
-extension method RemObjects.Elements.System.INSFastEnumeration<T>.Intersect(aSecond: not nullable Foundation.INSFastEnumeration; aComparator: NSComparator := nil): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; 
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Intersect(aSecond: not nullable Foundation.INSFastEnumeration; aComparator: NSComparator := nil): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
 begin
   exit Foundation.INSFastEnumeration(self).Intersect(aSecond, aComparator);
 end;
 
-extension method RemObjects.Elements.System.INSFastEnumeration<T>.Except(aSecond: not nullable Foundation.INSFastEnumeration; aComparator: NSComparator := nil): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; 
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Except(aSecond: not nullable Foundation.INSFastEnumeration; aComparator: NSComparator := nil): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
 begin
-  exit Foundation.INSFastEnumeration(self).Except(aSecond, aComparator);  
+  exit Foundation.INSFastEnumeration(self).Except(aSecond, aComparator);
 end;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Contains(aItem: T): Boolean;
@@ -447,7 +447,7 @@ begin
   exit Foundation.INSFastEnumeration(self).Contains(aItem);
 end;
 
-extension method RemObjects.Elements.System.INSFastEnumeration<T>.FirstOrDefault: {nullable} T; 
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.FirstOrDefault: {nullable} T;
 begin
   exit Foundation.INSFastEnumeration(self).FirstOrDefault;
 end;
@@ -467,7 +467,7 @@ begin
   exit Foundation.INSFastEnumeration(self).Count;
 end;
 
-extension method RemObjects.Elements.System.INSFastEnumeration<T>.array: not nullable NSArray<T>; 
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.array: not nullable NSArray<T>;
 begin
   exit Foundation.INSFastEnumeration(self).array() as NSArray<T>;
 end;

@@ -32,7 +32,7 @@ type
     method copyWithZone(zone: ^NSZone): not nullable id;
     { INSCoding }
     method encodeWithCoder(aCoder: not nullable NSCoder);
-    method initWithCoder(aDecoder: not nullable NSCoder): nullable instancetype;    
+    method initWithCoder(aDecoder: not nullable NSCoder): nullable instancetype;
   end;
 
   __ElementsBoxedChar = public class(NSObject, INSCopying, INSCoding)
@@ -132,7 +132,7 @@ end;
 operator __ElementsBoxedChar.NotEqual(object1: __ElementsBoxedChar; object2: id): Boolean;
 begin
   if not assigned(object1) then exit assigned(object2);
-  result := not object1.isEqualTo(object2);  
+  result := not object1.isEqualTo(object2);
 end;
 
 operator __ElementsBoxedChar.NotEqual(object1: id; object2: __ElementsBoxedChar): Boolean;
@@ -247,7 +247,7 @@ end;
 operator __ElementsBoxedAnsiChar.NotEqual(object1: __ElementsBoxedAnsiChar; object2: id): Boolean;
 begin
   if not assigned(object1) then exit assigned(object2);
-  result := not object1.isEqualTo(object2);  
+  result := not object1.isEqualTo(object2);
 end;
 
 operator __ElementsBoxedAnsiChar.NotEqual(object1: id; object2: __ElementsBoxedAnsiChar): Boolean;

@@ -17,7 +17,7 @@ method __ElementsCocoaVersionAtLeast(aMaj, aMin: Integer; aRev: Integer := 0): B
 method __ElementsCocoaVersionString: String; public;
 method __ElementsCocoaVersion: array[0..2] of Integer; public;
 method __ElementsCocoaPlatform: String; public;
-method __ElementsCocoaPlatformIs(s: String): Boolean; public;  
+method __ElementsCocoaPlatformIs(s: String): Boolean; public;
 
 implementation
 

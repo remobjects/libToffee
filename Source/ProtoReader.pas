@@ -45,17 +45,17 @@ begin
     __Elements_ProtoReadType.b64: __Elements_ProtoReadFixed64(var aSelf);
     __Elements_ProtoReadType.message: aSelf := aSelf + __Elements_ProtoReadFixed32(var aSelf);
     __Elements_ProtoReadType.endgroup: ;
-    __Elements_ProtoReadType.startgroup: begin 
+    __Elements_ProtoReadType.startgroup: begin
       var lCount := 1;
       loop begin
         var lRT := __Elements_ProtoReadType(__Elements_ProtoReadVarInt(var aSelf) and $7);
-        if lRT = __Elements_ProtoReadType.startgroup then 
-          inc(lCount) 
+        if lRT = __Elements_ProtoReadType.startgroup then
+          inc(lCount)
         else
         if lRT = __Elements_ProtoReadType.endgroup then begin
           dec(lCount);
           if lCount = 0 then break;
-        end else 
+        end else
           __Elements_ProtoSkipValue(var aSelf, lRT);
       end;
     end;

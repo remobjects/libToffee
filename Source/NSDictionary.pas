@@ -6,7 +6,7 @@ uses
   Foundation;
 
 type
-  NSDictionaryEnumerateBlock = public block(key: id; obj: id; stop: ^Boolean); 
+  NSDictionaryEnumerateBlock = public block(key: id; obj: id; stop: ^Boolean);
   NSDictionaryTestBlock = public block(key: id; obj: id; stop: ^Boolean): Boolean;
 
   NSDictionary<TKey, TValue> = public class mapped to Foundation.NSDictionary
@@ -23,8 +23,8 @@ type
     //class method dictionaryWithObjectsAndKeys(firstObject: not nullable id; params param1: array of id): id; mapped to dictionaryWithObjectsAndKeys(firstObject, param1);
     class method sharedKeySetForKeys(keys: not nullable NSArray<TKey>): id; mapped to sharedKeySetForKeys(keys);
 
-    { Instance Methods }   
-    method allKeysForObject(anObject: not nullable id): NSArray<TKey>; mapped to allKeysForObject(anObject);    
+    { Instance Methods }
+    method allKeysForObject(anObject: not nullable id): NSArray<TKey>; mapped to allKeysForObject(anObject);
     method descriptionWithLocale(locale: id): NSString; mapped to descriptionWithLocale(locale);
     method descriptionWithLocale(locale: id) indent(level: Integer): NSString; mapped to descriptionWithLocale(locale) indent(level);
     method enumerateKeysAndObjectsUsingBlock(&block: not nullable block(key: TKey; obj: TValue; stop: ^Boolean)); mapped to enumerateKeysAndObjectsUsingBlock(NSDictionaryEnumerateBlock(&block));
@@ -46,7 +46,7 @@ type
     property count: NSUInteger read mapped.count;
     property allKeys: NSArray<TKey> read mapped.allKeys;
     property allValues: NSArray<TValue> read mapped.allValues;
-    property descriptionInStringsFileFormat: NSString read mapped.descriptionInStringsFileFormat;     
+    property descriptionInStringsFileFormat: NSString read mapped.descriptionInStringsFileFormat;
     property fileCreationDate: NSDate read mapped.fileCreationDate;
     property fileExtensionHidden: Boolean read mapped.fileExtensionHidden;
     property fileGroupOwnerAccountID: NSNumber read mapped.fileGroupOwnerAccountID;
@@ -62,7 +62,7 @@ type
     property fileSize: Int64 read mapped.fileSize;
     property fileSystemFileNumber: NSUInteger read mapped.fileSystemFileNumber;
     property fileSystemNumber: NSInteger read mapped.fileSystemNumber;
-    property fileType: NSString read mapped.fileType;    
+    property fileType: NSString read mapped.fileType;
     property keyEnumerator: NSEnumerator read mapped.keyEnumerator;
     property objectEnumerator: NSEnumerator read mapped.objectEnumerator;
   end;

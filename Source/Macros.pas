@@ -1,7 +1,7 @@
 ﻿namespace RemObjects.Elements.System;
 
 interface
-  
+
 {$GLOBALS ON}
 
 // Same Signage
@@ -86,7 +86,7 @@ end;
 //
 // Mixec Signage
 //
-function MAX(x: Int32; y: UInt32): UInt32; 
+function MAX(x: Int32; y: UInt32): UInt32;
 begin
   result := if x > y then x else y;
 end;
@@ -151,17 +151,17 @@ end;
 //
 // Mixed Signage
 //
-function MIN(x: Int32; y: UInt32): Int32; 
+function MIN(x: Int32; y: UInt32): Int32;
 begin
   result := if x < y then x else y;
 end;
 
-function MIN(x: UInt32; y: Int32): Int32; 
+function MIN(x: UInt32; y: Int32): Int32;
 begin
   result := if x < y then x else y;
 end;
 
-function MIN(x: Int64; y: UInt64): Int64; 
+function MIN(x: Int64; y: UInt64): Int64;
 begin
   result := if x < y then x else y;
 end;
@@ -194,7 +194,7 @@ begin
   result := if x < 0 then -x else x;
 end;
 
-function ABS(x: Int64): Int64; 
+function ABS(x: Int64): Int64;
 begin
   result := if x < 0 then -x else x;
 end;
@@ -208,7 +208,7 @@ end;
 function ntohs(n: UInt16): UInt16;
 begin
   //{$IF LITTLE_ENDIAN}
-  result := ((n and $FF) shl 8) or 
+  result := ((n and $FF) shl 8) or
             ((n and $FF00) shr 8);
   //{$ELSE}
   result := n;
@@ -248,7 +248,7 @@ end;
 
 function _OSSwapInt16(a: uint16_t): uint16_t;
 begin
-  exit  ((a and $FF) shl 8) or 
+  exit  ((a and $FF) shl 8) or
             ((a and $FF00) shr 8);
 end;
 
@@ -257,7 +257,7 @@ begin
   exit ((a and $ff00000000000000) shr 56) or
        ((a and $00ff000000000000) shr 40) or
        ((a and $0000ff0000000000) shr 24) or
-       ((a and $000000ff00000000) shr 8) or 
+       ((a and $000000ff00000000) shr 8) or
        ((a and $00000000ff000000) shl 8) or
        ((a and $0000000000ff0000) shl 24) or
        ((a and $000000000000ff00) shl 40) or

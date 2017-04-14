@@ -8,9 +8,9 @@ uses
 type
   __ElementsAttribute = public class(Object)
   end;
-  
+
   Attribute = public __ElementsAttribute;
-  
+
   AttributeTargets = public flags (
     &Class = 1 shl 2,
     &Constructor = 1 shl 5,
@@ -21,10 +21,10 @@ type
     &Interface = 1 shl 10,
     &Parameter = 1 shl 11,
     &ReturnValue = 1 shl 13);
-    
+
   __ElementsAttributeUsageAttribute = public class(Attribute)
   public
-    constructor (aValidOn: AttributeTargets); 
+    constructor (aValidOn: AttributeTargets);
     property ValidOn: AttributeTargets; readonly;
   end;
   AttributeUsageAttribute = public __ElementsAttributeUsageAttribute;
@@ -36,7 +36,7 @@ method __ElementsReadAttributes(var aAttributesPtr: ^Byte; aTargetParameter: Int
 method __ElementsReadAttribute(aAttributesPtr, aEnd: ^Byte; aTargetParameter: Integer; aTypeFilter: &Class): Attribute; public;
 method __ElementsGetAttributesBlockForFunction(aMethod: ^Void): ^Byte; public;
 method __ElementsGetAttributesBlockForMethod(aClass: &Class; aInstance: Boolean; aSel: SEL): ^Byte; public;
-  
+
 type
   ElementsTypeMetadata = public record
   private
@@ -50,14 +50,14 @@ type
     Events: ^ElementsEventsData;
     StaticFields: ^ElementsFieldsData;
   end;
-  
+
   ElementsEventsData = public record
   private
   public
     Count, ElementSize: IntPtr;
     Data: array[0..0] of ElementsEventData;
   end;
-  
+
   ElementsEventData = public record
   private
   public
@@ -66,22 +66,22 @@ type
     &Remove,
     &Raise: SEL;
   end;
-  
+
   ElementsFieldsData = public record
   private
   public
     Count, ElementSize: IntPtr;
     Data: array[0..0] of ElementsFieldData;
   end;
-  
+
   ElementsFieldData = public record
   private
   public
     Name: ^AnsiChar;
     FieldData: ^Void;
-    FieldSignature: ^AnsiChar; 
+    FieldSignature: ^AnsiChar;
   end;
-  
+
 method GetClassMetadata(aClass: &Class): ^ElementsTypeMetadata; inline; public;
 method GetAttributesForType(aClass: &Class; aTypeFilter: &Class): NSArray<Attribute>; inline; public;
 method GetAttributesForFunction(aMethod: ^Void; aTypeFilter: &Class): NSArray<Attribute>; inline; public;
@@ -102,17 +102,17 @@ begin
   ValidOn := aValidOn;
 end;
 
-method __ElementsReadAttribute(aAttributesPtr, aEnd: ^Byte; aTargetParameter: Integer; aTypeFilter: &Class): Attribute; 
+method __ElementsReadAttribute(aAttributesPtr, aEnd: ^Byte; aTargetParameter: Integer; aTypeFilter: &Class): Attribute;
 begin
   var lInst: Attribute;
-  
+
   var lTY: __Elements_ProtoReadType;
   var lKey: Integer;
   // type & ctor have to be in order.
   if not __Elements_ProtoReadHeader(var aAttributesPtr, out lKey, out lTY) or (lTY <> __Elements_ProtoReadType.length) or (lKey <> 0) then exit nil;
   var lRealType := objc_getClass(__Elements_ProtoReadString(var aAttributesPtr));
   if lRealType = nil then exit nil;
-  if (aTypeFilter <> nil) and (aTypeFilter <> lRealType) then exit nil; 
+  if (aTypeFilter <> nil) and (aTypeFilter <> lRealType) then exit nil;
   if not __Elements_ProtoReadHeader(var aAttributesPtr, out lKey, out lTY) or (lTY <> __Elements_ProtoReadType.length) or (lKey <> 1) then exit nil;
   var lSelector := NSSelectorFromString(__Elements_ProtoReadString(var aAttributesPtr));
 
@@ -126,21 +126,21 @@ begin
   lInvoker.target := lInst;
   lInvoker.selector := lSelector;
   var lArgIdx: Integer := 2;
-  
-  while aAttributesPtr < aEnd do begin 
+
+  while aAttributesPtr < aEnd do begin
     if not __Elements_ProtoReadHeader(var aAttributesPtr, out lKey, out lTY) then break;
     case lKey of
-      3: begin 
-        if lTY <> __Elements_ProtoReadType.startgroup then begin  
+      3: begin
+        if lTY <> __Elements_ProtoReadType.startgroup then begin
           __Elements_ProtoSkipValue(var aAttributesPtr, lTY);
         end else begin
           var lParName: String;
           loop begin
             if not __Elements_ProtoReadHeader(var aAttributesPtr, out lKey, out lTY) then break;
-            case lKey of 
-              0: begin 
+            case lKey of
+              0: begin
                 lParName := __Elements_ProtoReadString(var aAttributesPtr);
-                if lArgIdx <> 0 then begin 
+                if lArgIdx <> 0 then begin
                   lInvoker.invoke;
                   var lNewInst: unretained id;
                   lInvoker.getReturnValue(@lNewInst);
@@ -148,33 +148,33 @@ begin
                   lArgIdx := 0;
                 end;
               end;
-              1: begin 
+              1: begin
                 var lVal: Int64 := __Elements_ProtoReadVarInt(var aAttributesPtr);
                 if lParName = nil then begin
                   lInvoker.setArgument(@lVal) atIndex(lArgIdx);
                   inc(lArgIdx)
-                end else 
+                end else
                   lInst.setValue(NSNumber.numberWithLongLong(lVal)) forKey(lParName);
               end;
-              2: begin 
+              2: begin
                 var lVal: Double := __Elements_ProtoReadDouble(var aAttributesPtr);
                 if lParName = nil then begin
-                  if lInvoker.methodSignature.getArgumentTypeAtIndex(lArgIdx)^ = 'f' then begin 
+                  if lInvoker.methodSignature.getArgumentTypeAtIndex(lArgIdx)^ = 'f' then begin
                     // single
                     var lVal2: Single := lVal;
                     lInvoker.setArgument(@lVal2) atIndex(lArgIdx);
-                  end else 
+                  end else
                     lInvoker.setArgument(@lVal) atIndex(lArgIdx);
                   inc(lArgIdx)
-                end else 
+                end else
                   lInst.setValue(NSNumber.numberWithDouble(lVal)) forKey(lParName);
               end;
-               3: begin 
+               3: begin
                 var lVal: String := __Elements_ProtoReadString(var aAttributesPtr);
                 if lParName = nil then begin
                   lInvoker.setArgument(@lVal) atIndex(lArgIdx);
                   inc(lArgIdx)
-                end else 
+                end else
                   lInst.setValue(lVal) forKey(lParName);
               end;
               else __Elements_ProtoSkipValue(var aAttributesPtr, lTY);
@@ -187,7 +187,7 @@ begin
       __Elements_ProtoSkipValue(var aAttributesPtr, lTY);
     end;
   end;
-  if lArgIdx <> 0 then begin 
+  if lArgIdx <> 0 then begin
     lInvoker.invoke;
     var lNewInst: unretained id;
     lInvoker.getReturnValue(@lNewInst);
@@ -205,8 +205,8 @@ begin
     var lTY: __Elements_ProtoReadType;
     var lKey: Integer;
     if not __Elements_ProtoReadHeader(var aAttributesPtr, out lKey, out lTY) or (lKey = 0) then break;
-    case lKey of 
-      1: begin 
+    case lKey of
+      1: begin
         if lTY <> __Elements_ProtoReadType.message then break; // not a valid message
         var lLen := __Elements_ProtoReadFixed32(var aAttributesPtr);
         var lItem := __ElementsReadAttribute(aAttributesPtr, aAttributesPtr + lLen, aTargetParameter, aTypeFilter);
@@ -235,19 +235,19 @@ end;
 
 method __ElementsGetAttributesBlockForMethod(aClass: &Class; aInstance: Boolean; aSel: SEL): ^Byte;
 begin
-  exit __ElementsGetAttributesBlockForFunction(^Void(if aInstance then 
+  exit __ElementsGetAttributesBlockForFunction(^Void(if aInstance then
     aClass.instanceMethodForSelector(aSel)
   else
     aClass.methodForSelector(aSel)
   ));
 end;
 
-method GetClassMetadata(aClass: &Class): ^ElementsTypeMetadata; 
-begin 
+method GetClassMetadata(aClass: &Class): ^ElementsTypeMetadata;
+begin
   exit ^ElementsTypeMetadata(__ElementsGetAttributesBlockForFunction(bridge<^Void>(aClass, BridgeMode.Bridge)));
 end;
 
-method GetAttributesForType(aClass: &Class; aTypeFilter: &Class): NSArray<Attribute>; 
+method GetAttributesForType(aClass: &Class; aTypeFilter: &Class): NSArray<Attribute>;
 begin
   var lTmp := GetClassMetadata(aClass);
   if lTmp = nil then exit nil;
@@ -255,44 +255,44 @@ begin
   exit __ElementsReadAttributes(var lTmp2, 0, aTypeFilter);
 end;
 
-method GetAttributesForFunction(aMethod: ^Void; aTypeFilter: &Class): NSArray<Attribute>; 
-begin 
+method GetAttributesForFunction(aMethod: ^Void; aTypeFilter: &Class): NSArray<Attribute>;
+begin
   var lTmp :=__ElementsGetAttributesBlockForFunction(aMethod);
   exit __ElementsReadAttributes(var lTmp, 0, aTypeFilter);
 end;
 
-method GetAttributesForFunctionResult(aMethod: ^Void; aTypeFilter: &Class): NSArray<Attribute>; 
-begin 
+method GetAttributesForFunctionResult(aMethod: ^Void; aTypeFilter: &Class): NSArray<Attribute>;
+begin
   var lTmp :=__ElementsGetAttributesBlockForFunction(aMethod);
   exit __ElementsReadAttributes(var lTmp, 1, aTypeFilter);
 end;
 
-method GetAttributesForFunctionParameter(aMethod: ^Void; aTypeFilter: &Class; aIndex: Integer): NSArray<Attribute>; 
-begin 
+method GetAttributesForFunctionParameter(aMethod: ^Void; aTypeFilter: &Class; aIndex: Integer): NSArray<Attribute>;
+begin
   var lTmp :=__ElementsGetAttributesBlockForFunction(aMethod);
   exit __ElementsReadAttributes(var lTmp, 2 + aIndex, aTypeFilter);
 end;
 
-method GetAttributesForMethod(aClass: &Class; aInstance: Boolean; aSel: SEL; aTypeFilter: &Class): NSArray<Attribute>; 
+method GetAttributesForMethod(aClass: &Class; aInstance: Boolean; aSel: SEL; aTypeFilter: &Class): NSArray<Attribute>;
 begin
   var lTmp :=__ElementsGetAttributesBlockForMethod(aClass, aInstance, aSel);
   exit __ElementsReadAttributes(var lTmp, 0, aTypeFilter);
 end;
 
-method GetAttributesForMethodResult(aClass: &Class; aInstance: Boolean; aSel: SEL; aTypeFilter: &Class): NSArray<Attribute>; 
+method GetAttributesForMethodResult(aClass: &Class; aInstance: Boolean; aSel: SEL; aTypeFilter: &Class): NSArray<Attribute>;
 begin
   var lTmp :=__ElementsGetAttributesBlockForMethod(aClass, aInstance, aSel);
   exit __ElementsReadAttributes(var lTmp, 1, aTypeFilter);
 end;
 
-method GetAttributesForMethodParameter(aClass: &Class; aInstance: Boolean; aSel: SEL; aTypeFilter: &Class; aIndex: Integer): NSArray<Attribute>; 
+method GetAttributesForMethodParameter(aClass: &Class; aInstance: Boolean; aSel: SEL; aTypeFilter: &Class; aIndex: Integer): NSArray<Attribute>;
 begin
   var lTmp :=__ElementsGetAttributesBlockForMethod(aClass, aInstance, aSel);
   exit __ElementsReadAttributes(var lTmp, 2 + aIndex, aTypeFilter);
 end;
 
-method GetAttributesForProperty(aClass: &Class; aIndexInList: Integer; aTypeFilter: &Class): NSArray<Attribute>; 
-begin 
+method GetAttributesForProperty(aClass: &Class; aIndexInList: Integer; aTypeFilter: &Class): NSArray<Attribute>;
+begin
   var lTmp := GetClassMetadata(aClass);
   if lTmp <> nil then begin
     var lPI := ^Byte(lTmp^.PropertyAttributes);
@@ -301,8 +301,8 @@ begin
   exit nil;
 end;
 
-method GetAttributesForEvent(aClass: &Class; aIndexInList: Integer; aTypeFilter: &Class): NSArray<Attribute>; 
-begin 
+method GetAttributesForEvent(aClass: &Class; aIndexInList: Integer; aTypeFilter: &Class): NSArray<Attribute>;
+begin
   var lTmp := GetClassMetadata(aClass);
   if lTmp <> nil then begin
     var lPI := ^Byte(lTmp^.EventAttributes);
@@ -311,8 +311,8 @@ begin
   exit nil;
 end;
 
-method GetAttributesForField(aClass: &Class; aIndexInList: Integer; aTypeFilter: &Class): NSArray<Attribute>; 
-begin 
+method GetAttributesForField(aClass: &Class; aIndexInList: Integer; aTypeFilter: &Class): NSArray<Attribute>;
+begin
   var lTmp := GetClassMetadata(aClass);
   if lTmp <> nil then begin
     var lPI := ^Byte(lTmp^.FieldAttributes);
@@ -321,8 +321,8 @@ begin
   exit nil;
 end;
 
-method GetAttributesForStaticField(aClass: &Class; aIndexInList: Integer; aTypeFilter: &Class): NSArray<Attribute>; 
-begin 
+method GetAttributesForStaticField(aClass: &Class; aIndexInList: Integer; aTypeFilter: &Class): NSArray<Attribute>;
+begin
   var lTmp := GetClassMetadata(aClass);
   if lTmp <> nil then begin
     var lPI := ^Byte(lTmp^.StaticFieldAttributes);
