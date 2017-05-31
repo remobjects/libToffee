@@ -33,5 +33,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)ToffeeErrorException.swift" />
     <Compile Include="$(MSBuildThisFileDirectory)VersionHelpers.pas" />
     <Compile Include="$(MSBuildThisFileDirectory)Globals.pas" />
+    <Compile Include="$(MSBuildThisFileDirectory)Macros.Foundation.pas" />
   </ItemGroup>
 </Project>
