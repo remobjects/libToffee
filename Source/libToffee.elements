@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="4.0">
+  <PropertyGroup>
+    <RootNamespace>RemObjects.Elements.System</RootNamespace>
+    <ProjectGuid>{03c18619-6259-42e4-9766-5c012c3bee67}</ProjectGuid>
+    <OutputType>StaticLibrary</OutputType>
+    <AssemblyName>Toffee</AssemblyName>
+    <AllowLegacyOutParams>False</AllowLegacyOutParams>
+    <AllowLegacyCreate>False</AllowLegacyCreate>
+    <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+    <SDK>iOS</SDK>
+    <CreateHeaderFile>True</CreateHeaderFile>
+    <Name>libToffee (All)</Name>
+    <GenerateDebugInfo>True</GenerateDebugInfo>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Target)' == 'macOS' ">
+    <Mode>Toffee</Mode>
+    <SDK>macOS</SDK>
+    <DeploymentTargetVersion>10.10</DeploymentTargetVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Target)' == 'iOS' ">
+    <Mode>Toffee</Mode>
+    <SDK>iOS</SDK>
+    <Architecture>arm64,armv7s,armv7</Architecture>
+    <SimulatorArchitectures>x86_64,i386</SimulatorArchitectures>
+    <DeploymentTargetVersion>7.0</DeploymentTargetVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Target)' == 'tvOS' ">
+    <Mode>Toffee</Mode>
+    <SDK>tvOS</SDK>
+    <DeploymentTargetVersion>9.0</DeploymentTargetVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Target)' == 'watchOS' ">
+    <Mode>Toffee</Mode>
+    <SDK>watchOS</SDK>
+    <DeploymentTargetVersion>3.0</DeploymentTargetVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <Optimize>false</Optimize>
+    <OutputPath>.\bin\Debug</OutputPath>
+    <EnableAsserts>True</EnableAsserts>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <CaptureConsoleOutput>False</CaptureConsoleOutput>
+    <WarnOnCaseMismatch>True</WarnOnCaseMismatch>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <Optimize>true</Optimize>
+    <OutputPath>.\bin\Release</OutputPath>
+    <EnableAsserts>False</EnableAsserts>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <CaptureConsoleOutput>False</CaptureConsoleOutput>
+    <WarnOnCaseMismatch>True</WarnOnCaseMismatch>
+    <GenerateBitcode>True</GenerateBitcode>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Foundation" />
+    <Reference Include="rtl" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Toffee.targets" />
+  <PropertyGroup>
+    <PreBuildEvent />
+  </PropertyGroup>
+  <Import Project="libToffee-Shared.projitems" Label="Shared" />
+</Project>
