@@ -8,18 +8,19 @@
     <AllowLegacyOutParams>False</AllowLegacyOutParams>
     <AllowLegacyCreate>False</AllowLegacyCreate>
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
-    <SDK>iOS</SDK>
     <CreateHeaderFile>True</CreateHeaderFile>
     <Name>libToffee (All)</Name>
     <GenerateDebugInfo>True</GenerateDebugInfo>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Target)' == 'macOS' ">
     <Mode>Toffee</Mode>
+    <SubMode>macOS</SubMode>
     <SDK>macOS</SDK>
     <DeploymentTargetVersion>10.10</DeploymentTargetVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Target)' == 'iOS' ">
     <Mode>Toffee</Mode>
+    <SubMode>iOS</SubMode>
     <SDK>iOS</SDK>
     <Architecture>arm64,armv7s,armv7</Architecture>
     <SimulatorArchitectures>x86_64,i386</SimulatorArchitectures>
@@ -27,11 +28,13 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Target)' == 'tvOS' ">
     <Mode>Toffee</Mode>
+    <SubMode>tvOS</SubMode>
     <SDK>tvOS</SDK>
     <DeploymentTargetVersion>9.0</DeploymentTargetVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Target)' == 'watchOS' ">
     <Mode>Toffee</Mode>
+    <SubMode>watchOS</SubMode>
     <SDK>watchOS</SDK>
     <DeploymentTargetVersion>3.0</DeploymentTargetVersion>
   </PropertyGroup>
