@@ -14,6 +14,7 @@ type
 
 // Standard Linq Operators
 extension method Foundation.INSFastEnumeration.Where(aBlock: not nullable PredicateBlock): not nullable Foundation.INSFastEnumeration; iterator; public;
+extension method Foundation.INSFastEnumeration.Any(): Boolean; public;
 extension method Foundation.INSFastEnumeration.Any(aBlock: not nullable PredicateBlock): Boolean; public;
 extension method Foundation.INSFastEnumeration.Take(aCount: NSInteger): not nullable Foundation.INSFastEnumeration; iterator; public;
 extension method Foundation.INSFastEnumeration.Skip(aCount: NSInteger): not nullable Foundation.INSFastEnumeration; iterator; public;
@@ -36,11 +37,16 @@ extension method Foundation.INSFastEnumeration.Contains(aItem: id): Boolean; pub
 extension method Foundation.INSFastEnumeration.FirstOrDefault: nullable id; public;
 extension method Foundation.INSFastEnumeration.FirstOrDefault(aBlock: not nullable PredicateBlock): nullable id; public;
 extension method Foundation.INSFastEnumeration.Count: NSInteger; public;
-extension method Foundation.INSFastEnumeration.Any(): Boolean; public;
+
+extension method Foundation.INSFastEnumeration.Max: id; public;
+extension method Foundation.INSFastEnumeration.Max(aBlock: not nullable IDBlock): id; public;
+extension method Foundation.INSFastEnumeration.Min: id; public;
+extension method Foundation.INSFastEnumeration.Min(aBlock: not nullable IDBlock): id; public;
 
 // Generic:
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Where(aBlock: not nullable block(aItem: not nullable T): Boolean): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Any(): Boolean; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Any(aBlock: not nullable block(aItem: not nullable T): Boolean): Boolean; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Take(aCount: NSInteger): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Skip(aCount: NSInteger): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
@@ -63,7 +69,11 @@ extension method RemObjects.Elements.System.INSFastEnumeration<T>.Contains(aItem
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.FirstOrDefault: {nullable} T; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.FirstOrDefault(aBlock: not nullable block(aItem: not nullable T): Boolean): {nullable} T; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Count: NSInteger; inline; public;
-extension method RemObjects.Elements.System.INSFastEnumeration<T>.Any(): Boolean; inline; public;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Max: T; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Max<T,R>(aBlock: not nullable block(aItem: not nullable T): R): R; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Min: T; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Min<T,R>(aBlock: not nullable block(aItem: not nullable T): R): R; inline; public;
 
 // Join
 // GroupJoin
@@ -367,6 +377,38 @@ begin
   end;
 end;
 
+extension method Foundation.INSFastEnumeration.Max: id;
+begin
+  for each i in self do
+    if not assigned(result) or (result.compare(i) = NSComparisonResult.OrderedAscending) then
+      result := i;
+end;
+
+extension method Foundation.INSFastEnumeration.Max(aBlock: not nullable IDBlock): id;
+begin
+  for each i in self do begin
+    var i2 := aBlock(i);
+    if not assigned(result) or (result.compare(i2) = NSComparisonResult.OrderedAscending) then
+      result := i2;
+  end;
+end;
+
+extension method Foundation.INSFastEnumeration.Min: id;
+begin
+  for each i in self do
+    if not assigned(result) or (result.compare(i) = NSComparisonResult.OrderedDescending) then
+      result := i;
+end;
+
+extension method Foundation.INSFastEnumeration.Min(aBlock: not nullable IDBlock): id;
+begin
+  for each i in self do begin
+    var i2 := aBlock(i);
+    if not assigned(result) or (result.compare(i2) = NSComparisonResult.OrderedDescending) then
+      result := i2;
+  end;
+end;
+
 //
 // Generic versions
 //
@@ -465,6 +507,26 @@ end;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Count: NSInteger;
 begin
   exit Foundation.INSFastEnumeration(self).Count;
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Max: T;
+begin
+  result := Foundation.INSFastEnumeration(self).Max;
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Max<T,R>(aBlock: not nullable block(aItem: not nullable T): R): R;
+begin
+  result := Foundation.INSFastEnumeration(self).Max(IDBlock(aBlock));
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Min: T;
+begin
+  result := Foundation.INSFastEnumeration(self).Min;
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Min<T,R>(aBlock: not nullable block(aItem: not nullable T): R): R;
+begin
+  result := Foundation.INSFastEnumeration(self).Min(IDBlock(aBlock));
 end;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.array: not nullable NSArray<T>;
