@@ -267,10 +267,10 @@ begin
   var lDictionary := new NSMutableDictionary;
   for each i in self do begin
     var lKey := aBlock(i);
-    var lGrouping := lDictionary[lKey];
+    var lGrouping: Grouping<id,id> := lDictionary[lKey];
     if not assigned(lGrouping) then begin
       lGrouping := new Grouping<id,id>();
-      lGrouping.key := lKey;
+      lGrouping.Key := lKey;
       lDictionary[lKey] := lGrouping;
     end;
     lGrouping.addObject(i);
