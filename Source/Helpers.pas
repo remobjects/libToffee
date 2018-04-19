@@ -11,8 +11,16 @@ method __ElementsClassLockEnter(var x: intptr_t): Boolean; public;
 method __ElementsClassLockExit(var x: intptr_t); public;
 
 method __ElementsReadLine(): String; public;
+method __ElementsRaiseException(s: String); public;
 
 implementation
+
+method __ElementsRaiseException(s: String);
+begin 
+  if s = nil then 
+    NSException.&raise('NullReferenceException') format('Null Reference Exception');
+  NSException.&raise('NullReferenceException') format('Null Reference Exception for expression: %@', s);
+end;
 
 method __ElementsClassLockEnter(var x: intptr_t): Boolean;
 begin
