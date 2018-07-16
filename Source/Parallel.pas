@@ -34,9 +34,10 @@ type
         end;
         if ls.IsStopped then Break;
         interlockedInc(var lcurrTasks);
+        var temp := m;
         new Task(->
           begin
-            body.Invoke(m, ls);
+            body.Invoke(temp, ls);
             interlockedDec(var lcurrTasks);
             levent.lock;
             try
@@ -75,9 +76,10 @@ type
         end;
         if ls.IsStopped then Break;
         interlockedInc(var lcurrTasks);
+        var temp := m;
         new Task(->
           begin
-            body.Invoke(m, ls);
+            body.Invoke(temp, ls);
             interlockedDec(var lcurrTasks);
             levent.lock;
             try
@@ -115,9 +117,10 @@ type
         end;
         if ls.IsStopped then Break;
         interlockedDec(var lcurrTasks);
+        var temp := m;
         new Task(->
           begin
-            body.Invoke(m, ls);
+            body.Invoke(temp, ls);
             interlockedDec(var lcurrTasks);
             levent.lock;
             try
