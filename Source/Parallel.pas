@@ -116,7 +116,7 @@ type
           end;
         end;
         if ls.IsStopped then Break;
-        interlockedDec(var lcurrTasks);
+        interlockedInc(var lcurrTasks);
         var temp := m;
         new Task(->
           begin
