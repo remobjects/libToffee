@@ -12,7 +12,6 @@
     <CreateHeaderFile>True</CreateHeaderFile>
     <Name>libToffee (watchOS)</Name>
     <GenerateDebugInfo>True</GenerateDebugInfo>
-    <Architecture>armv7k</Architecture>
     <SimulatorArchitectures>i386</SimulatorArchitectures>
     <DeploymentTargetVersion>2.0</DeploymentTargetVersion>
     <DefineConstants>WATCHOS</DefineConstants>
