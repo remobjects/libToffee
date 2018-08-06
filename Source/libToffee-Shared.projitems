@@ -19,14 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Task.pas" />
     <None Include="$(MSBuildThisFileDirectory)LinqHelpers.pas" />
     <Compile Include="$(MSBuildThisFileDirectory)Macros.pas" />
-    <Compile Include="$(MSBuildThisFileDirectory)NSArray.pas" />
-    <Compile Include="$(MSBuildThisFileDirectory)NSCountedSet.pas" />
-    <Compile Include="$(MSBuildThisFileDirectory)NSDictionary.pas" />
     <Compile Include="$(MSBuildThisFileDirectory)NSException.pas" />
-    <Compile Include="$(MSBuildThisFileDirectory)NSMutableArray.pas" />
-    <Compile Include="$(MSBuildThisFileDirectory)NSMutableDictionary.pas" />
-    <Compile Include="$(MSBuildThisFileDirectory)NSMutableSet.pas" />
-    <Compile Include="$(MSBuildThisFileDirectory)NSSet.pas" />
     <Compile Include="$(MSBuildThisFileDirectory)Protocols.pas" />
     <Compile Include="$(MSBuildThisFileDirectory)Tuple.pas" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers.pas" />
@@ -34,5 +27,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)VersionHelpers.pas" />
     <Compile Include="$(MSBuildThisFileDirectory)Globals.pas" />
     <Compile Include="$(MSBuildThisFileDirectory)Macros.Foundation.pas" />
+    <Compile Include="$(MSBuildThisFileDirectory)Parallel.pas" />
   </ItemGroup>
 </Project>
