@@ -3,6 +3,7 @@
 uses
   Foundation;
 
+[SwiftName("NSLocalizedString(key:, comment:)")]
 method NSLocalizedString(aKey: String; aIgnoredComment: String): String; public; inline;
 begin
   result := NSBundle.mainBundle.localizedStringForKey(aKey) value("") table(nil);
