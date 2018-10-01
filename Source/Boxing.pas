@@ -30,6 +30,7 @@ type
     method isEqualTo(object: id): Boolean; reintroduce;
     { INSCopying }
     method copyWithZone(zone: ^NSZone): not nullable id;
+    method mutableCopyWithZone(zone: ^NSZone): not nullable id;
     { INSCoding }
     method encodeWithCoder(aCoder: not nullable NSCoder);
     method initWithCoder(aDecoder: not nullable NSCoder): nullable instancetype;
@@ -59,6 +60,7 @@ type
     method isLessThanOrEqualTo(object: id): Boolean; reintroduce;
     { INSCopying }
     method copyWithZone(zone: ^NSZone): not nullable id;
+    method mutableCopyWithZone(zone: ^NSZone): not nullable id;
     { INSCoding }
     method encodeWithCoder(aCoder: not nullable NSCoder);
     method initWithCoder(aDecoder: not nullable NSCoder): nullable instancetype;
@@ -88,6 +90,7 @@ type
     method isLessThanOrEqualTo(object: id): Boolean; reintroduce;
     { INSCopying }
     method copyWithZone(zone: ^NSZone): not nullable id;
+    method mutableCopyWithZone(zone: ^NSZone): not nullable id;
     { INSCoding }
     method encodeWithCoder(aCoder: not nullable NSCoder);
     method initWithCoder(aDecoder: not nullable NSCoder): nullable instancetype;
@@ -193,6 +196,11 @@ begin
 end;
 
 method __ElementsBoxedChar.copyWithZone(zone: ^NSZone): not nullable id;
+begin
+  result := __ElementsBoxedChar.allocWithZone(zone).initWithChar(charValue) as not nullable;
+end;
+
+method __ElementsBoxedChar.mutableCopyWithZone(zone: ^NSZone): not nullable id;
 begin
   result := __ElementsBoxedChar.allocWithZone(zone).initWithChar(charValue) as not nullable;
 end;
@@ -312,6 +320,11 @@ begin
   result := __ElementsBoxedAnsiChar.allocWithZone(zone).initWithAnsiChar(ansiCharValue) as not nullable;
 end;
 
+method __ElementsBoxedAnsiChar.mutableCopyWithZone(zone: ^NSZone): not nullable id;
+begin
+  result := __ElementsBoxedAnsiChar.allocWithZone(zone).initWithAnsiChar(ansiCharValue) as not nullable;
+end;
+
 method __ElementsBoxedAnsiChar.initWithCoder(aDecoder: not nullable NSCoder): nullable instancetype;
 begin
   var len: NSUInteger;
@@ -400,7 +413,12 @@ end;
 
 method __ElementsBoxedStruct.copyWithZone(zone: ^NSZone): not nullable id;
 begin
-  raise new NSException("NSCopying is not supported for boxed structs.")
+  exit self;
+end;
+
+method __ElementsBoxedStruct.mutableCopyWithZone(zone: ^NSZone): not nullable id;
+begin
+  exit self;
 end;
 
 method __ElementsBoxedStruct.initWithCoder(aDecoder: not nullable NSCoder): nullable instancetype;
