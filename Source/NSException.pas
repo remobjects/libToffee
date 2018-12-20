@@ -10,12 +10,12 @@ type
   private
   protected
   public
-    method init(aMessage: String): instancetype;
+    constructor(aMessage: String);
   end;
 
 implementation
 
-method NSException_Toffee.init(aMessage: String): instancetype;
+constructor NSException_Toffee(aMessage: String);
 begin
   var lClass := self.class.description; // Can't be inlined as self is set to nil during the init call.
   result := self.initWithName(lClass) reason(aMessage) userInfo(nil);
