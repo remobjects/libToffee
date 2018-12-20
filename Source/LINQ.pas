@@ -252,7 +252,7 @@ end;
 type
   Grouping<K,T> = class(IGrouping<K,T>)
   private
-    var fArray := new NSMutableArray; implements RemObjects.Elements.System.INSFastEnumeration<T>;
+    var fArray := new NSMutableArray; implements public RemObjects.Elements.System.INSFastEnumeration<T>;
   unit
     method addObject(aValue: T);
     begin
