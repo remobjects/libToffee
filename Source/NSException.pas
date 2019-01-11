@@ -11,6 +11,7 @@ type
   protected
   public
     constructor(aMessage: String);
+    property Message: String read reason;
   end;
 
 implementation
