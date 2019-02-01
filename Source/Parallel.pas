@@ -99,13 +99,13 @@ type
       end;
     end;
 
-    class method ForEach<TSource>(source: INSFastEnumeration<TSource>; body: block(aSource: TSource; aState: ParallelLoopState));
+    class method ForEach<TSource>(source: INSFastEnumeration<TSource>; body: block(aSource: TSource; aState: ParallelLoopState; aIndex: Int64));
     begin
       var lthreadcnt := rtl.sysconf(rtl._SC_NPROCESSORS_ONLN);
       var lcurrTasks: Integer := 0;
       var levent := new NSCondition();
       var ls:= new ParallelLoopState();
-      for m in source do begin
+      for m in source index n do begin
         while interlockedInc(var lcurrTasks, 0) >= lthreadcnt do begin
           if ls.IsStopped then Break;
           levent.lock;
@@ -118,9 +118,10 @@ type
         if ls.IsStopped then Break;
         interlockedInc(var lcurrTasks);
         var temp := m;
+        var tempi := n;
         new Task(->
           begin
-            body.Invoke(temp, ls);
+            body.Invoke(temp, ls, tempi);
             interlockedDec(var lcurrTasks);
             levent.lock;
             try
