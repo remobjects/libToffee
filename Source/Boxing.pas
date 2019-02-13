@@ -33,7 +33,7 @@ type
     method mutableCopyWithZone(zone: ^NSZone): not nullable id;
     { INSCoding }
     method encodeWithCoder(aCoder: not nullable NSCoder);
-    method initWithCoder(aDecoder: not nullable NSCoder): nullable instancetype;
+    method initWithCoder(aDecoder: not nullable NSCoder): nullable InstanceType;
   end;
 
   __ElementsBoxedChar = public class(NSObject, INSCopying, INSCoding)
@@ -63,7 +63,7 @@ type
     method mutableCopyWithZone(zone: ^NSZone): not nullable id;
     { INSCoding }
     method encodeWithCoder(aCoder: not nullable NSCoder);
-    method initWithCoder(aDecoder: not nullable NSCoder): nullable instancetype;
+    method initWithCoder(aDecoder: not nullable NSCoder): nullable InstanceType;
   end;
 
   __ElementsBoxedAnsiChar = public class(NSObject, INSCopying, INSCoding)
@@ -93,7 +93,7 @@ type
     method mutableCopyWithZone(zone: ^NSZone): not nullable id;
     { INSCoding }
     method encodeWithCoder(aCoder: not nullable NSCoder);
-    method initWithCoder(aDecoder: not nullable NSCoder): nullable instancetype;
+    method initWithCoder(aDecoder: not nullable NSCoder): nullable InstanceType;
   end;
 
 implementation

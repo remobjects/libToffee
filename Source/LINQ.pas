@@ -96,9 +96,11 @@ extension method RemObjects.Elements.System.INSFastEnumeration<T>.Min<T,R>(aBloc
 
 // Useful helper methods
 extension method Foundation.INSFastEnumeration.array: not nullable NSArray; public;
+extension method Foundation.INSFastEnumeration.ToNSArray: not nullable NSArray; public;
 extension method Foundation.INSFastEnumeration.dictionary(aKeyBlock: IDBlock; aValueBlock: IDBlock): not nullable NSDictionary; public;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.array: not nullable NSArray<T>; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.ToNSArray: not nullable NSArray<T>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.dictionary(aKeyBlock: block(aItem: id): id; aValueBlock: block(aItem: id): id): not nullable NSDictionary; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.dictionary<T,K,V>(aKeyBlock: block(aItem: T): K; aValueBlock: block(aItem: T): V): not nullable NSDictionary<K, V>; inline; public;
 
@@ -218,7 +220,7 @@ end;
 
 extension method Foundation.INSFastEnumeration.orderBy(aBlock: not nullable block(aItem: id): id) comparator(aComparator: NSComparator): not nullable Foundation.INSFastEnumeration;
 begin
-  result := self.array().sortedArrayUsingComparator(aComparator);
+  result := self.array().sortedArrayUsingComparator(aComparator) as not nullable;
 end;
 
 extension method Foundation.INSFastEnumeration.OrderBy(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration;
@@ -317,7 +319,7 @@ end;
 
 extension method Foundation.INSFastEnumeration.Reverse: not nullable Foundation.INSFastEnumeration;
 begin
-  var lArray := self.array();
+  var lArray := self.ToNSArray();
   for i: NSInteger := lArray.count-1 downto 0 do
     yield lArray[i];
 end;
@@ -337,7 +339,7 @@ end;
 
 extension method Foundation.INSFastEnumeration.Intersect(aSecond: not nullable Foundation.INSFastEnumeration; aComparator: NSComparator := nil): not nullable Foundation.INSFastEnumeration;
 begin
-  var lSecond := aSecond.array();
+  var lSecond := aSecond.ToNSArray();
   for each i in self do
     if lSecond.containsObject(i) then
       yield i;
@@ -345,8 +347,8 @@ end;
 
 extension method Foundation.INSFastEnumeration.Except(aSecond: not nullable Foundation.INSFastEnumeration; aComparator: NSComparator := nil): not nullable Foundation.INSFastEnumeration;
 begin
-  var lFirst := self.Distinct().array();
-  var lSecond := aSecond.Distinct().array();
+  var lFirst := self.Distinct().ToNSArray();
+  var lSecond := aSecond.Distinct().ToNSArray();
   for each i in lFirst do
     if not lSecond.containsObject(i) then
       yield i;
@@ -360,7 +362,13 @@ end;
 // Helpers
 //
 
+[Obsolete("Use ToNSArray() instead")]
 extension method Foundation.INSFastEnumeration.array(): not nullable NSArray;
+begin
+  result := self.ToNSArray();
+end;
+
+extension method Foundation.INSFastEnumeration.ToNSArray(): not nullable NSArray;
 begin
   if (self is NSArray) then exit self as NSArray;
 
@@ -371,7 +379,7 @@ end;
 
 extension method Foundation.INSFastEnumeration.dictionary(aKeyBlock: IDBlock; aValueBlock: IDBlock): not nullable NSDictionary;
 begin
-  var lArray := self.array();
+  var lArray := self.ToNSArray();
   result := new NSMutableDictionary withCapacity(lArray.count);
   for each i in lArray do
     NSMutableDictionary(result)[aKeyBlock(i)] := aValueBlock(i);
@@ -601,9 +609,15 @@ begin
   result := Foundation.INSFastEnumeration(self).Min(IDBlock(aBlock));
 end;
 
+[Obsolete("Use ToNSArray() instead")]
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.array: not nullable NSArray<T>;
 begin
-  exit Foundation.INSFastEnumeration(self).array() as NSArray<T>;
+  exit Foundation.INSFastEnumeration(self).ToNSArray() as NSArray<T>;
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.ToNSArray: not nullable NSArray<T>;
+begin
+  exit Foundation.INSFastEnumeration(self).ToNSArray() as NSArray<T>;
 end;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.dictionary(aKeyBlock: block(aItem: id): id; aValueBlock: block(aItem: id): id): not nullable NSDictionary;
