@@ -4,7 +4,7 @@
     <RootNamespace>RemObjects.Elements.System</RootNamespace>
     <ProjectGuid>{03c18619-6259-42e4-9766-5c012c3bee67}</ProjectGuid>
     <OutputType>StaticLibrary</OutputType>
-    <AssemblyName>Toffee</AssemblyName>
+    <BinaryName>Toffee</BinaryName>
     <AllowLegacyOutParams>False</AllowLegacyOutParams>
     <AllowLegacyCreate>False</AllowLegacyCreate>
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
