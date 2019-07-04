@@ -14,10 +14,12 @@ method CocoaPlatform: String;inline; public;
 method CocoaPlatformIs(s: String): Boolean;inline; public;
 
 method __ElementsCocoaVersionAtLeast(aMaj, aMin: Integer; aRev: Integer := 0): Boolean; public;
+method __ElementsCocoaPlatformAndVersionAtLeast(aPlatformName: String; aMaj, aMin: Integer; aRev: Integer := 0): Boolean;
 method __ElementsCocoaVersionString: String; public;
+method __ElementsCocoaUIKitForMacVersionString: String; public;
 method __ElementsCocoaVersion: array[0..2] of Integer; public;
 method __ElementsCocoaPlatform: String; public;
-method __ElementsCocoaPlatformIs(s: String): Boolean; public;
+method __ElementsCocoaPlatformIs(aPlatformName: String): Boolean; public;
 
 implementation
 
@@ -48,18 +50,33 @@ end;
 
 
 var __ElementsLoadedCocoaVersion: array[0..3] of Integer;
+var __ElementsLoadedUIKitForMacVersion: array[0..3] of Integer;
 
 method __ElementsLoadCocoaVersion;
 begin
-  if __ElementsLoadedCocoaVersion[0] = 1 then exit;
+  if __ElementsLoadedCocoaVersion[0] = 1 then
+    exit;
+
   __ElementsLoadedCocoaVersion[0] := 1;
   if NSProcessInfo.processInfo.respondsToSelector(selector(operatingSystemVersion)) then begin
     var version := NSProcessInfo.processInfo.operatingSystemVersion;
     __ElementsLoadedCocoaVersion[1] := version.majorVersion;
     __ElementsLoadedCocoaVersion[2] := version.minorVersion;
     __ElementsLoadedCocoaVersion[3] := version.patchVersion;
+
+    if __ElementsLoadedCocoaVersion[2] ≥ 15 then begin
+      __ElementsLoadedUIKitForMacVersion[0] := 1;
+      __ElementsLoadedUIKitForMacVersion[1] := __ElementsLoadedCocoaVersion[2]-2;
+      __ElementsLoadedUIKitForMacVersion[2] := __ElementsLoadedCocoaVersion[3];
+      __ElementsLoadedUIKitForMacVersion[3] := 0;
+    end;
+
     exit;
   end;
+
+  //
+  // fallback, operatingSystemVersion is new in macOS 10.10, iOS 8,
+  //
   {$IFDEF TARGET_OS_IPHONE}
   if NSFoundationVersionNumber >=  NSFoundationVersionNumber_iOS_8_0 then __ElementsLoadedCocoaVersion := [1, 8, 0, 0] else
   if NSFoundationVersionNumber >=  NSFoundationVersionNumber_iOS_7_1 then __ElementsLoadedCocoaVersion := [1, 7, 1, 0] else
@@ -113,10 +130,40 @@ begin
   exit true;
 end;
 
+method __ElementsUIKitForMacVersionAtLeast(aMaj, aMin: Integer; aRev: Integer := 0): Boolean;
+begin
+  __ElementsLoadCocoaVersion;
+  if (aMaj > __ElementsLoadedUIKitForMacVersion[1]) then exit false;
+  if (aMaj = __ElementsLoadedUIKitForMacVersion[1]) then begin
+    if (aMin > __ElementsLoadedUIKitForMacVersion[2]) then exit false;
+    if (aMin = __ElementsLoadedUIKitForMacVersion[2]) then begin
+      if (aRev > __ElementsLoadedUIKitForMacVersion[3]) then exit false;
+    end;
+  end;
+  exit true;
+end;
+
+method __ElementsCocoaPlatformAndVersionAtLeast(aPlatformName: String; aMaj, aMin: Integer; aRev: Integer := 0): Boolean;
+begin
+  case aPlatformName:lowercaseString of
+    'tvos': {$IFDEF TARGET_OS_TV}exit __ElementsCocoaVersionAtLeast(aMaj, aMin, aRev){$ENDIF};
+    'watchos': {$IFDEF TARGET_OS_WATCH}exit __ElementsCocoaVersionAtLeast(aMaj, aMin, aRev){$ENDIF};
+    'ios', 'iphoneos', 'ipados': {$IFDEF TARGET_OS_UIKITFORMAC}exit __ElementsUIKitForMacVersionAtLeast(aMaj, aMin, aRev){$ELSEIF TARGET_OS_IPHONE}exit __ElementsCocoaVersionAtLeast(aMaj, aMin, aRev){$ENDIF};
+    'macos', 'mac os x', 'os x', 'mac os': {$IFDEF TARGET_OS_MAC OR TARGET_OS_UIKITFORMAC}exit __ElementsCocoaVersionAtLeast(aMaj, aMin, aRev){$ENDIF};
+    'uikitformac', 'uikit for mac': {$IFDEF TARGET_OS_UIKITFORMAC}exit __ElementsUIKitForMacVersionAtLeast(aMaj, aMin, aRev){$ENDIF};
+  end;
+end;
+
 method __ElementsCocoaVersionString: String;
 begin
   __ElementsLoadCocoaVersion;
   exit NSString.stringWithFormat('%d.%d.%d', __ElementsLoadedCocoaVersion[1],__ElementsLoadedCocoaVersion[2],__ElementsLoadedCocoaVersion[3]);
+end;
+
+method __ElementsCocoaUIKitForMacVersionString: String;
+begin
+  __ElementsLoadCocoaVersion;
+  exit NSString.stringWithFormat('%d.%d.%d', __ElementsLoadedUIKitForMacVersion[1],__ElementsLoadedUIKitForMacVersion[2],__ElementsLoadedUIKitForMacVersion[3]);
 end;
 
 method __ElementsCocoaVersion: array[0..2] of Integer;
@@ -129,6 +176,9 @@ end;
 
 method __ElementsCocoaPlatform: String;
 begin
+  {$IFDEF TARGET_OS_UIKITFORMAC}
+  exit 'UIKitForMac';
+  {$ENDIF}
   {$IFDEF TARGET_OS_WATCH}
   exit 'watchOS';
   {$ENDIF}
@@ -143,13 +193,14 @@ begin
   {$ENDIF}
 end;
 
-method __ElementsCocoaPlatformIs(s: String): Boolean;
+method __ElementsCocoaPlatformIs(aPlatformName: String): Boolean;
 begin
-  case s of
-    'tv OS', 'tvos', 'tvOS': exit {$IFDEF TARGET_OS_TV}true{$else}false{$ENDIF};
-    'watch OS', 'watchos', 'watchOS': exit {$IFDEF TARGET_OS_WATCH}true{$else}false{$ENDIF};
-    'i OS', 'ios', 'iPhoneOS', 'iOS': exit {$IFDEF TARGET_OS_IPHONE}true{$else}false{$ENDIF};
-    'mac OS', 'macos', 'macOS', 'MacOs': exit {$IFDEF TARGET_OS_MAC}true{$else}false{$ENDIF};
+  case aPlatformName:lowercaseString of
+    'tvos': exit {$IFDEF TARGET_OS_TV}true{$ELSE}false{$ENDIF};
+    'watchos': exit {$IFDEF TARGET_OS_WATCH}true{$ELSE}false{$ENDIF};
+    'ios', 'iphoneos', 'ipados': exit {$IFDEF TARGET_OS_IPHONE OR TARGET_OS_UIKITFORMAC}true{$ELSE}false{$ENDIF};
+    'mac os', 'macos', 'mac os x', 'os x': exit {$IFDEF TARGET_OS_MAC OR TARGET_OS_UIKITFORMAC}true{$ELSE}false{$ENDIF};
+    'uikitformac', 'uikit for mac': exit {$IFDEF TARGET_OS_IPHONE OR TARGET_OS_UIKITFORMAC}true{$ELSE}false{$ENDIF};
   end;
   exit false;
 end;
