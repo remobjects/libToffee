@@ -14,7 +14,7 @@ method CocoaPlatform: String;inline; public;
 method CocoaPlatformIs(s: String): Boolean;inline; public;
 
 method __ElementsCocoaVersionAtLeast(aMaj, aMin: Integer; aRev: Integer := 0): Boolean; public;
-method __ElementsCocoaPlatformAndVersionAtLeast(aPlatformName: String; aMaj, aMin: Integer; aRev: Integer := 0): Boolean;
+method __ElementsCocoaPlatformAndVersionAtLeast(aPlatformName: String; aMaj, aMin: Integer; aRev: Integer := 0): Boolean;public;
 method __ElementsCocoaVersionString: String; public;
 method __ElementsCocoaUIKitForMacVersionString: String; public;
 method __ElementsCocoaVersion: array[0..2] of Integer; public;
