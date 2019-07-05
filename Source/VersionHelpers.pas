@@ -14,7 +14,7 @@ method CocoaPlatform: String;inline; public;
 method CocoaPlatformIs(s: String): Boolean;inline; public;
 
 method __ElementsCocoaVersionAtLeast(aMaj, aMin: Integer; aRev: Integer := 0): Boolean; public;
-method __ElementsCocoaPlatformAndVersionAtLeast(aPlatformName: String; aMaj, aMin: Integer; aRev: Integer := 0): Boolean;
+method __ElementsCocoaPlatformAndVersionAtLeast(aPlatformName: String; aMaj, aMin: Integer; aRev: Integer := 0): Boolean; public;
 method __ElementsCocoaVersionString: String; public;
 method __ElementsCocoaUIKitForMacVersionString: String; public;
 method __ElementsCocoaVersion: array[0..2] of Integer; public;
@@ -58,14 +58,14 @@ begin
     exit;
 
   __ElementsLoadedCocoaVersion[0] := 1;
+  __ElementsLoadedUIKitForMacVersion[0] := 1;
   if NSProcessInfo.processInfo.respondsToSelector(selector(operatingSystemVersion)) then begin
     var version := NSProcessInfo.processInfo.operatingSystemVersion;
     __ElementsLoadedCocoaVersion[1] := version.majorVersion;
     __ElementsLoadedCocoaVersion[2] := version.minorVersion;
     __ElementsLoadedCocoaVersion[3] := version.patchVersion;
 
-    if __ElementsLoadedCocoaVersion[2] ≥ 15 then begin
-      __ElementsLoadedUIKitForMacVersion[0] := 1;
+    if defined("TARGET_OS_UIKITFORMAC") and (__ElementsLoadedCocoaVersion[2] ≥ 15) then begin
       __ElementsLoadedUIKitForMacVersion[1] := __ElementsLoadedCocoaVersion[2]-2;
       __ElementsLoadedUIKitForMacVersion[2] := __ElementsLoadedCocoaVersion[3];
       __ElementsLoadedUIKitForMacVersion[3] := 0;
