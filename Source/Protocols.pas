@@ -11,6 +11,10 @@ type
     method CompareTo(rhs: T): Integer;
   end;
 
+  IDisposable = public interface
+    method Dispose;
+  end;
+
 implementation
 
 end.
