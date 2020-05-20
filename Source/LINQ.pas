@@ -46,6 +46,10 @@ extension method Foundation.INSFastEnumeration.First: nullable id; public;
 extension method Foundation.INSFastEnumeration.First(aBlock: not nullable PredicateBlock): nullable id; public;
 extension method Foundation.INSFastEnumeration.FirstOrDefault: nullable id; public;
 extension method Foundation.INSFastEnumeration.FirstOrDefault(aBlock: not nullable PredicateBlock): nullable id; public;
+extension method Foundation.INSFastEnumeration.Last: nullable id; public;
+extension method Foundation.INSFastEnumeration.Last(aBlock: not nullable PredicateBlock): nullable id; public;
+extension method Foundation.INSFastEnumeration.LastOrDefault: nullable id; public;
+extension method Foundation.INSFastEnumeration.LastOrDefault(aBlock: not nullable PredicateBlock): nullable id; public;
 extension method Foundation.INSFastEnumeration.Count: NSInteger; public;
 
 extension method Foundation.INSFastEnumeration.Max: id; public;
@@ -84,6 +88,10 @@ extension method RemObjects.Elements.System.INSFastEnumeration<T>.First: {nullab
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.First(aBlock: not nullable block(aItem: not nullable T): Boolean): {nullable} T; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.FirstOrDefault: {nullable} T; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.FirstOrDefault(aBlock: not nullable block(aItem: not nullable T): Boolean): {nullable} T; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Last: {nullable} T; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Last(aBlock: not nullable block(aItem: not nullable T): Boolean): {nullable} T; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.LastOrDefault: {nullable} T; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.LastOrDefault(aBlock: not nullable block(aItem: not nullable T): Boolean): {nullable} T; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Count: NSInteger; inline; public;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Max: T; inline; public;
@@ -436,6 +444,46 @@ begin
       exit i;
 end;
 
+extension method Foundation.INSFastEnumeration.Last(): nullable id;
+begin
+  if self is NSArray then begin
+    result := (self as NSArray).Last;
+  end
+  else begin
+    for each i in self do
+      result := i;
+  end;
+  if not assigned(result) then
+    raise new Exception("Sequence is empty.");
+end;
+
+extension method Foundation.INSFastEnumeration.Last(aBlock: not nullable PredicateBlock): nullable id;
+begin
+  for each i in self do
+    if aBlock(i) then
+      result := i;
+  if not assigned(result) then
+    raise new Exception("Sequence is empty.");
+end;
+
+extension method Foundation.INSFastEnumeration.LastOrDefault(): nullable id;
+begin
+  if self is NSArray then begin
+    result := (self as NSArray).Last;
+  end
+  else begin
+    for each i in self do
+      result := i;
+  end;
+end;
+
+extension method Foundation.INSFastEnumeration.LastOrDefault(aBlock: not nullable PredicateBlock): nullable id;
+begin
+  for each i in self do
+    if aBlock(i) then
+      result := i;
+end;
+
 extension method Foundation.INSFastEnumeration.Any(): Boolean;
 begin
   var lState: NSFastEnumerationState := default(NSFastEnumerationState);
@@ -605,6 +653,27 @@ extension method RemObjects.Elements.System.INSFastEnumeration<T>.FirstOrDefault
 begin
   exit Foundation.INSFastEnumeration(self).FirstOrDefault(PredicateBlock(aBlock));
 end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Last: {nullable} T;
+begin
+  exit Foundation.INSFastEnumeration(self).Last;
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Last(aBlock: not nullable block(aItem: not nullable T): Boolean): {nullable} T;
+begin
+  exit Foundation.INSFastEnumeration(self).Last(PredicateBlock(aBlock));
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.LastOrDefault: {nullable} T;
+begin
+  exit Foundation.INSFastEnumeration(self).LastOrDefault;
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.LastOrDefault(aBlock: not nullable block(aItem: not nullable T): Boolean): {nullable} T;
+begin
+  exit Foundation.INSFastEnumeration(self).LastOrDefault(PredicateBlock(aBlock));
+end;
+
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Any(): Boolean;
 begin
