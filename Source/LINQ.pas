@@ -447,7 +447,7 @@ end;
 extension method Foundation.INSFastEnumeration.Last(): nullable id;
 begin
   if self is NSArray then begin
-    result := (self as NSArray).Last;
+    result := (self as NSArray).lastObject;
   end
   else begin
     for each i in self do
@@ -469,7 +469,7 @@ end;
 extension method Foundation.INSFastEnumeration.LastOrDefault(): nullable id;
 begin
   if self is NSArray then begin
-    result := (self as NSArray).Last;
+    result := (self as NSArray).lastObject;
   end
   else begin
     for each i in self do
