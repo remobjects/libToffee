@@ -14,6 +14,7 @@
     <GenerateDebugInfo>True</GenerateDebugInfo>
     <DeploymentTargetVersion>7.0</DeploymentTargetVersion>
     <DefineConstants>IOS</DefineConstants>
+    <SupportUIKitForMac>True</SupportUIKitForMac>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Optimize>false</Optimize>

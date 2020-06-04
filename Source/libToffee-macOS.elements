@@ -2,13 +2,13 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="4.0">
   <PropertyGroup>
     <RootNamespace>RemObjects.Elements.System</RootNamespace>
-    <ProjectGuid>{104f50c3-3a92-4d03-919d-0de94acc0dbd}</ProjectGuid>
+    <ProjectGuid>{104F50C3-3A92-4D03-919D-0DE94ACC0DBD}</ProjectGuid>
     <OutputType>StaticLibrary</OutputType>
     <AssemblyName>Toffee</AssemblyName>
     <AllowLegacyOutParams>False</AllowLegacyOutParams>
     <AllowLegacyCreate>False</AllowLegacyCreate>
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
-    <SDK>OS X</SDK>
+    <SDK>macOS</SDK>
     <DeploymentTargetVersion>10.6</DeploymentTargetVersion>
     <CreateHeaderFile>True</CreateHeaderFile>
     <Name>libToffee (macOS)</Name>
