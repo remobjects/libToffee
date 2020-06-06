@@ -22,8 +22,6 @@
     <Mode>Toffee</Mode>
     <SubMode>iOS</SubMode>
     <SDK>iOS</SDK>
-    <Architecture>arm64,armv7s,armv7</Architecture>
-    <SimulatorArchitectures>x86_64,i386</SimulatorArchitectures>
     <DeploymentTargetVersion>7.0</DeploymentTargetVersion>
     <SupportUIKitForMac>True</SupportUIKitForMac>
   </PropertyGroup>
