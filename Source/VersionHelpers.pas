@@ -60,15 +60,24 @@ begin
   __ElementsLoadedCocoaVersion[0] := 1;
   __ElementsLoadedUIKitForMacVersion[0] := 1;
   if NSProcessInfo.processInfo.respondsToSelector(selector(operatingSystemVersion)) then begin
+    {$HIDE NH0}
     var version := NSProcessInfo.processInfo.operatingSystemVersion;
+    {$SHOW NH0}
     __ElementsLoadedCocoaVersion[1] := version.majorVersion;
     __ElementsLoadedCocoaVersion[2] := version.minorVersion;
     __ElementsLoadedCocoaVersion[3] := version.patchVersion;
 
-    if defined("TARGET_OS_UIKITFORMAC") and (__ElementsLoadedCocoaVersion[2] ≥ 15) then begin
-      __ElementsLoadedUIKitForMacVersion[1] := __ElementsLoadedCocoaVersion[2]-2;
-      __ElementsLoadedUIKitForMacVersion[2] := __ElementsLoadedCocoaVersion[3];
-      __ElementsLoadedUIKitForMacVersion[3] := 0;
+    if defined("TARGET_OS_UIKITFORMAC") and CocoaVersionAtLeast(10, 15) then begin
+      if (__ElementsLoadedCocoaVersion[1] = "10") and (__ElementsLoadedCocoaVersion[2] in [15,16]) then begin // Special handling for 10.15 and (temp) 10.16
+        __ElementsLoadedUIKitForMacVersion[1] := __ElementsLoadedCocoaVersion[2]-2; // 15 -> 13, 16 -> 14
+        __ElementsLoadedUIKitForMacVersion[2] := __ElementsLoadedCocoaVersion[3];
+        __ElementsLoadedUIKitForMacVersion[3] := 0;
+      end
+      else begin // 11.0 and above
+        __ElementsLoadedUIKitForMacVersion[1] := __ElementsLoadedCocoaVersion[1]+3; // 11 -> 14
+        __ElementsLoadedUIKitForMacVersion[2] := __ElementsLoadedCocoaVersion[2]; // (guesswork, until we know where macOS versioing goes after 11.00
+        __ElementsLoadedUIKitForMacVersion[3] := 0;
+      end;
     end;
 
     exit;
@@ -150,7 +159,7 @@ begin
     'watchos': {$IFDEF TARGET_OS_WATCH}exit __ElementsCocoaVersionAtLeast(aMaj, aMin, aRev){$ENDIF};
     'ios', 'iphoneos', 'ipados': {$IFDEF TARGET_OS_UIKITFORMAC}exit __ElementsUIKitForMacVersionAtLeast(aMaj, aMin, aRev){$ELSEIF TARGET_OS_IPHONE}exit __ElementsCocoaVersionAtLeast(aMaj, aMin, aRev){$ENDIF};
     'macos', 'mac os x', 'os x', 'mac os': {$IFDEF TARGET_OS_MAC OR TARGET_OS_UIKITFORMAC}exit __ElementsCocoaVersionAtLeast(aMaj, aMin, aRev){$ENDIF};
-    'uikitformac', 'uikit for mac': {$IFDEF TARGET_OS_UIKITFORMAC}exit __ElementsUIKitForMacVersionAtLeast(aMaj, aMin, aRev){$ENDIF};
+    'uikitformac', 'uikit for mac' 'mac catalyst', 'maccatalyst', 'catalyst': {$IFDEF TARGET_OS_UIKITFORMAC}exit __ElementsUIKitForMacVersionAtLeast(aMaj, aMin, aRev){$ENDIF};
   end;
 end;
 
@@ -177,7 +186,7 @@ end;
 method __ElementsCocoaPlatform: String;
 begin
   {$IFDEF TARGET_OS_UIKITFORMAC}
-  exit 'UIKitForMac';
+  exit 'Mac Catalyst';
   {$ENDIF}
   {$IFDEF TARGET_OS_WATCH}
   exit 'watchOS';
@@ -200,7 +209,7 @@ begin
     'watchos': exit {$IFDEF TARGET_OS_WATCH}true{$ELSE}false{$ENDIF};
     'ios', 'iphoneos', 'ipados': exit {$IFDEF TARGET_OS_IPHONE OR TARGET_OS_UIKITFORMAC}true{$ELSE}false{$ENDIF};
     'mac os', 'macos', 'mac os x', 'os x': exit {$IFDEF TARGET_OS_MAC OR TARGET_OS_UIKITFORMAC}true{$ELSE}false{$ENDIF};
-    'uikitformac', 'uikit for mac': exit {$IFDEF TARGET_OS_IPHONE OR TARGET_OS_UIKITFORMAC}true{$ELSE}false{$ENDIF};
+    'uikitformac', 'uikit for mac' 'mac catalyst', 'maccatalyst', 'catalyst': exit {$IFDEF TARGET_OS_IPHONE OR TARGET_OS_UIKITFORMAC}true{$ELSE}false{$ENDIF};
   end;
   exit false;
 end;
