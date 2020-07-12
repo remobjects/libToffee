@@ -159,7 +159,7 @@ begin
     'watchos': {$IFDEF TARGET_OS_WATCH}exit __ElementsCocoaVersionAtLeast(aMaj, aMin, aRev){$ENDIF};
     'ios', 'iphoneos', 'ipados': {$IFDEF TARGET_OS_UIKITFORMAC}exit __ElementsUIKitForMacVersionAtLeast(aMaj, aMin, aRev){$ELSEIF TARGET_OS_IPHONE}exit __ElementsCocoaVersionAtLeast(aMaj, aMin, aRev){$ENDIF};
     'macos', 'mac os x', 'os x', 'mac os': {$IFDEF TARGET_OS_MAC OR TARGET_OS_UIKITFORMAC}exit __ElementsCocoaVersionAtLeast(aMaj, aMin, aRev){$ENDIF};
-    'uikitformac', 'uikit for mac' 'mac catalyst', 'maccatalyst', 'catalyst': {$IFDEF TARGET_OS_UIKITFORMAC}exit __ElementsUIKitForMacVersionAtLeast(aMaj, aMin, aRev){$ENDIF};
+    'uikitformac', 'uikit for mac', 'mac catalyst', 'maccatalyst', 'catalyst': {$IFDEF TARGET_OS_UIKITFORMAC}exit __ElementsUIKitForMacVersionAtLeast(aMaj, aMin, aRev){$ENDIF};
   end;
 end;
 
@@ -209,7 +209,7 @@ begin
     'watchos': exit {$IFDEF TARGET_OS_WATCH}true{$ELSE}false{$ENDIF};
     'ios', 'iphoneos', 'ipados': exit {$IFDEF TARGET_OS_IPHONE OR TARGET_OS_UIKITFORMAC}true{$ELSE}false{$ENDIF};
     'mac os', 'macos', 'mac os x', 'os x': exit {$IFDEF TARGET_OS_MAC OR TARGET_OS_UIKITFORMAC}true{$ELSE}false{$ENDIF};
-    'uikitformac', 'uikit for mac' 'mac catalyst', 'maccatalyst', 'catalyst': exit {$IFDEF TARGET_OS_IPHONE OR TARGET_OS_UIKITFORMAC}true{$ELSE}false{$ENDIF};
+    'uikitformac', 'uikit for mac', 'mac catalyst', 'maccatalyst', 'catalyst': exit {$IFDEF TARGET_OS_IPHONE OR TARGET_OS_UIKITFORMAC}true{$ELSE}false{$ENDIF};
   end;
   exit false;
 end;
