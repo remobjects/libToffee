@@ -232,7 +232,7 @@ end;
 
 extension method Foundation.INSFastEnumeration.orderBy(aBlock: not nullable block(aItem: id): id) comparator(aComparator: NSComparator): not nullable Foundation.INSFastEnumeration;
 begin
-  result := self.array().sortedArrayUsingComparator(aComparator) as not nullable;
+  result := self.ToNSArray().sortedArrayUsingComparator(aComparator) as not nullable;
 end;
 
 extension method Foundation.INSFastEnumeration.OrderBy(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration;
