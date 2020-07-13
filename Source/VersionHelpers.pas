@@ -67,6 +67,14 @@ begin
     __ElementsLoadedCocoaVersion[2] := version.minorVersion;
     __ElementsLoadedCocoaVersion[3] := version.patchVersion;
 
+    // hack for macOS 11.0 reporting 10.16. Hopefully we can revert before RTM
+    if defined("TARGET_OS_MAC") or defined("TARGET_OS_UIKITFORMAC") then begin
+      if (__ElementsLoadedCocoaVersion[1] = 10) and (__ElementsLoadedCocoaVersion[2] = 16) then begin
+        __ElementsLoadedCocoaVersion[1] := 11;
+        __ElementsLoadedCocoaVersion[2] := 0;
+      end;
+    end;
+
     if defined("TARGET_OS_UIKITFORMAC") and CocoaVersionAtLeast(10, 15) then begin
       if (__ElementsLoadedCocoaVersion[1] = "10") and (__ElementsLoadedCocoaVersion[2] in [15,16]) then begin // Special handling for 10.15 and (temp) 10.16
         __ElementsLoadedUIKitForMacVersion[1] := __ElementsLoadedCocoaVersion[2]-2; // 15 -> 13, 16 -> 14
