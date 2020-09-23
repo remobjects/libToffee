@@ -204,7 +204,6 @@ begin
   rtl.free(props);
   res.appendString(']}');
   __ElementsObjcClassInfoToStringValue := res;
-  writeLn('Inside api!');
   exit __ElementsObjcClassInfoToStringValue.UTF8String;
   //exit buf;
 end;
