@@ -13,7 +13,7 @@ method __ElementsClassLockExit(var x: intptr_t); public;
 method __ElementsReadLine(): String; public;
 method __ElementsNullReferenceRaiseException(s: String); public;
 
-method __ElementsObjcClassInfoToString(clz: &Class): String; public;
+method __ElementsObjcClassInfoToString(clz: &Class): ^AnsiChar; public;
 
 implementation
 
@@ -60,7 +60,9 @@ begin
   end;
 end;
 
-method __ElementsObjcClassInfoToString(clz: &Class):String;
+var __ElementsObjcClassInfoToStringValue: String;
+
+method __ElementsObjcClassInfoToString(clz: &Class): ^AnsiChar;
 begin
   var cl := class_getName(clz);
   var s := new  Foundation.NSString withCString(cl) encoding(Foundation.NSStringEncoding.UTF8StringEncoding);
@@ -201,11 +203,9 @@ begin
   end;
   rtl.free(props);
   res.appendString(']}');
-  // var buf := new AnsiChar[res.length+1];
-  // res.getCString(buf);
-  exit res;
-  // var buf := new AnsiChar[res.length+1];
-  // res.getCString(buf);
+  __ElementsObjcClassInfoToStringValue := res;
+  writeLn('Inside api!');
+  exit __ElementsObjcClassInfoToStringValue.UTF8String;
   //exit buf;
 end;
 
