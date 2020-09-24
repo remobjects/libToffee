@@ -104,7 +104,7 @@ begin
   rtl.free(methods);
   res.appendString(']');
   begin
-    res.appendString( ',"propeties":[');
+    res.appendString( ',"properties":[');
     //var methodCount: UInt32 := 0;
     var props: ^objc_property_t := class_copyPropertyList(clz, @methodCount);
     for i: Integer := 0 to methodCount - 1 do begin
