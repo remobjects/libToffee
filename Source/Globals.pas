@@ -1,21 +1,35 @@
 ﻿namespace RemObjects.Elements.System;
 
-interface
+operator Add(aLeft, aRight: NSDecimalNumber): NSDecimalNumber; public;
+begin
+  exit aLeft.decimalNumberByAdding(aRight);
+end;
 
-{$G+}
+operator Subtract(aLeft, aRight: NSDecimalNumber): NSDecimalNumber; public;
+begin
+  exit aLeft.decimalNumberBySubtracting(aRight);
+end;
+
+
+operator Multiply(aLeft, aRight: NSDecimalNumber): NSDecimalNumber; public;
+begin
+  exit aLeft.decimalNumberByMultiplyingBy(aRight);
+end;
+
+
+operator Divide(aLeft, aRight: NSDecimalNumber): NSDecimalNumber; public;
+begin
+  exit aLeft.decimalNumberByDividingBy(aRight);
+end;
+
+
+
 operator Pow(a, b: Double): Double; public;
-operator Pow(a, b: Int64): Int64; public;
-operator Pow(a, b: Integer): Integer; public;
-
-implementation
-
-
-operator Pow(a, b: Double): Double;
 begin
   exit rtl.pow(a,b);
 end;
 
-operator Pow(a, b: Int64): Int64;
+operator Pow(a, b: Int64): Int64; public;
 begin
   result := 1;
   if b < 0 then exit 0;
@@ -26,7 +40,7 @@ begin
   end;
 end;
 
-operator Pow(a, b: Integer): Integer;
+operator Pow(a, b: Integer): Integer; public;
 begin
   result := 1;
   if b < 0 then exit 0;
