@@ -1,4 +1,6 @@
 ﻿namespace RemObjects.Elements.System;
+uses
+  Foundation;
 
 operator Add(aLeft, aRight: NSDecimalNumber): NSDecimalNumber; public;
 begin
