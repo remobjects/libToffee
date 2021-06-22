@@ -9,6 +9,12 @@ type
   protected
   public
 
+    constructor;
+    begin
+      var lClass := self.class.description; // Can't be inlined as self is set to nil during the init call.
+      result := self.initWithName(lClass) reason($"An exception of type {lClass} was thrown.") userInfo(nil);
+    end;
+
     constructor(aMessage: String);
     begin
       var lClass := self.class.description; // Can't be inlined as self is set to nil during the init call.
