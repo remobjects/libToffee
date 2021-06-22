@@ -8,8 +8,8 @@ uses
 {$G+}
 
 method CocoaVersionAtLeast(aMaj, aMin: Integer; aRev: Integer := 0): Boolean; inline; public;
-method CocoaVersionString: String;inline; public;
-method CocoaVersion: array[0..2] of Integer;inline; public;
+method CocoaVersionString: String; inline; public;
+method CocoaVersion: array[0..2] of Integer; inline; public;
 method CocoaPlatform: String;inline; public;
 method CocoaPlatformIs(s: String): Boolean;inline; public;
 
