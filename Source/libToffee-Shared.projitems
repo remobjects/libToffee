@@ -4,9 +4,8 @@
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
     <SharedGUID>30DEB81A-AFE1-4431-A80C-9C3380070FFD</SharedGUID>
-  </PropertyGroup>
-  <PropertyGroup Label="Configuration">
     <Import_RootNamespace>libToffeeShared</Import_RootNamespace>
+    <ProjectGuid>{30DEB81A-AFE1-4431-A80C-9C3380070FFD}</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ArrayUtils.pas" />

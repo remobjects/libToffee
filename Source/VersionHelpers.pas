@@ -5,13 +5,11 @@ interface
 uses
   Foundation;
 
-{$G+}
-
 method CocoaVersionAtLeast(aMaj, aMin: Integer; aRev: Integer := 0): Boolean; inline; public;
 method CocoaVersionString: String; inline; public;
 method CocoaVersion: array[0..2] of Integer; inline; public;
-method CocoaPlatform: String;inline; public;
-method CocoaPlatformIs(s: String): Boolean;inline; public;
+method CocoaPlatform: String; inline; public;
+method CocoaPlatformIs(s: String): Boolean; inline; public;
 
 method __ElementsCocoaVersionAtLeast(aMaj, aMin: Integer; aRev: Integer := 0): Boolean; public;
 method __ElementsCocoaPlatformAndVersionAtLeast(aPlatformName: String; aMaj, aMin: Integer; aRev: Integer := 0): Boolean; public;
