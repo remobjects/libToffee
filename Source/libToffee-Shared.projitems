@@ -27,5 +27,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Globals.pas" />
     <Compile Include="$(MSBuildThisFileDirectory)Macros.Foundation.pas" />
     <Compile Include="$(MSBuildThisFileDirectory)Parallel.pas" />
+    <Compile Include="$(MSBuildThisFileDirectory)Index.pas" />
   </ItemGroup>
 </Project>
