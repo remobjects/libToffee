@@ -84,7 +84,7 @@ type
 
   private
 
-  // The following private constructors mainly created for perf reason to avoid the checks
+    // The following private constructors mainly created for perf reason to avoid the checks
     constructor(aValue: Integer);
     begin
       fValue := aValue;
@@ -96,6 +96,56 @@ type
     end;
 
     var fValue: Integer;
+  end;
+
+  Range = public record(IEquatable<Range>)
+  public
+
+    constructor(aStart: &Index; aEnd: &Index);
+    begin
+      fStart := aStart;
+      fEnd := aEnd;
+    end;
+
+    class method StartAt(aStart: &Index): Range;
+    begin
+      result := new Range(aStart, new &Index(0, true));
+    end;
+
+    class method EndAt(aEnd: &Index): Range;
+    begin
+      result := new Range(new &Index(0, false), aEnd);
+    end;
+
+    class property All: Range read new Range(new &Index(0, false), new &Index(0, true));
+
+    //operator Range(aStart: &Index := 0; aEnd: &Index := ^0): Range;
+    //begin
+      //result := new Range(aStart, aEnd);
+    //end;
+
+    property Start: &Index read fStart;
+    property &End: &Index read fEnd;
+
+    method GetOffsets(aLength: Integer): not nullable &Tuple2<Integer, Integer>;
+    begin
+      result := &Tuple.New(fStart.GetOffset(aLength), fEnd.GetOffset(aLength));
+    end;
+
+    method &Equals(aValue: Range): Boolean;
+    begin
+      exit (aValue is Range) and fStart.Equals(Range(aValue).fStart) and fEnd.Equals(Range(aValue).fEnd);
+    end;
+
+    [ToString]
+    method description: String; override;
+    begin
+      result := fStart.description+".."+fEnd.description;
+    end;
+
+  assembly
+    fStart: &Index;
+    fEnd: &Index;
   end;
 
 end.
