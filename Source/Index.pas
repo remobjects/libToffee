@@ -137,11 +137,11 @@ type
       exit (aValue is Range) and fStart.Equals(Range(aValue).fStart) and fEnd.Equals(Range(aValue).fEnd);
     end;
 
-    [ToString]
-    method description: String; override;
-    begin
-      result := fStart.description+".."+fEnd.description;
-    end;
+    //[ToString]
+    //method description: String; override;
+    //begin
+      //result := Foundation.NSString.stringWithFormat("%@..%@", fStart.description, fEnd.description);
+    //end;
 
   assembly
     fStart: &Index;
