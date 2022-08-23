@@ -6,6 +6,7 @@
     <SharedGUID>30DEB81A-AFE1-4431-A80C-9C3380070FFD</SharedGUID>
     <Import_RootNamespace>libToffeeShared</Import_RootNamespace>
     <ProjectGuid>{30DEB81A-AFE1-4431-A80C-9C3380070FFD}</ProjectGuid>
+    <RootNamespace>RemObjects.Elements.System</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ArrayUtils.pas" />
@@ -28,5 +29,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Macros.Foundation.pas" />
     <Compile Include="$(MSBuildThisFileDirectory)Parallel.pas" />
     <Compile Include="$(MSBuildThisFileDirectory)Index.pas" />
+    <Compile Include="$(MSBuildThisFileDirectory)NSString.pas" />
   </ItemGroup>
 </Project>
