@@ -76,67 +76,67 @@ type
 
   Tuple = public static class
   assembly
-    class method Unwrap(val: id): id; inline;
-    class method Wrap(val: id): id; inline;
+    class method Unwrap(val: id): nullable id; inline;
+    class method Wrap(val: id): not nullable id; inline;
   public
-     class method &New<T1>(aItem1: T1): &Tuple1<T1>; inline;
-     class method &New<T1, T2>(aItem1: T1; aItem2: T2): &Tuple2<T1, T2>; inline;
-     class method &New<T1, T2, T3>(aItem1: T1; aItem2: T2; aItem3: T3): &Tuple3<T1, T2, T3>; inline;
-     class method &New<T1, T2, T3, T4>(aItem1: T1; aItem2: T2; aItem3: T3;  aItem4: T4): &Tuple4<T1, T2, T3, T4>; inline;
-     class method &New<T1, T2, T3, T4, T5>(aItem1: T1; aItem2: T2; aItem3: T3;  aItem4: T4; aItem5: T5): &Tuple5<T1, T2, T3, T4, T5>; inline;
-     class method &New<T1, T2, T3, T4, T5, T6>(aItem1: T1; aItem2: T2; aItem3: T3;  aItem4: T4; aItem5: T5; aItem6: T6): &Tuple6<T1, T2, T3, T4, T5, T6>; inline;
-     class method &New<T1, T2, T3, T4, T5, T6, T7>(aItem1: T1; aItem2: T2; aItem3: T3;  aItem4: T4; aItem5: T5; aItem6: T6; aItem7: T7): &Tuple7<T1, T2, T3, T4, T5, T6, T7>; inline;
-     class method &New<T1, T2, T3, T4, T5, T6, T7, T8>(aItem1: T1; aItem2: T2; aItem3: T3;  aItem4: T4; aItem5: T5; aItem6: T6; aItem7: T7; aItem8: T8): &Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>; inline;
+     class method &New<T1>(aItem1: T1): not nullable &Tuple1<T1>; inline;
+     class method &New<T1, T2>(aItem1: T1; aItem2: T2): not nullable &Tuple2<T1, T2>; inline;
+     class method &New<T1, T2, T3>(aItem1: T1; aItem2: T2; aItem3: T3): not nullable &Tuple3<T1, T2, T3>; inline;
+     class method &New<T1, T2, T3, T4>(aItem1: T1; aItem2: T2; aItem3: T3;  aItem4: T4): not nullable &Tuple4<T1, T2, T3, T4>; inline;
+     class method &New<T1, T2, T3, T4, T5>(aItem1: T1; aItem2: T2; aItem3: T3;  aItem4: T4; aItem5: T5): not nullable &Tuple5<T1, T2, T3, T4, T5>; inline;
+     class method &New<T1, T2, T3, T4, T5, T6>(aItem1: T1; aItem2: T2; aItem3: T3;  aItem4: T4; aItem5: T5; aItem6: T6): not nullable &Tuple6<T1, T2, T3, T4, T5, T6>; inline;
+     class method &New<T1, T2, T3, T4, T5, T6, T7>(aItem1: T1; aItem2: T2; aItem3: T3;  aItem4: T4; aItem5: T5; aItem6: T6; aItem7: T7): not nullable &Tuple7<T1, T2, T3, T4, T5, T6, T7>; inline;
+     class method &New<T1, T2, T3, T4, T5, T6, T7, T8>(aItem1: T1; aItem2: T2; aItem3: T3;  aItem4: T4; aItem5: T5; aItem6: T6; aItem7: T7; aItem8: T8): not nullable &Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>; inline;
   end;
 
 implementation
 
-class method Tuple.Unwrap(val: id): id;
+class method Tuple.Unwrap(val: id): nullable id;
 begin
   if val = NSNull.null then exit nil else exit val;
 end;
 
-class method Tuple.Wrap(val: id): id;
+class method Tuple.Wrap(val: id): not nullable id;
 begin
-  exit coalesce(val, NSNull.null);
+  exit coalesce(val, NSNull.null) as not nullable;
 end;
 
-class method Tuple.&New<T1>(aItem1: T1): &Tuple1<T1>;
+class method Tuple.&New<T1>(aItem1: T1): not nullable &Tuple1<T1>;
 begin
    exit &Tuple1<T1>(Foundation.NSArray.arrayWithObjects(Wrap(aItem1), nil));
 end;
 
-class method Tuple.&New<T1, T2>(aItem1: T1; aItem2: T2): &Tuple2<T1, T2>;
+class method Tuple.&New<T1, T2>(aItem1: T1; aItem2: T2): not nullable &Tuple2<T1, T2>;
 begin
    exit &Tuple2<T1, T2>(Foundation.NSArray.arrayWithObjects(Wrap(aItem1), Wrap(aItem2), nil));
 end;
 
-class method Tuple.&New<T1, T2, T3>(aItem1: T1; aItem2: T2; aItem3: T3): &Tuple3<T1, T2, T3>;
+class method Tuple.&New<T1, T2, T3>(aItem1: T1; aItem2: T2; aItem3: T3): not nullable &Tuple3<T1, T2, T3>;
 begin
    exit &Tuple3<T1, T2, T3>(Foundation.NSArray.arrayWithObjects(Wrap(aItem1), Wrap(aItem2), Wrap(aItem3), nil));
 end;
 
-class method Tuple.&New<T1, T2, T3, T4>(aItem1: T1; aItem2: T2; aItem3: T3;  aItem4: T4): &Tuple4<T1, T2, T3, T4>;
+class method Tuple.&New<T1, T2, T3, T4>(aItem1: T1; aItem2: T2; aItem3: T3; aItem4: T4): not nullable &Tuple4<T1, T2, T3, T4>;
 begin
    exit &Tuple4<T1, T2, T3, T4>(Foundation.NSArray.arrayWithObjects(Wrap(aItem1), Wrap(aItem2), Wrap(aItem3), Wrap(aItem4), nil));
 end;
 
-class method Tuple.&New<T1, T2, T3, T4, T5>(aItem1: T1; aItem2: T2; aItem3: T3;  aItem4: T4; aItem5: T5): &Tuple5<T1, T2, T3, T4, T5>;
+class method Tuple.&New<T1, T2, T3, T4, T5>(aItem1: T1; aItem2: T2; aItem3: T3; aItem4: T4; aItem5: T5): not nullable &Tuple5<T1, T2, T3, T4, T5>;
 begin
    exit &Tuple5<T1, T2, T3, T4, T5>(Foundation.NSArray.arrayWithObjects(Wrap(aItem1), Wrap(aItem2), Wrap(aItem3), Wrap(aItem4), Wrap(aItem5), nil));
 end;
 
-class method Tuple.&New<T1, T2, T3, T4, T5, T6>(aItem1: T1; aItem2: T2; aItem3: T3;  aItem4: T4; aItem5: T5; aItem6: T6): &Tuple6<T1, T2, T3, T4, T5, T6>;
+class method Tuple.&New<T1, T2, T3, T4, T5, T6>(aItem1: T1; aItem2: T2; aItem3: T3; aItem4: T4; aItem5: T5; aItem6: T6): not nullable &Tuple6<T1, T2, T3, T4, T5, T6>;
 begin
    exit &Tuple6<T1, T2, T3, T4, T5, T6>(Foundation.NSArray.arrayWithObjects(Wrap(aItem1), Wrap(aItem2), Wrap(aItem3), Wrap(aItem4), Wrap(aItem5), Wrap(aItem6), nil));
 end;
 
-class method Tuple.&New<T1, T2, T3, T4, T5, T6, T7>(aItem1: T1; aItem2: T2; aItem3: T3;  aItem4: T4; aItem5: T5; aItem6: T6; aItem7: T7): &Tuple7<T1, T2, T3, T4, T5, T6, T7>;
+class method Tuple.&New<T1, T2, T3, T4, T5, T6, T7>(aItem1: T1; aItem2: T2; aItem3: T3; aItem4: T4; aItem5: T5; aItem6: T6; aItem7: T7): not nullable &Tuple7<T1, T2, T3, T4, T5, T6, T7>;
 begin
  exit &Tuple7<T1, T2, T3, T4, T5, T6, T7>(Foundation.NSArray.arrayWithObjects(Wrap(aItem1), Wrap(aItem2), Wrap(aItem3), Wrap(aItem4), Wrap(aItem5), Wrap(aItem6), Wrap(aItem7), nil));
 end;
 
-class method Tuple.&New<T1, T2, T3, T4, T5, T6, T7, T8>(aItem1: T1; aItem2: T2; aItem3: T3;  aItem4: T4; aItem5: T5; aItem6: T6; aItem7: T7; aItem8: T8): &Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>;
+class method Tuple.&New<T1, T2, T3, T4, T5, T6, T7, T8>(aItem1: T1; aItem2: T2; aItem3: T3; aItem4: T4; aItem5: T5; aItem6: T6; aItem7: T7; aItem8: T8): not nullable &Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>;
 begin
  exit &Tuple8<T1, T2, T3, T4, T5, T6, T7, T8>(Foundation.NSArray.arrayWithObjects(Wrap(aItem1), Wrap(aItem2), Wrap(aItem3), Wrap(aItem4), Wrap(aItem5), Wrap(aItem6), Wrap(aItem7), Wrap(aItem8), nil));
 end;
