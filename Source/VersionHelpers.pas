@@ -11,6 +11,8 @@ method CocoaVersion: array[0..2] of Integer; inline; public;
 method CocoaPlatform: String; inline; public;
 method CocoaPlatformIs(s: String): Boolean; inline; public;
 
+method __ElementsPlatformAndVersionAtLeast(aPlatformName: String; aMaj, aMin: Integer; aRev: Integer := 0): Boolean; public;
+
 method __ElementsCocoaVersionAtLeast(aMaj, aMin: Integer; aRev: Integer := 0): Boolean; public;
 method __ElementsCocoaPlatformAndVersionAtLeast(aPlatformName: String; aMaj, aMin: Integer; aRev: Integer := 0): Boolean; public;
 method __ElementsCocoaVersionString: String; public;
@@ -165,6 +167,11 @@ begin
 end;
 
 method __ElementsCocoaPlatformAndVersionAtLeast(aPlatformName: String; aMaj, aMin: Integer; aRev: Integer := 0): Boolean;
+begin
+  result := __ElementsPlatformAndVersionAtLeast(aPlatformName, aMaj, aMin, aRev);
+end;
+
+method __ElementsPlatformAndVersionAtLeast(aPlatformName: String; aMaj, aMin: Integer; aRev: Integer := 0): Boolean;
 begin
   case aPlatformName:lowercaseString of
     'tvos': {$IFDEF TARGET_OS_TV}exit __ElementsCocoaVersionAtLeast(aMaj, aMin, aRev){$ENDIF};
