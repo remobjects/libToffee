@@ -1,4 +1,4 @@
-﻿namespace RemObjects.Elements;
+﻿namespace RemObjects.Elements.System;
 
 interface
 
@@ -26,6 +26,21 @@ type
     class method uint64ArrayToSequence(val: array of UInt64): RemObjects.Elements.System.INSFastEnumeration<nullable UInt64>;
     class method singleArrayToSequence(val: array of Single): RemObjects.Elements.System.INSFastEnumeration<nullable Single>;
     class method doubleArrayToSequence(val: array of Double): RemObjects.Elements.System.INSFastEnumeration<nullable Double>;
+
+    class method getSubArray<T>(val: array of T; aStart, aLength: Integer): array of T;
+    begin
+      result := new T[aLength];
+      for i := 0 to aLength-1 do
+        result[i] := val[i+aStart];
+    end;
+
+    class method getSubArray<T>(val: array of T; aRange: Range): array of T;
+    begin
+      var lLength := length(val);
+      var lStart := aRange.fStart.GetOffset(lLength);
+      var lEnd := aRange.fEnd.GetOffset(lLength);
+      result := getSubArray(val, lStart, lEnd-lStart);
+    end;
   end;
 
   SimpleTypeIteratorMethod nested in ArrayUtils = method (aArray: ^Byte; aIndex: Integer): id;
