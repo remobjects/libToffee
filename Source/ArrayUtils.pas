@@ -39,7 +39,139 @@ type
       var lLength := length(val);
       var lStart := aRange.fStart.GetOffset(lLength);
       var lEnd := aRange.fEnd.GetOffset(lLength);
-      result := getSubArray(val, lStart, lEnd-lStart);
+      result := new T[lEnd-lStart];
+      for i := 0 to lEnd-lStart-1 do
+        result[i] := val[i+lStart];
+    end;
+
+    class method getSubArray(val: array of SByte; aRange: Range): array of SByte;
+    begin
+      var lLength := length(val);
+      var lStart := aRange.fStart.GetOffset(lLength);
+      var lEnd := aRange.fEnd.GetOffset(lLength);
+      result := new SByte[lEnd-lStart];
+      for i := 0 to lEnd-lStart-1 do
+        result[i] := val[i+lStart];
+    end;
+
+    class method getSubArray(val: array of Byte; aRange: Range): array of Byte;
+    begin
+      var lLength := length(val);
+      var lStart := aRange.fStart.GetOffset(lLength);
+      var lEnd := aRange.fEnd.GetOffset(lLength);
+      result := new Byte[lEnd-lStart];
+      for i := 0 to lEnd-lStart-1 do
+        result[i] := val[i+lStart];
+    end;
+
+    class method getSubArray(val: array of Int16; aRange: Range): array of Int16;
+    begin
+      var lLength := length(val);
+      var lStart := aRange.fStart.GetOffset(lLength);
+      var lEnd := aRange.fEnd.GetOffset(lLength);
+      result := new Int16[lEnd-lStart];
+      for i := 0 to lEnd-lStart-1 do
+        result[i] := val[i+lStart];
+    end;
+
+    class method getSubArray(val: array of UInt16; aRange: Range): array of UInt16;
+    begin
+      var lLength := length(val);
+      var lStart := aRange.fStart.GetOffset(lLength);
+      var lEnd := aRange.fEnd.GetOffset(lLength);
+      result := new UInt16[lEnd-lStart];
+      for i := 0 to lEnd-lStart-1 do
+        result[i] := val[i+lStart];
+    end;
+
+    class method getSubArray(val: array of Int32; aRange: Range): array of Int32;
+    begin
+      var lLength := length(val);
+      var lStart := aRange.fStart.GetOffset(lLength);
+      var lEnd := aRange.fEnd.GetOffset(lLength);
+      result := new Int32[lEnd-lStart];
+      for i := 0 to lEnd-lStart-1 do
+        result[i] := val[i+lStart];
+    end;
+
+    class method getSubArray(val: array of UInt32; aRange: Range): array of UInt32;
+    begin
+      var lLength := length(val);
+      var lStart := aRange.fStart.GetOffset(lLength);
+      var lEnd := aRange.fEnd.GetOffset(lLength);
+      result := new UInt32[lEnd-lStart];
+      for i := 0 to lEnd-lStart-1 do
+        result[i] := val[i+lStart];
+    end;
+
+    class method getSubArray(val: array of Int64; aRange: Range): array of Int64;
+    begin
+      var lLength := length(val);
+      var lStart := aRange.fStart.GetOffset(lLength);
+      var lEnd := aRange.fEnd.GetOffset(lLength);
+      result := new Int64[lEnd-lStart];
+      for i := 0 to lEnd-lStart-1 do
+        result[i] := val[i+lStart];
+    end;
+
+    class method getSubArray(val: array of UInt64; aRange: Range): array of UInt64;
+    begin
+      var lLength := length(val);
+      var lStart := aRange.fStart.GetOffset(lLength);
+      var lEnd := aRange.fEnd.GetOffset(lLength);
+      result := new UInt64[lEnd-lStart];
+      for i := 0 to lEnd-lStart-1 do
+        result[i] := val[i+lStart];
+    end;
+
+    //class method getSubArray<Single>(val: array of Single; aRange: Range): array of Single;
+    //begin
+      //var lLength := length(val);
+      //var lStart := aRange.fStart.GetOffset(lLength);
+      //var lEnd := aRange.fEnd.GetOffset(lLength);
+      //result := new Single[lEnd-lStart];
+      //for i := 0 to lEnd-lStart-1 do
+        //result[i] := val[i+lStart];
+    //end;
+
+    //class method getSubArray<Double>(val: array of Double; aRange: Range): array of Double;
+    //begin
+      //var lLength := length(val);
+      //var lStart := aRange.fStart.GetOffset(lLength);
+      //var lEnd := aRange.fEnd.GetOffset(lLength);
+      //result := new Double[lEnd-lStart];
+      //for i := 0 to lEnd-lStart-1 do
+        //result[i] := val[i+lStart];
+    //end;
+
+    class method getSubArray(val: array of Boolean; aRange: Range): array of Boolean;
+    begin
+      var lLength := length(val);
+      var lStart := aRange.fStart.GetOffset(lLength);
+      var lEnd := aRange.fEnd.GetOffset(lLength);
+      result := new Boolean[lEnd-lStart];
+      for i := 0 to lEnd-lStart-1 do
+        result[i] := val[i+lStart];
+    end;
+
+    class method getSubArray(val: array of Char; aRange: Range): array of Char;
+    begin
+      var lLength := length(val);
+      var lStart := aRange.fStart.GetOffset(lLength);
+      var lEnd := aRange.fEnd.GetOffset(lLength);
+      result := new Char[lEnd-lStart];
+      for i := 0 to lEnd-lStart-1 do
+        result[i] := val[i+lStart];
+    end;
+
+    class method getSubArray(val: array of AnsiChar; aRange: Range): array of AnsiChar;
+    begin
+      var lLength := length(val);
+      var lStart := aRange.fStart.GetOffset(lLength);
+      var lEnd := aRange.fEnd.GetOffset(lLength);
+      result := new AnsiChar[lEnd-lStart];
+      for i := 0 to lEnd-lStart-1 do
+        result[i] := val[i+lStart];
     end;
   end;
 
