@@ -48,6 +48,13 @@ type
 
     method Start(aScheduler: dispatch_queue_t := nil); virtual;
 
+
+    class property CompletedTask: Task read new Task(fState := TaskState.Done); lazy;
+    class method FromResult<T>(x: T): Task1<T>;
+    begin
+      exit new Task1<T>(fState := TaskState.Done, fResult := x);
+    end;
+
     class property ThreadSyncHelper: IThreadSyncHelper := new __ElementsDefaultThreadSyncHelper;
   end;
 
