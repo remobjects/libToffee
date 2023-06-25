@@ -170,6 +170,7 @@ begin
   case aPlatformName:lowercaseString of
     'tvos': {$IFDEF TARGET_OS_TV}exit __ElementsCocoaVersionAtLeast(aMaj, aMin, aRev){$ENDIF};
     'watchos': {$IFDEF TARGET_OS_WATCH}exit __ElementsCocoaVersionAtLeast(aMaj, aMin, aRev){$ENDIF};
+    'visionos', 'xros': {$IFDEF VISIONOS}exit __ElementsCocoaVersionAtLeast(aMaj, aMin, aRev){$ENDIF};
     'ios', 'iphoneos', 'ipados': {$IFDEF TARGET_OS_UIKITFORMAC}exit __ElementsUIKitForMacVersionAtLeast(aMaj, aMin, aRev){$ELSEIF TARGET_OS_IPHONE}exit __ElementsCocoaVersionAtLeast(aMaj, aMin, aRev){$ENDIF};
     'macos', 'mac os x', 'os x', 'mac os': {$IFDEF TARGET_OS_MAC OR TARGET_OS_UIKITFORMAC}exit __ElementsCocoaVersionAtLeast(aMaj, aMin, aRev){$ENDIF};
     'uikitformac', 'uikit for mac', 'mac catalyst', 'maccatalyst', 'catalyst': {$IFDEF TARGET_OS_UIKITFORMAC}exit __ElementsUIKitForMacVersionAtLeast(aMaj, aMin, aRev){$ENDIF};
@@ -204,6 +205,9 @@ begin
   {$IFDEF TARGET_OS_WATCH}
   exit 'watchOS';
   {$ENDIF}
+  {$IFDEF VISIONOS}
+  exit 'visionOS';
+  {$ENDIF}
   {$IFDEF TARGET_OS_TV}
   exit 'tvOS';
   {$ENDIF}
@@ -220,6 +224,7 @@ begin
   case aPlatformName:lowercaseString of
     'tvos': exit {$IFDEF TARGET_OS_TV}true{$ELSE}false{$ENDIF};
     'watchos': exit {$IFDEF TARGET_OS_WATCH}true{$ELSE}false{$ENDIF};
+    'visionos', 'xros': exit {$IFDEF VISIONOS}true{$ELSE}false{$ENDIF};
     'ios', 'iphoneos', 'ipados': exit {$IFDEF TARGET_OS_IPHONE OR TARGET_OS_UIKITFORMAC}true{$ELSE}false{$ENDIF};
     'mac os', 'macos', 'mac os x', 'os x': exit {$IFDEF TARGET_OS_MAC OR TARGET_OS_UIKITFORMAC}true{$ELSE}false{$ENDIF};
     'uikitformac', 'uikit for mac', 'mac catalyst', 'maccatalyst', 'catalyst': exit {$IFDEF TARGET_OS_IPHONE OR TARGET_OS_UIKITFORMAC}true{$ELSE}false{$ENDIF};
