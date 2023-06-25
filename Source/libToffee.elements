@@ -31,6 +31,12 @@
     <SDK>tvOS</SDK>
     <DeploymentTargetVersion>9.0</DeploymentTargetVersion>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Target)' == 'visionOS' ">
+    <Mode>Toffee</Mode>
+    <SubMode>visionOS</SubMode>
+    <SDK>visionOS</SDK>
+    <DeploymentTargetVersion>1.0</DeploymentTargetVersion>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Target)' == 'watchOS' ">
     <Mode>Toffee</Mode>
     <SubMode>watchOS</SubMode>
