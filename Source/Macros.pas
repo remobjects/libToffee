@@ -5,51 +5,51 @@ interface
 {$GLOBALS ON}
 
 // Same Signage
-function MAX(x,y: Int32): Int32; inline; public;
-function MAX(x,y: Int64): Int64; inline; public;
-function MAX(x,y: UInt32): UInt32; inline; public;
-function MAX(x,y: UInt64): UInt64; inline; public;
+[OmitFromHeader] function MAX(x,y: Int32): Int32; inline; public;
+[OmitFromHeader] function MAX(x,y: Int64): Int64; inline; public;
+[OmitFromHeader] function MAX(x,y: UInt32): UInt32; inline; public;
+[OmitFromHeader] function MAX(x,y: UInt64): UInt64; inline; public;
 
 // Mixed Signage
-function MAX(x: Int32; y: UInt32): UInt32; inline; public;
-function MAX(x: UInt32; y: Int32): UInt32; inline; public;
-function MAX(x: Int64; y: UInt64): UInt64; inline; public;
-function MAX(x: UInt64; y: Int64): UInt64; inline; public;
+[OmitFromHeader] function MAX(x: Int32; y: UInt32): UInt32; inline; public;
+[OmitFromHeader] function MAX(x: UInt32; y: Int32): UInt32; inline; public;
+[OmitFromHeader] function MAX(x: Int64; y: UInt64): UInt64; inline; public;
+[OmitFromHeader] function MAX(x: UInt64; y: Int64): UInt64; inline; public;
 
 // Float
-function MAX(x,y: Single): Single; inline; public;
-function MAX(x,y: Double): Double; inline; public;
+[OmitFromHeader] function MAX(x,y: Single): Single; inline; public;
+[OmitFromHeader] function MAX(x,y: Double): Double; inline; public;
 
 // Same Signage
-function MIN(x,y: Int32): Int32; inline; public;
-function MIN(x,y: Int64): Int64; inline; public;
-function MIN(x,y: UInt32): UInt32; inline; public;
-function MIN(x,y: UInt64): UInt64; inline; public;
+[OmitFromHeader] function MIN(x,y: Int32): Int32; inline; public;
+[OmitFromHeader] function MIN(x,y: Int64): Int64; inline; public;
+[OmitFromHeader] function MIN(x,y: UInt32): UInt32; inline; public;
+[OmitFromHeader] function MIN(x,y: UInt64): UInt64; inline; public;
 
 // Mixed Signage
-function MIN(x: Int32; y: UInt32): Int32; inline; public;
-function MIN(x: UInt32; y: Int32): Int32; inline; public;
-function MIN(x: Int64; y: UInt64): Int64; inline; public;
-function MIN(x: UInt64; y: Int64): Int64; inline; public;
+[OmitFromHeader] function MIN(x: Int32; y: UInt32): Int32; inline; public;
+[OmitFromHeader] function MIN(x: UInt32; y: Int32): Int32; inline; public;
+[OmitFromHeader] function MIN(x: Int64; y: UInt64): Int64; inline; public;
+[OmitFromHeader] function MIN(x: UInt64; y: Int64): Int64; inline; public;
 
 // Float
-function MIN(x,y: Single): Single; inline; public;
-function MIN(x,y: Double): Double; inline; public;
+[OmitFromHeader] function MIN(x,y: Single): Single; inline; public;
+[OmitFromHeader] function MIN(x,y: Double): Double; inline; public;
 
-function ABS(x: Int32): Int32; inline; public;
-function ABS(x: Int64): Int64; inline; public;
-function ABS(x: Double): Double; inline; public;
+[OmitFromHeader] function ABS(x: Int32): Int32; inline; public;
+[OmitFromHeader] function ABS(x: Int64): Int64; inline; public;
+[OmitFromHeader] function ABS(x: Double): Double; inline; public;
 
-function ntohs(n: UInt16): UInt16; inline; public;
-function htons(n: UInt16): UInt16; inline; public;
-function ntohl(n: UInt32): UInt32; inline; public;
-function htonl(n: UInt32): UInt32; inline; public;
+[OmitFromHeader] function ntohs(n: UInt16): UInt16; inline; public;
+[OmitFromHeader] function htons(n: UInt16): UInt16; inline; public;
+[OmitFromHeader] function ntohl(n: UInt32): UInt32; inline; public;
+[OmitFromHeader] function htonl(n: UInt32): UInt32; inline; public;
 
-function _OSSwapInt32(a: uint32_t): uint32_t;public;
-function _OSSwapInt16(a: uint16_t): uint16_t;public;
-function _OSSwapInt64(a: uint64_t): uint64_t;public;
+[OmitFromHeader] function _OSSwapInt32(a: uint32_t): uint32_t;public;
+[OmitFromHeader] function _OSSwapInt16(a: uint16_t): uint16_t;public;
+[OmitFromHeader] function _OSSwapInt64(a: uint64_t): uint64_t;public;
 
-function __builtin_constant_p(o: id): Boolean; inline; public;
+[OmitFromHeader] function __builtin_constant_p(o: id): Boolean; inline; public;
 
 
 implementation
