@@ -27,6 +27,8 @@ extension method Foundation.INSFastEnumeration.SkipWhile(aBlock: not nullable Pr
 
 extension method Foundation.INSFastEnumeration.OrderBy(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration; iterator; public;
 extension method Foundation.INSFastEnumeration.OrderByDescending(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration; iterator; public;
+extension method Foundation.INSFastEnumeration.ThenBy(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration; iterator; public;
+extension method Foundation.INSFastEnumeration.ThenByDescending(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration; iterator; public;
 
 extension method Foundation.INSFastEnumeration.GroupBy(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration; iterator; public;
 
@@ -69,6 +71,8 @@ extension method RemObjects.Elements.System.INSFastEnumeration<T>.SkipWhile(aBlo
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.OrderBy(aBlock: not nullable block(aItem: not nullable T): id): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.OrderByDescending(aBlock: not nullable block(aItem: not nullable T): id): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.ThenBy(aBlock: not nullable block(aItem: not nullable T): id): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.ThenByDescending(aBlock: not nullable block(aItem: not nullable T): id): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.GroupBy<T,K>(aBlock: not nullable block(aItem: not nullable T): K): not nullable RemObjects.Elements.System.INSFastEnumeration<IGrouping<K,T>>; inline; public;
 
@@ -262,6 +266,39 @@ begin
   for each i in lOrdered do
     yield i;
 end;
+
+extension method Foundation.INSFastEnumeration.ThenBy(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration;
+begin
+  var lArray := self.ToNSArray();
+  var lSorted := lArray.sortedArrayUsingComparator( (a,b) -> begin
+    var va := aBlock(a);
+    var vb := aBlock(b);
+    if va = nil then
+      if vb = nil then exit NSComparisonResult.OrderedSame else exit NSComparisonResult.OrderedAscending;
+    if vb = nil then exit NSComparisonResult.OrderedDescending;
+    exit va.compare(vb);
+  end);
+
+  for each i in lSorted do
+    yield i;
+end;
+
+extension method Foundation.INSFastEnumeration.ThenByDescending(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration;
+begin
+  var lArray := self.ToNSArray();
+  var lSorted := lArray.sortedArrayUsingComparator( (a,b) -> begin
+    var va := aBlock(a);
+    var vb := aBlock(b);
+    if va = nil then
+      if vb = nil then exit NSComparisonResult.OrderedSame else exit NSComparisonResult.OrderedDescending;
+    if vb = nil then exit NSComparisonResult.OrderedAscending;
+    exit vb.compare(va);
+  end);
+  for each i in lSorted do
+    yield i;
+end;
+
+//
 
 type
   Grouping<K,T> = class(IGrouping<K,T>)
@@ -582,6 +619,16 @@ end;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.OrderByDescending(aBlock: not nullable block(aItem: not nullable T): id): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
 begin
   exit Foundation.INSFastEnumeration(self).OrderByDescending(IDBlock(aBlock));
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.ThenBy(aBlock: not nullable block(aItem: not nullable T): id): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
+begin
+  exit Foundation.INSFastEnumeration(self).ThenBy(IDBlock(aBlock));
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.ThenByDescending(aBlock: not nullable block(aItem: not nullable T): id): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
+begin
+  exit Foundation.INSFastEnumeration(self).ThenByDescending(IDBlock(aBlock));
 end;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.GroupBy<T,K>(aBlock: not nullable block(aItem: not nullable T): K): not nullable RemObjects.Elements.System.INSFastEnumeration<IGrouping<K,T>>;
