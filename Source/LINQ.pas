@@ -25,10 +25,10 @@ extension method Foundation.INSFastEnumeration.Skip(aCount: NSInteger): not null
 extension method Foundation.INSFastEnumeration.TakeWhile(aBlock: not nullable PredicateBlock): not nullable Foundation.INSFastEnumeration;  iterator; public;
 extension method Foundation.INSFastEnumeration.SkipWhile(aBlock: not nullable PredicateBlock): not nullable Foundation.INSFastEnumeration;  iterator; public;
 
-extension method Foundation.INSFastEnumeration.OrderBy(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration; iterator; public;
-extension method Foundation.INSFastEnumeration.OrderByDescending(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration; iterator; public;
-extension method Foundation.INSFastEnumeration.ThenBy(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration; iterator; public;
-extension method Foundation.INSFastEnumeration.ThenByDescending(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration; iterator; public;
+extension method Foundation.INSFastEnumeration.OrderBy(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration; /*iterator;*/ public;
+extension method Foundation.INSFastEnumeration.OrderByDescending(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration; /*iterator;*/ public;
+extension method Foundation.INSFastEnumeration.ThenBy(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration; /*iterator;*/ public;
+extension method Foundation.INSFastEnumeration.ThenByDescending(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration; /*iterator;*/ public;
 
 extension method Foundation.INSFastEnumeration.GroupBy(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration; iterator; public;
 
@@ -234,6 +234,42 @@ end;
 // Order by
 //
 
+type
+  OrderedEnumerable = class(Foundation.INSFastEnumeration)
+  public
+
+    constructor(aArray: NSArray; aComparator: NSComparator);
+    begin
+      fArray := aArray;
+      fComparator := aComparator;
+    end;
+
+    method CreateOrderedEnumerable(aNextComparator: NSComparator; aDescending: Boolean): not nullable OrderedEnumerable;
+    begin
+      var lPrevComparator := fComparator;
+      var lCombinedComparator := NSComparator( (a,b) -> begin
+        result := lPrevComparator(a,b);
+        if result = NSComparisonResult.OrderedSame then
+          exit aNextComparator(a,b);
+      end);
+      result := new OrderedEnumerable(fArray, lCombinedComparator);
+    end;
+
+    method countByEnumeratingWithState(state: ^NSFastEnumerationState) objects(buffer: ^id) count(len: NSUInteger): NSUInteger;
+    begin
+      if not assigned(fSortedArray) then
+        fSortedArray := fArray.sortedArrayUsingComparator(fComparator);
+      result := fSortedArray.countByEnumeratingWithState(state) objects(buffer) count(len);
+    end;
+
+  private
+
+    fArray: NSArray;
+    fSortedArray: NSArray;
+    fComparator: NSComparator;
+
+  end;
+
 extension method Foundation.INSFastEnumeration.orderBy(aBlock: not nullable block(aItem: id): id) comparator(aComparator: NSComparator): not nullable Foundation.INSFastEnumeration;
 begin
   result := self.ToNSArray().sortedArrayUsingComparator(aComparator) as not nullable;
@@ -241,36 +277,7 @@ end;
 
 extension method Foundation.INSFastEnumeration.OrderBy(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration;
 begin
-  var lOrdered := orderBy(aBlock) comparator( (a,b) -> begin
-      var va := aBlock(a);
-      var vb := aBlock(b);
-      if va = nil then
-        if vb = nil then exit NSComparisonResult.OrderedSame else exit NSComparisonResult.OrderedAscending;
-      if vb = nil then exit NSComparisonResult.OrderedDescending;
-      exit va.compare(vb)
-    end);
-  for each i in lOrdered do
-    yield i;
-end;
-
-extension method Foundation.INSFastEnumeration.OrderByDescending(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration;
-begin
-  var lOrdered := orderBy(aBlock) comparator( (a,b) -> begin
-      var va := aBlock(a);
-      var vb := aBlock(b);
-      if va = nil then
-        if vb = nil then exit NSComparisonResult.OrderedSame else exit NSComparisonResult.OrderedDescending;
-        if vb = nil then exit NSComparisonResult.OrderedAscending;
-      exit vb.compare(va)
-    end);
-  for each i in lOrdered do
-    yield i;
-end;
-
-extension method Foundation.INSFastEnumeration.ThenBy(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration;
-begin
-  var lArray := self.ToNSArray();
-  var lSorted := lArray.sortedArrayUsingComparator( (a,b) -> begin
+  result := new OrderedEnumerable(self.ToNSArray(), (a,b) -> begin
     var va := aBlock(a);
     var vb := aBlock(b);
     if va = nil then
@@ -278,15 +285,11 @@ begin
     if vb = nil then exit NSComparisonResult.OrderedDescending;
     exit va.compare(vb);
   end);
-
-  for each i in lSorted do
-    yield i;
 end;
 
-extension method Foundation.INSFastEnumeration.ThenByDescending(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration;
+extension method Foundation.INSFastEnumeration.OrderByDescending(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration;
 begin
-  var lArray := self.ToNSArray();
-  var lSorted := lArray.sortedArrayUsingComparator( (a,b) -> begin
+  result := new OrderedEnumerable(self.ToNSArray(), (a,b) -> begin
     var va := aBlock(a);
     var vb := aBlock(b);
     if va = nil then
@@ -294,10 +297,44 @@ begin
     if vb = nil then exit NSComparisonResult.OrderedAscending;
     exit vb.compare(va);
   end);
-  for each i in lSorted do
-    yield i;
 end;
 
+extension method Foundation.INSFastEnumeration.ThenBy(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration;
+begin
+  NSLog($"THENBY!");
+  if not (self is OrderedEnumerable) then
+    raise new Exception("ThenBy can only be called after OrderBy or ThenBy.");
+
+  var lOrdered := OrderedEnumerable(self);
+  result := lOrdered.CreateOrderedEnumerable((a,b) -> begin
+    var va := aBlock(a);
+    var vb := aBlock(b);
+    if va = nil then
+      if vb = nil then exit NSComparisonResult.OrderedSame else exit NSComparisonResult.OrderedAscending;
+    if vb = nil then exit NSComparisonResult.OrderedDescending;
+    exit va.compare(vb);
+  end, false);
+end;
+
+extension method Foundation.INSFastEnumeration.ThenByDescending(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration;
+begin
+  NSLog($"THENBY!");
+  if not (self is OrderedEnumerable) then
+    raise new Exception("ThenByDescending can only be called after OrderBy or ThenBy.");
+
+  var lOrdered := OrderedEnumerable(self);
+  result := lOrdered.CreateOrderedEnumerable((a,b) -> begin
+    var va := aBlock(a);
+    var vb := aBlock(b);
+    if va = nil then
+      if vb = nil then exit NSComparisonResult.OrderedSame else exit NSComparisonResult.OrderedDescending;
+    if vb = nil then exit NSComparisonResult.OrderedAscending;
+    exit vb.compare(va);
+  end, true);
+end;
+
+//
+// Group by
 //
 
 type
@@ -579,7 +616,6 @@ end;
 //
 // Generic versions
 //
-
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Where(aBlock: not nullable block(aItem: not nullable T): Boolean): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
 begin
