@@ -20,6 +20,7 @@ type
 extension method Foundation.INSFastEnumeration.Where(aBlock: not nullable PredicateBlock): not nullable Foundation.INSFastEnumeration; iterator; public;
 extension method Foundation.INSFastEnumeration.Any(): Boolean; public;
 extension method Foundation.INSFastEnumeration.Any(aBlock: not nullable PredicateBlock): Boolean; public;
+extension method Foundation.INSFastEnumeration.All(aBlock: not nullable PredicateBlock): Boolean; public;
 extension method Foundation.INSFastEnumeration.Take(aCount: NSInteger): not nullable Foundation.INSFastEnumeration; iterator; public;
 extension method Foundation.INSFastEnumeration.Skip(aCount: NSInteger): not nullable Foundation.INSFastEnumeration; iterator; public;
 extension method Foundation.INSFastEnumeration.TakeWhile(aBlock: not nullable PredicateBlock): not nullable Foundation.INSFastEnumeration;  iterator; public;
@@ -64,6 +65,7 @@ extension method Foundation.INSFastEnumeration.Min(aBlock: not nullable IDBlock)
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Where(aBlock: not nullable block(aItem: not nullable T): Boolean): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Any(): Boolean; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Any(aBlock: not nullable block(aItem: not nullable T): Boolean): Boolean; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.All(aBlock: not nullable block(aItem: not nullable T): Boolean): Boolean; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Take(aCount: NSInteger): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Skip(aCount: NSInteger): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.TakeWhile(aBlock: not nullable block(aItem: not nullable T): Boolean): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
@@ -158,6 +160,13 @@ extension method Foundation.INSFastEnumeration.Any(aBlock: not nullable Predicat
 begin
   for each i in self do
     if aBlock(i) then exit true;
+end;
+
+extension method Foundation.INSFastEnumeration.All(aBlock: not nullable PredicateBlock): Boolean;
+begin
+  for each i in self do
+    if not aBlock(i) then exit false;
+  result := true;
 end;
 
 extension method Foundation.INSFastEnumeration.Take(aCount: NSInteger): not nullable Foundation.INSFastEnumeration;
@@ -625,6 +634,11 @@ end;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Any(aBlock: not nullable block(aItem: not nullable T): Boolean): Boolean;
 begin
   exit Foundation.INSFastEnumeration(self).Any(PredicateBlock(aBlock));
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.All(aBlock: not nullable block(aItem: not nullable T): Boolean): Boolean;
+begin
+  exit Foundation.INSFastEnumeration(self).All(PredicateBlock(aBlock));
 end;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Take(aCount: NSInteger): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
