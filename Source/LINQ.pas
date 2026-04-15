@@ -310,7 +310,6 @@ end;
 
 extension method Foundation.INSFastEnumeration.ThenBy(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration;
 begin
-  NSLog($"THENBY!");
   if not (self is OrderedEnumerable) then
     raise new Exception("ThenBy can only be called after OrderBy or ThenBy.");
 
@@ -327,7 +326,6 @@ end;
 
 extension method Foundation.INSFastEnumeration.ThenByDescending(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration;
 begin
-  NSLog($"THENBY!");
   if not (self is OrderedEnumerable) then
     raise new Exception("ThenByDescending can only be called after OrderBy or ThenBy.");
 
