@@ -17,6 +17,11 @@ type
     property Key: K read;
   end;
 
+  ILookup<K,T> = public interface(RemObjects.Elements.System.INSFastEnumeration<IGrouping<K,T>>)
+    method Contains(aKey: K): Boolean;
+    property Item[aKey: K]: not nullable RemObjects.Elements.System.INSFastEnumeration<T> read;
+  end;
+
 // Standard Linq Operators
 extension method Foundation.INSFastEnumeration.Where(aBlock: not nullable PredicateBlock): not nullable Foundation.INSFastEnumeration; iterator; public;
 extension method Foundation.INSFastEnumeration.Any(): Boolean; public;
@@ -33,6 +38,8 @@ extension method Foundation.INSFastEnumeration.ThenBy(aBlock: not nullable IDBlo
 extension method Foundation.INSFastEnumeration.ThenByDescending(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration; /*iterator;*/ public;
 
 extension method Foundation.INSFastEnumeration.GroupBy(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration; iterator; public;
+extension method Foundation.INSFastEnumeration.ToLookup(aKeyBlock: not nullable IDBlock): not nullable ILookup<id,id>; public;
+extension method Foundation.INSFastEnumeration.ToLookup(aKeyBlock: not nullable IDBlock; aValueBlock: not nullable IDBlock): not nullable ILookup<id,id>; public;
 
 extension method Foundation.INSFastEnumeration.Select(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration; iterator; public;
 extension method Foundation.INSFastEnumeration.SelectMany(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration; iterator; public;
@@ -77,6 +84,10 @@ extension method Foundation.INSFastEnumeration.Max: id; public;
 extension method Foundation.INSFastEnumeration.Max(aBlock: not nullable IDBlock): id; public;
 extension method Foundation.INSFastEnumeration.Min: id; public;
 extension method Foundation.INSFastEnumeration.Min(aBlock: not nullable IDBlock): id; public;
+extension method Foundation.INSFastEnumeration.Sum: Double; public;
+extension method Foundation.INSFastEnumeration.Sum(aBlock: not nullable IDBlock): Double; public;
+extension method Foundation.INSFastEnumeration.Average: Double; public;
+extension method Foundation.INSFastEnumeration.Average(aBlock: not nullable IDBlock): Double; public;
 extension method Foundation.INSFastEnumeration.Join(aSecond: not nullable Foundation.INSFastEnumeration; aSelfBlock: not nullable IDBlock; aSecondBlock: not nullable IDBlock; aResultBlock: not nullable ID2Block): not nullable Foundation.INSFastEnumeration; iterator; public;
 extension method Foundation.INSFastEnumeration.GroupJoin(aSecond: not nullable Foundation.INSFastEnumeration; aSelfBlock: not nullable IDBlock; aSecondBlock: not nullable IDBlock; aResultBlock: not nullable ID2Block): not nullable Foundation.INSFastEnumeration; iterator; public;
 
@@ -97,6 +108,8 @@ extension method RemObjects.Elements.System.INSFastEnumeration<T>.ThenBy(aBlock:
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.ThenByDescending(aBlock: not nullable block(aItem: not nullable T): id): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.GroupBy<T,K>(aBlock: not nullable block(aItem: not nullable T): K): not nullable RemObjects.Elements.System.INSFastEnumeration<IGrouping<K,T>>; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.ToLookup<T,K>(aKeyBlock: not nullable block(aItem: not nullable T): K): not nullable ILookup<K,T>; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.ToLookup<T,K,V>(aKeyBlock: not nullable block(aItem: not nullable T): K; aValueBlock: not nullable block(aItem: not nullable T): V): not nullable ILookup<K,V>; inline; public;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Select<T, R>(aBlock: not nullable block(aItem: not nullable T): R): not nullable RemObjects.Elements.System.INSFastEnumeration<R>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.SelectMany<T, R>(aBlock: not nullable block(aItem: not nullable T): not nullable RemObjects.Elements.System.INSFastEnumeration<R>): not nullable RemObjects.Elements.System.INSFastEnumeration<R>; inline; public;
@@ -141,6 +154,10 @@ extension method RemObjects.Elements.System.INSFastEnumeration<T>.Max: T; inline
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Max<T,R>(aBlock: not nullable block(aItem: not nullable T): R): R; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Min: T; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Min<T,R>(aBlock: not nullable block(aItem: not nullable T): R): R; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Sum: Double; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Sum(aBlock: not nullable block(aItem: not nullable T): Double): Double; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Average: Double; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Average(aBlock: not nullable block(aItem: not nullable T): Double): Double; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Join<T, TInner, TKey, TResult>(aSecond: not nullable RemObjects.Elements.System.INSFastEnumeration<TInner>; aSelfBlock: not nullable block(aItem: not nullable T): TKey; aSecondBlock: not nullable block(aItem: not nullable TInner): TKey; aResultBlock: not nullable block(aItem: not nullable T; aSecondItem: not nullable TInner): TResult): not nullable RemObjects.Elements.System.INSFastEnumeration<TResult>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.GroupJoin<T, TInner, TKey, TResult>(aSecond: not nullable RemObjects.Elements.System.INSFastEnumeration<TInner>; aSelfBlock: not nullable block(aItem: not nullable T): TKey; aSecondBlock: not nullable block(aItem: not nullable TInner): TKey; aResultBlock: not nullable block(aItem: not nullable T; aGroup: not nullable RemObjects.Elements.System.INSFastEnumeration<TInner>): TResult): not nullable RemObjects.Elements.System.INSFastEnumeration<TResult>; inline; public;
 
@@ -389,6 +406,45 @@ type
     property Key: K read unit write;
   end;
 
+  Lookup<K,T> = class(ILookup<K,T>)
+  private
+    var fGroups := new NSMutableArray; implements public RemObjects.Elements.System.INSFastEnumeration<IGrouping<K,T>>;
+    var fDictionary := new NSMutableDictionary;
+    var fEmptyGroup := new Grouping<K,T>();
+
+    method MappedKey(aKey: K): id;
+    begin
+      result := id(aKey);
+      if result = nil then
+        result := NSNull.null;
+    end;
+
+    method GetItem(aKey: K): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
+    begin
+      var lGroup := fDictionary[MappedKey(aKey)] as Grouping<K,T>;
+      exit (if assigned(lGroup) then lGroup else fEmptyGroup) as not nullable;
+    end;
+  public
+    method Contains(aKey: K): Boolean;
+    begin
+      exit assigned(fDictionary[MappedKey(aKey)]);
+    end;
+
+    method Add(aKey: K; aValue: T);
+    begin
+      var lGroup := fDictionary[MappedKey(aKey)] as Grouping<K,T>;
+      if not assigned(lGroup) then begin
+        lGroup := new Grouping<K,T>();
+        lGroup.Key := aKey;
+        fDictionary[MappedKey(aKey)] := lGroup;
+        fGroups.addObject(lGroup);
+      end;
+      lGroup.addObject(aValue);
+    end;
+
+    property Item[aKey: K]: not nullable RemObjects.Elements.System.INSFastEnumeration<T> read GetItem;
+  end;
+
 extension method Foundation.INSFastEnumeration.GroupBy(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration;
 begin
   var lDictionary := new NSMutableDictionary;
@@ -404,6 +460,19 @@ begin
   end;
   for each g in lDictionary.allValues do
     yield g;
+end;
+
+extension method Foundation.INSFastEnumeration.ToLookup(aKeyBlock: not nullable IDBlock): not nullable ILookup<id,id>;
+begin
+  exit self.ToLookup(aKeyBlock, (aItem) -> aItem);
+end;
+
+extension method Foundation.INSFastEnumeration.ToLookup(aKeyBlock: not nullable IDBlock; aValueBlock: not nullable IDBlock): not nullable ILookup<id,id>;
+begin
+  var lLookup := new Lookup<id,id>();
+  for each i in self do
+    lLookup.Add(aKeyBlock(i), aValueBlock(i));
+  exit lLookup as not nullable;
 end;
 
 //
@@ -877,6 +946,46 @@ begin
   end;
 end;
 
+extension method Foundation.INSFastEnumeration.Sum: Double;
+begin
+  for each i in self do
+    result := result+NSNumber(i).doubleValue;
+end;
+
+extension method Foundation.INSFastEnumeration.Sum(aBlock: not nullable IDBlock): Double;
+begin
+  for each i in self do
+    result := result+NSNumber(aBlock(i)).doubleValue;
+end;
+
+extension method Foundation.INSFastEnumeration.Average: Double;
+begin
+  var lCount: Int64 := 0;
+  for each i in self do begin
+    result := result+NSNumber(i).doubleValue;
+    inc(lCount);
+  end;
+
+  if lCount = 0 then
+    raise new Exception("Sequence is empty.");
+
+  result := result/lCount;
+end;
+
+extension method Foundation.INSFastEnumeration.Average(aBlock: not nullable IDBlock): Double;
+begin
+  var lCount: Int64 := 0;
+  for each i in self do begin
+    result := result+NSNumber(aBlock(i)).doubleValue;
+    inc(lCount);
+  end;
+
+  if lCount = 0 then
+    raise new Exception("Sequence is empty.");
+
+  result := result/lCount;
+end;
+
 extension method Foundation.INSFastEnumeration.Join(aSecond: not nullable Foundation.INSFastEnumeration; aSelfBlock: not nullable IDBlock; aSecondBlock: not nullable IDBlock; aResultBlock: not nullable ID2Block): not nullable Foundation.INSFastEnumeration;
 begin
   var lLookup := new NSMutableDictionary;
@@ -996,6 +1105,16 @@ end;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.GroupBy<T,K>(aBlock: not nullable block(aItem: not nullable T): K): not nullable RemObjects.Elements.System.INSFastEnumeration<IGrouping<K,T>>;
 begin
   exit Foundation.INSFastEnumeration(self).GroupBy(IDBlock(aBlock));
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.ToLookup<T,K>(aKeyBlock: not nullable block(aItem: not nullable T): K): not nullable ILookup<K,T>;
+begin
+  exit Foundation.INSFastEnumeration(self).ToLookup(IDBlock(aKeyBlock), (aItem) -> aItem);
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.ToLookup<T,K,V>(aKeyBlock: not nullable block(aItem: not nullable T): K; aValueBlock: not nullable block(aItem: not nullable T): V): not nullable ILookup<K,V>;
+begin
+  exit Foundation.INSFastEnumeration(self).ToLookup(IDBlock(aKeyBlock), IDBlock(aValueBlock));
 end;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Select<T, R>(aBlock: not nullable block(aItem: not nullable T): R): not nullable RemObjects.Elements.System.INSFastEnumeration<R>;
@@ -1197,6 +1316,26 @@ end;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Min<T,R>(aBlock: not nullable block(aItem: not nullable T): R): R;
 begin
   result := Foundation.INSFastEnumeration(self).Min(IDBlock(aBlock));
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Sum: Double;
+begin
+  exit Foundation.INSFastEnumeration(self).Sum;
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Sum(aBlock: not nullable block(aItem: not nullable T): Double): Double;
+begin
+  exit Foundation.INSFastEnumeration(self).Sum(IDBlock(aBlock));
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Average: Double;
+begin
+  exit Foundation.INSFastEnumeration(self).Average;
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Average(aBlock: not nullable block(aItem: not nullable T): Double): Double;
+begin
+  exit Foundation.INSFastEnumeration(self).Average(IDBlock(aBlock));
 end;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Join<T, TInner, TKey, TResult>(aSecond: not nullable RemObjects.Elements.System.INSFastEnumeration<TInner>; aSelfBlock: not nullable block(aItem: not nullable T): TKey; aSecondBlock: not nullable block(aItem: not nullable TInner): TKey; aResultBlock: not nullable block(aItem: not nullable T; aSecondItem: not nullable TInner): TResult): not nullable RemObjects.Elements.System.INSFastEnumeration<TResult>;
