@@ -34,6 +34,7 @@ extension method Foundation.INSFastEnumeration.ThenByDescending(aBlock: not null
 extension method Foundation.INSFastEnumeration.GroupBy(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration; iterator; public;
 
 extension method Foundation.INSFastEnumeration.Select(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration; iterator; public;
+extension method Foundation.INSFastEnumeration.SelectMany(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration; iterator; public;
 extension method Foundation.INSFastEnumeration.OfType<R>(): not nullable RemObjects.Elements.System.INSFastEnumeration<R>; iterator; public;
 extension method Foundation.INSFastEnumeration.Cast<R>(): not nullable RemObjects.Elements.System.INSFastEnumeration<R>; iterator; public;
 
@@ -89,6 +90,7 @@ extension method RemObjects.Elements.System.INSFastEnumeration<T>.ThenByDescendi
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.GroupBy<T,K>(aBlock: not nullable block(aItem: not nullable T): K): not nullable RemObjects.Elements.System.INSFastEnumeration<IGrouping<K,T>>; inline; public;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Select<T, R>(aBlock: not nullable block(aItem: not nullable T): R): not nullable RemObjects.Elements.System.INSFastEnumeration<R>; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.SelectMany<T, R>(aBlock: not nullable block(aItem: not nullable T): not nullable RemObjects.Elements.System.INSFastEnumeration<R>): not nullable RemObjects.Elements.System.INSFastEnumeration<R>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.OfType<R>(): not nullable RemObjects.Elements.System.INSFastEnumeration<R>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Cast<R>(): not nullable RemObjects.Elements.System.INSFastEnumeration<R>; inline; public;
 
@@ -399,6 +401,16 @@ extension method Foundation.INSFastEnumeration.Select(aBlock: not nullable IDBlo
 begin
   for each i in self do
     yield aBlock(i);
+end;
+
+extension method Foundation.INSFastEnumeration.SelectMany(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration;
+begin
+  for each i in self do begin
+    var lItems := Foundation.INSFastEnumeration(aBlock(i));
+    if assigned(lItems) then
+      for each j in lItems do
+        yield j;
+  end;
 end;
 
 extension method Foundation.INSFastEnumeration.OfType<R>(): not nullable RemObjects.Elements.System.INSFastEnumeration<R>;
@@ -847,6 +859,11 @@ end;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Select<T, R>(aBlock: not nullable block(aItem: not nullable T): R): not nullable RemObjects.Elements.System.INSFastEnumeration<R>;
 begin
   exit Foundation.INSFastEnumeration(self).Select(IDBlock(aBlock));
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.SelectMany<T, R>(aBlock: not nullable block(aItem: not nullable T): not nullable RemObjects.Elements.System.INSFastEnumeration<R>): not nullable RemObjects.Elements.System.INSFastEnumeration<R>;
+begin
+  exit Foundation.INSFastEnumeration(self).SelectMany(IDBlock(aBlock));
 end;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.OfType<R>(): not nullable RemObjects.Elements.System.INSFastEnumeration<R>;
