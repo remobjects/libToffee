@@ -49,6 +49,7 @@ extension method Foundation.INSFastEnumeration.Cast<R>(): not nullable RemObject
 
 extension method Foundation.INSFastEnumeration.Concat(aSecond: not nullable Foundation.INSFastEnumeration): not nullable Foundation.INSFastEnumeration; iterator; public;
 extension method Foundation.INSFastEnumeration.Append(aItem: id): not nullable Foundation.INSFastEnumeration; iterator; public;
+extension method Foundation.INSFastEnumeration.Prepend(aItem: id): not nullable Foundation.INSFastEnumeration; iterator; public;
 extension method Foundation.INSFastEnumeration.Reverse: not nullable Foundation.INSFastEnumeration; iterator; public;
 
 extension method Foundation.INSFastEnumeration.Distinct(aComparator: NSComparator := nil): not nullable Foundation.INSFastEnumeration; iterator; public;
@@ -120,6 +121,7 @@ extension method RemObjects.Elements.System.INSFastEnumeration<T>.Cast<R>(): not
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Concat(aSecond: not nullable RemObjects.Elements.System.INSFastEnumeration<T>): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Append(aItem: T): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Prepend(aItem: T): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Reverse: not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Distinct(aComparator: NSComparator := nil): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
@@ -538,6 +540,13 @@ begin
   for each i in self do
     yield i;
   yield aItem;
+end;
+
+extension method Foundation.INSFastEnumeration.Prepend(aItem: id): not nullable Foundation.INSFastEnumeration;
+begin
+  yield aItem;
+  for each i in self do
+    yield i;
 end;
 
 extension method Foundation.INSFastEnumeration.Reverse: not nullable Foundation.INSFastEnumeration;
@@ -1159,6 +1168,11 @@ end;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Append(aItem: T): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
 begin
   exit Foundation.INSFastEnumeration(self).Append(aItem);
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Prepend(aItem: T): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
+begin
+  exit Foundation.INSFastEnumeration(self).Prepend(aItem);
 end;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Reverse: not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
