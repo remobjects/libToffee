@@ -54,6 +54,7 @@ extension method Foundation.INSFastEnumeration.Last(aBlock: not nullable Predica
 extension method Foundation.INSFastEnumeration.LastOrDefault: nullable id; public;
 extension method Foundation.INSFastEnumeration.LastOrDefault(aBlock: not nullable PredicateBlock): nullable id; public;
 extension method Foundation.INSFastEnumeration.Count: NSInteger; public;
+extension method Foundation.INSFastEnumeration.Count(aBlock: not nullable PredicateBlock): NSInteger; public;
 
 extension method Foundation.INSFastEnumeration.Max: id; public;
 extension method Foundation.INSFastEnumeration.Max(aBlock: not nullable IDBlock): id; public;
@@ -99,6 +100,7 @@ extension method RemObjects.Elements.System.INSFastEnumeration<T>.Last(aBlock: n
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.LastOrDefault: {nullable} T; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.LastOrDefault(aBlock: not nullable block(aItem: not nullable T): Boolean): {nullable} T; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Count: NSInteger; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Count(aBlock: not nullable block(aItem: not nullable T): Boolean): NSInteger; inline; public;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Max: T; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Max<T,R>(aBlock: not nullable block(aItem: not nullable T): R): R; inline; public;
@@ -588,6 +590,13 @@ begin
   end;
 end;
 
+extension method Foundation.INSFastEnumeration.Count(aBlock: not nullable PredicateBlock): NSInteger;
+begin
+  for each i in self do
+    if aBlock(i) then
+      inc(result);
+end;
+
 extension method Foundation.INSFastEnumeration.Max: id;
 begin
   for each i in self do
@@ -778,6 +787,11 @@ end;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Count: NSInteger;
 begin
   exit Foundation.INSFastEnumeration(self).Count;
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Count(aBlock: not nullable block(aItem: not nullable T): Boolean): NSInteger;
+begin
+  exit Foundation.INSFastEnumeration(self).Count(PredicateBlock(aBlock));
 end;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Max: T;
