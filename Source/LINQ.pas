@@ -59,6 +59,8 @@ extension method Foundation.INSFastEnumeration.SingleOrDefault: nullable id; pub
 extension method Foundation.INSFastEnumeration.SingleOrDefault(aBlock: not nullable PredicateBlock): nullable id; public;
 extension method Foundation.INSFastEnumeration.ElementAt(aIndex: NSInteger): nullable id; public;
 extension method Foundation.INSFastEnumeration.ElementAtOrDefault(aIndex: NSInteger): nullable id; public;
+extension method Foundation.INSFastEnumeration.DefaultIfEmpty: not nullable Foundation.INSFastEnumeration; iterator; public;
+extension method Foundation.INSFastEnumeration.DefaultIfEmpty(aDefaultValue: id): not nullable Foundation.INSFastEnumeration; iterator; public;
 extension method Foundation.INSFastEnumeration.Count: NSInteger; public;
 extension method Foundation.INSFastEnumeration.Count(aBlock: not nullable PredicateBlock): NSInteger; public;
 
@@ -111,6 +113,8 @@ extension method RemObjects.Elements.System.INSFastEnumeration<T>.SingleOrDefaul
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.SingleOrDefault(aBlock: not nullable block(aItem: not nullable T): Boolean): {nullable} T; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.ElementAt(aIndex: NSInteger): {nullable} T; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.ElementAtOrDefault(aIndex: NSInteger): {nullable} T; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.DefaultIfEmpty: not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.DefaultIfEmpty(aDefaultValue: T): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Count: NSInteger; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Count(aBlock: not nullable block(aItem: not nullable T): Boolean): NSInteger; inline; public;
 
@@ -669,6 +673,24 @@ begin
   end;
 end;
 
+extension method Foundation.INSFastEnumeration.DefaultIfEmpty: not nullable Foundation.INSFastEnumeration;
+begin
+  for each i in self.DefaultIfEmpty(nil) do
+    yield i;
+end;
+
+extension method Foundation.INSFastEnumeration.DefaultIfEmpty(aDefaultValue: id): not nullable Foundation.INSFastEnumeration;
+begin
+  var lFound := false;
+  for each i in self do begin
+    lFound := true;
+    yield i;
+  end;
+
+  if not lFound then
+    yield aDefaultValue;
+end;
+
 extension method Foundation.INSFastEnumeration.Any(): Boolean;
 begin
   var lState: NSFastEnumerationState := default(NSFastEnumerationState);
@@ -908,6 +930,16 @@ end;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.ElementAtOrDefault(aIndex: NSInteger): {nullable} T;
 begin
   exit Foundation.INSFastEnumeration(self).ElementAtOrDefault(aIndex);
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.DefaultIfEmpty: not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
+begin
+  exit Foundation.INSFastEnumeration(self).DefaultIfEmpty;
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.DefaultIfEmpty(aDefaultValue: T): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
+begin
+  exit Foundation.INSFastEnumeration(self).DefaultIfEmpty(aDefaultValue);
 end;
 
 
