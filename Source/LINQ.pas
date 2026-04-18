@@ -476,9 +476,6 @@ begin
   for each i in lFirst do
     if not lSecond.containsObject(i) then
       yield i;
-  for each i in lSecond do
-    if not lFirst.containsObject(i) then
-      yield i;
 end;
 
 extension method Foundation.INSFastEnumeration.Union(aSecond: not nullable Foundation.INSFastEnumeration; aComparator: NSComparator := nil): not nullable Foundation.INSFastEnumeration;
