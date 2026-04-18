@@ -73,6 +73,7 @@ extension method Foundation.INSFastEnumeration.Max: id; public;
 extension method Foundation.INSFastEnumeration.Max(aBlock: not nullable IDBlock): id; public;
 extension method Foundation.INSFastEnumeration.Min: id; public;
 extension method Foundation.INSFastEnumeration.Min(aBlock: not nullable IDBlock): id; public;
+extension method Foundation.INSFastEnumeration.Join(aSecond: not nullable Foundation.INSFastEnumeration; aSelfBlock: not nullable IDBlock; aSecondBlock: not nullable IDBlock; aResultBlock: not nullable ID2Block): not nullable Foundation.INSFastEnumeration; iterator; public;
 
 // Generic:
 
@@ -131,9 +132,9 @@ extension method RemObjects.Elements.System.INSFastEnumeration<T>.Max: T; inline
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Max<T,R>(aBlock: not nullable block(aItem: not nullable T): R): R; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Min: T; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Min<T,R>(aBlock: not nullable block(aItem: not nullable T): R): R; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Join<T, TInner, TKey, TResult>(aSecond: not nullable RemObjects.Elements.System.INSFastEnumeration<TInner>; aSelfBlock: not nullable block(aItem: not nullable T): TKey; aSecondBlock: not nullable block(aItem: not nullable TInner): TKey; aResultBlock: not nullable block(aItem: not nullable T; aSecondItem: not nullable TInner): TResult): not nullable RemObjects.Elements.System.INSFastEnumeration<TResult>; inline; public;
 
 // Pending operators:
-// Join
 // GroupJoin
 
 // Useful helper methods
@@ -820,6 +821,35 @@ begin
   end;
 end;
 
+extension method Foundation.INSFastEnumeration.Join(aSecond: not nullable Foundation.INSFastEnumeration; aSelfBlock: not nullable IDBlock; aSecondBlock: not nullable IDBlock; aResultBlock: not nullable ID2Block): not nullable Foundation.INSFastEnumeration;
+begin
+  var lLookup := new NSMutableDictionary;
+
+  for each i in aSecond do begin
+    var lKey := aSecondBlock(i);
+    if lKey = nil then
+      lKey := NSNull.null;
+
+    var lGroup := lLookup[lKey] as NSMutableArray;
+    if not assigned(lGroup) then begin
+      lGroup := new NSMutableArray;
+      lLookup[lKey] := lGroup;
+    end;
+    lGroup.addObject(i);
+  end;
+
+  for each i in self do begin
+    var lKey := aSelfBlock(i);
+    if lKey = nil then
+      lKey := NSNull.null;
+
+    var lGroup := lLookup[lKey] as NSArray;
+    if assigned(lGroup) then
+      for each j in lGroup do
+        yield aResultBlock(i, j);
+  end;
+end;
+
 //
 // Generic versions
 //
@@ -1063,6 +1093,11 @@ end;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Min<T,R>(aBlock: not nullable block(aItem: not nullable T): R): R;
 begin
   result := Foundation.INSFastEnumeration(self).Min(IDBlock(aBlock));
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Join<T, TInner, TKey, TResult>(aSecond: not nullable RemObjects.Elements.System.INSFastEnumeration<TInner>; aSelfBlock: not nullable block(aItem: not nullable T): TKey; aSecondBlock: not nullable block(aItem: not nullable TInner): TKey; aResultBlock: not nullable block(aItem: not nullable T; aSecondItem: not nullable TInner): TResult): not nullable RemObjects.Elements.System.INSFastEnumeration<TResult>;
+begin
+  exit Foundation.INSFastEnumeration(self).Join(Foundation.INSFastEnumeration(aSecond), IDBlock(aSelfBlock), IDBlock(aSecondBlock), ID2Block((a, b) -> aResultBlock(T(a), TInner(b))));
 end;
 
 [Obsolete("Use ToNSArray() instead")]
