@@ -30,6 +30,7 @@ extension method Foundation.INSFastEnumeration.All(aBlock: not nullable Predicat
 extension method Foundation.INSFastEnumeration.Take(aCount: NSInteger): not nullable Foundation.INSFastEnumeration; iterator; public;
 extension method Foundation.INSFastEnumeration.Skip(aCount: NSInteger): not nullable Foundation.INSFastEnumeration; iterator; public;
 extension method Foundation.INSFastEnumeration.TakeLast(aCount: NSInteger): not nullable Foundation.INSFastEnumeration; iterator; public;
+extension method Foundation.INSFastEnumeration.SkipLast(aCount: NSInteger): not nullable Foundation.INSFastEnumeration; iterator; public;
 extension method Foundation.INSFastEnumeration.TakeWhile(aBlock: not nullable PredicateBlock): not nullable Foundation.INSFastEnumeration;  iterator; public;
 extension method Foundation.INSFastEnumeration.SkipWhile(aBlock: not nullable PredicateBlock): not nullable Foundation.INSFastEnumeration;  iterator; public;
 
@@ -104,6 +105,7 @@ extension method RemObjects.Elements.System.INSFastEnumeration<T>.All(aBlock: no
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Take(aCount: NSInteger): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Skip(aCount: NSInteger): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.TakeLast(aCount: NSInteger): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.SkipLast(aCount: NSInteger): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.TakeWhile(aBlock: not nullable block(aItem: not nullable T): Boolean): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.SkipWhile(aBlock: not nullable block(aItem: not nullable T): Boolean): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
 
@@ -273,6 +275,17 @@ begin
     lStart := 0;
 
   for i: NSInteger := lStart to lArray.count-1 do
+    yield lArray[i];
+end;
+
+extension method Foundation.INSFastEnumeration.SkipLast(aCount: NSInteger): not nullable Foundation.INSFastEnumeration;
+begin
+  var lArray := self.ToNSArray();
+  var lCount := lArray.count-aCount;
+  if lCount < 0 then
+    lCount := 0;
+
+  for i: NSInteger := 0 to lCount-1 do
     yield lArray[i];
 end;
 
@@ -1120,6 +1133,11 @@ end;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.TakeLast(aCount: NSInteger): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
 begin
   exit Foundation.INSFastEnumeration(self).TakeLast(aCount);
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.SkipLast(aCount: NSInteger): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
+begin
+  exit Foundation.INSFastEnumeration(self).SkipLast(aCount);
 end;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.TakeWhile(aBlock: not nullable block(aItem: not nullable T): Boolean): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
