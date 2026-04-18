@@ -44,6 +44,7 @@ extension method Foundation.INSFastEnumeration.ToLookup(aKeyBlock: not nullable 
 extension method Foundation.INSFastEnumeration.Select(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration; iterator; public;
 extension method Foundation.INSFastEnumeration.SelectMany(aBlock: not nullable IDBlock): not nullable Foundation.INSFastEnumeration; iterator; public;
 extension method Foundation.INSFastEnumeration.SelectMany(aBlock: not nullable IDBlock; aResultBlock: not nullable ID2Block): not nullable Foundation.INSFastEnumeration; iterator; public;
+extension method Foundation.INSFastEnumeration.Zip(aSecond: not nullable Foundation.INSFastEnumeration; aResultBlock: not nullable ID2Block): not nullable Foundation.INSFastEnumeration; iterator; public;
 extension method Foundation.INSFastEnumeration.OfType<R>(): not nullable RemObjects.Elements.System.INSFastEnumeration<R>; iterator; public;
 extension method Foundation.INSFastEnumeration.Cast<R>(): not nullable RemObjects.Elements.System.INSFastEnumeration<R>; iterator; public;
 
@@ -116,6 +117,7 @@ extension method RemObjects.Elements.System.INSFastEnumeration<T>.ToLookup<T,K,V
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Select<T, R>(aBlock: not nullable block(aItem: not nullable T): R): not nullable RemObjects.Elements.System.INSFastEnumeration<R>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.SelectMany<T, R>(aBlock: not nullable block(aItem: not nullable T): not nullable RemObjects.Elements.System.INSFastEnumeration<R>): not nullable RemObjects.Elements.System.INSFastEnumeration<R>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.SelectMany<T, R, S>(aBlock: not nullable block(aItem: not nullable T): not nullable RemObjects.Elements.System.INSFastEnumeration<R>; aResultBlock: not nullable block(aItem: not nullable T; aSubItem: not nullable R): S): not nullable RemObjects.Elements.System.INSFastEnumeration<S>; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Zip<T, TSecond, TResult>(aSecond: not nullable RemObjects.Elements.System.INSFastEnumeration<TSecond>; aResultBlock: not nullable block(aItem: not nullable T; aSecondItem: not nullable TSecond): TResult): not nullable RemObjects.Elements.System.INSFastEnumeration<TResult>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.OfType<R>(): not nullable RemObjects.Elements.System.INSFastEnumeration<R>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Cast<R>(): not nullable RemObjects.Elements.System.INSFastEnumeration<R>; inline; public;
 
@@ -506,6 +508,15 @@ begin
       for each j in lItems do
         yield aResultBlock(i, j);
   end;
+end;
+
+extension method Foundation.INSFastEnumeration.Zip(aSecond: not nullable Foundation.INSFastEnumeration; aResultBlock: not nullable ID2Block): not nullable Foundation.INSFastEnumeration;
+begin
+  var lFirst := self.ToNSArray();
+  var lSecond := aSecond.ToNSArray();
+  var lCount := if lFirst.count < lSecond.count then lFirst.count else lSecond.count;
+  for i: NSInteger := 0 to lCount-1 do
+    yield aResultBlock(lFirst[i], lSecond[i]);
 end;
 
 extension method Foundation.INSFastEnumeration.OfType<R>(): not nullable RemObjects.Elements.System.INSFastEnumeration<R>;
@@ -1148,6 +1159,11 @@ end;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.SelectMany<T, R, S>(aBlock: not nullable block(aItem: not nullable T): not nullable RemObjects.Elements.System.INSFastEnumeration<R>; aResultBlock: not nullable block(aItem: not nullable T; aSubItem: not nullable R): S): not nullable RemObjects.Elements.System.INSFastEnumeration<S>;
 begin
   exit Foundation.INSFastEnumeration(self).SelectMany(IDBlock(aBlock), ID2Block((a, b) -> aResultBlock(T(a), R(b))));
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Zip<T, TSecond, TResult>(aSecond: not nullable RemObjects.Elements.System.INSFastEnumeration<TSecond>; aResultBlock: not nullable block(aItem: not nullable T; aSecondItem: not nullable TSecond): TResult): not nullable RemObjects.Elements.System.INSFastEnumeration<TResult>;
+begin
+  exit Foundation.INSFastEnumeration(self).Zip(Foundation.INSFastEnumeration(aSecond), ID2Block((a, b) -> aResultBlock(T(a), TSecond(b))));
 end;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.OfType<R>(): not nullable RemObjects.Elements.System.INSFastEnumeration<R>;
