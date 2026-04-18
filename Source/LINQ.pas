@@ -31,6 +31,7 @@ extension method Foundation.INSFastEnumeration.Take(aCount: NSInteger): not null
 extension method Foundation.INSFastEnumeration.Skip(aCount: NSInteger): not nullable Foundation.INSFastEnumeration; iterator; public;
 extension method Foundation.INSFastEnumeration.TakeLast(aCount: NSInteger): not nullable Foundation.INSFastEnumeration; iterator; public;
 extension method Foundation.INSFastEnumeration.SkipLast(aCount: NSInteger): not nullable Foundation.INSFastEnumeration; iterator; public;
+extension method Foundation.INSFastEnumeration.Chunk(aSize: NSInteger): not nullable Foundation.INSFastEnumeration; iterator; public;
 extension method Foundation.INSFastEnumeration.TakeWhile(aBlock: not nullable PredicateBlock): not nullable Foundation.INSFastEnumeration;  iterator; public;
 extension method Foundation.INSFastEnumeration.SkipWhile(aBlock: not nullable PredicateBlock): not nullable Foundation.INSFastEnumeration;  iterator; public;
 
@@ -106,6 +107,7 @@ extension method RemObjects.Elements.System.INSFastEnumeration<T>.Take(aCount: N
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Skip(aCount: NSInteger): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.TakeLast(aCount: NSInteger): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.SkipLast(aCount: NSInteger): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Chunk(aSize: NSInteger): not nullable RemObjects.Elements.System.INSFastEnumeration<NSArray<T>>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.TakeWhile(aBlock: not nullable block(aItem: not nullable T): Boolean): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.SkipWhile(aBlock: not nullable block(aItem: not nullable T): Boolean): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
 
@@ -287,6 +289,27 @@ begin
 
   for i: NSInteger := 0 to lCount-1 do
     yield lArray[i];
+end;
+
+extension method Foundation.INSFastEnumeration.Chunk(aSize: NSInteger): not nullable Foundation.INSFastEnumeration;
+begin
+  if aSize <= 0 then
+    raise new Exception("Chunk size must be greater than zero.");
+
+  var lArray := self.ToNSArray();
+  var i: NSInteger := 0;
+  while i < lArray.count do begin
+    var lChunk := new NSMutableArray();
+    var lEnd := i+aSize-1;
+    if lEnd >= lArray.count then
+      lEnd := lArray.count-1;
+
+    for j: NSInteger := i to lEnd do
+      lChunk.addObject(lArray[j]);
+
+    yield lChunk;
+    inc(i, aSize);
+  end;
 end;
 
 extension method Foundation.INSFastEnumeration.TakeWhile(aBlock: not nullable PredicateBlock): not nullable Foundation.INSFastEnumeration;
@@ -1138,6 +1161,11 @@ end;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.SkipLast(aCount: NSInteger): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
 begin
   exit Foundation.INSFastEnumeration(self).SkipLast(aCount);
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Chunk(aSize: NSInteger): not nullable RemObjects.Elements.System.INSFastEnumeration<NSArray<T>>;
+begin
+  exit Foundation.INSFastEnumeration(self).Chunk(aSize) as not nullable;
 end;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.TakeWhile(aBlock: not nullable block(aItem: not nullable T): Boolean): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
