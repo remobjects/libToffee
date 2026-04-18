@@ -53,6 +53,10 @@ extension method Foundation.INSFastEnumeration.Last: nullable id; public;
 extension method Foundation.INSFastEnumeration.Last(aBlock: not nullable PredicateBlock): nullable id; public;
 extension method Foundation.INSFastEnumeration.LastOrDefault: nullable id; public;
 extension method Foundation.INSFastEnumeration.LastOrDefault(aBlock: not nullable PredicateBlock): nullable id; public;
+extension method Foundation.INSFastEnumeration.Single: nullable id; public;
+extension method Foundation.INSFastEnumeration.Single(aBlock: not nullable PredicateBlock): nullable id; public;
+extension method Foundation.INSFastEnumeration.SingleOrDefault: nullable id; public;
+extension method Foundation.INSFastEnumeration.SingleOrDefault(aBlock: not nullable PredicateBlock): nullable id; public;
 extension method Foundation.INSFastEnumeration.Count: NSInteger; public;
 extension method Foundation.INSFastEnumeration.Count(aBlock: not nullable PredicateBlock): NSInteger; public;
 
@@ -99,6 +103,10 @@ extension method RemObjects.Elements.System.INSFastEnumeration<T>.Last: {nullabl
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Last(aBlock: not nullable block(aItem: not nullable T): Boolean): {nullable} T; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.LastOrDefault: {nullable} T; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.LastOrDefault(aBlock: not nullable block(aItem: not nullable T): Boolean): {nullable} T; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Single: {nullable} T; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Single(aBlock: not nullable block(aItem: not nullable T): Boolean): {nullable} T; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.SingleOrDefault: {nullable} T; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.SingleOrDefault(aBlock: not nullable block(aItem: not nullable T): Boolean): {nullable} T; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Count: NSInteger; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Count(aBlock: not nullable block(aItem: not nullable T): Boolean): NSInteger; inline; public;
 
@@ -107,11 +115,9 @@ extension method RemObjects.Elements.System.INSFastEnumeration<T>.Max<T,R>(aBloc
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Min: T; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Min<T,R>(aBlock: not nullable block(aItem: not nullable T): R): R; inline; public;
 
+// Pending operators:
 // Join
 // GroupJoin
-// ThenBy
-// GroupBy
-
 // Union
 
 // Useful helper methods
@@ -567,6 +573,56 @@ begin
       result := i;
 end;
 
+extension method Foundation.INSFastEnumeration.Single(): nullable id;
+begin
+  var lFound := false;
+  for each i in self do begin
+    if lFound then
+      raise new Exception("Sequence contains more than one element.");
+    result := i;
+    lFound := true;
+  end;
+  if not lFound then
+    raise new Exception("Sequence is empty.");
+end;
+
+extension method Foundation.INSFastEnumeration.Single(aBlock: not nullable PredicateBlock): nullable id;
+begin
+  var lFound := false;
+  for each i in self do
+    if aBlock(i) then begin
+      if lFound then
+        raise new Exception("Sequence contains more than one matching element.");
+      result := i;
+      lFound := true;
+    end;
+  if not lFound then
+    raise new Exception("Sequence is empty.");
+end;
+
+extension method Foundation.INSFastEnumeration.SingleOrDefault(): nullable id;
+begin
+  var lFound := false;
+  for each i in self do begin
+    if lFound then
+      raise new Exception("Sequence contains more than one element.");
+    result := i;
+    lFound := true;
+  end;
+end;
+
+extension method Foundation.INSFastEnumeration.SingleOrDefault(aBlock: not nullable PredicateBlock): nullable id;
+begin
+  var lFound := false;
+  for each i in self do
+    if aBlock(i) then begin
+      if lFound then
+        raise new Exception("Sequence contains more than one matching element.");
+      result := i;
+      lFound := true;
+    end;
+end;
+
 extension method Foundation.INSFastEnumeration.Any(): Boolean;
 begin
   var lState: NSFastEnumerationState := default(NSFastEnumerationState);
@@ -776,6 +832,26 @@ end;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.LastOrDefault(aBlock: not nullable block(aItem: not nullable T): Boolean): {nullable} T;
 begin
   exit Foundation.INSFastEnumeration(self).LastOrDefault(PredicateBlock(aBlock));
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Single: {nullable} T;
+begin
+  exit Foundation.INSFastEnumeration(self).Single;
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Single(aBlock: not nullable block(aItem: not nullable T): Boolean): {nullable} T;
+begin
+  exit Foundation.INSFastEnumeration(self).Single(PredicateBlock(aBlock));
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.SingleOrDefault: {nullable} T;
+begin
+  exit Foundation.INSFastEnumeration(self).SingleOrDefault;
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.SingleOrDefault(aBlock: not nullable block(aItem: not nullable T): Boolean): {nullable} T;
+begin
+  exit Foundation.INSFastEnumeration(self).SingleOrDefault(PredicateBlock(aBlock));
 end;
 
 
