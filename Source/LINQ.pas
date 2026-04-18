@@ -44,6 +44,7 @@ extension method Foundation.INSFastEnumeration.Reverse: not nullable Foundation.
 extension method Foundation.INSFastEnumeration.Distinct(aComparator: NSComparator := nil): not nullable Foundation.INSFastEnumeration; iterator; public;
 extension method Foundation.INSFastEnumeration.Intersect(aSecond: not nullable Foundation.INSFastEnumeration; aComparator: NSComparator := nil): not nullable Foundation.INSFastEnumeration; iterator; public;
 extension method Foundation.INSFastEnumeration.Except(aSecond: not nullable Foundation.INSFastEnumeration; aComparator: NSComparator := nil): not nullable Foundation.INSFastEnumeration; iterator; public;
+extension method Foundation.INSFastEnumeration.Union(aSecond: not nullable Foundation.INSFastEnumeration; aComparator: NSComparator := nil): not nullable Foundation.INSFastEnumeration; iterator; public;
 extension method Foundation.INSFastEnumeration.SequenceEqual(aSecond: not nullable Foundation.INSFastEnumeration): Boolean; public;
 
 extension method Foundation.INSFastEnumeration.Contains(aItem: id): Boolean; public;
@@ -100,6 +101,7 @@ extension method RemObjects.Elements.System.INSFastEnumeration<T>.Reverse: not n
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Distinct(aComparator: NSComparator := nil): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Intersect(aSecond: not nullable Foundation.INSFastEnumeration; aComparator: NSComparator := nil): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Except(aSecond: not nullable Foundation.INSFastEnumeration; aComparator: NSComparator := nil): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Union(aSecond: not nullable Foundation.INSFastEnumeration; aComparator: NSComparator := nil): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.SequenceEqual(aSecond: not nullable RemObjects.Elements.System.INSFastEnumeration<T>): Boolean; inline; public;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Contains(aItem: T): Boolean; public;
@@ -130,7 +132,6 @@ extension method RemObjects.Elements.System.INSFastEnumeration<T>.Min<T,R>(aBloc
 // Pending operators:
 // Join
 // GroupJoin
-// Union
 
 // Useful helper methods
 extension method Foundation.INSFastEnumeration.array: not nullable NSArray; public;
@@ -478,6 +479,23 @@ begin
   for each i in lSecond do
     if not lFirst.containsObject(i) then
       yield i;
+end;
+
+extension method Foundation.INSFastEnumeration.Union(aSecond: not nullable Foundation.INSFastEnumeration; aComparator: NSComparator := nil): not nullable Foundation.INSFastEnumeration;
+begin
+  var lReturned := new NSMutableArray;
+
+  for each i in self do
+    if not lReturned.containsObject(i) then begin
+      lReturned.addObject(i);
+      yield i;
+    end;
+
+  for each i in aSecond do
+    if not lReturned.containsObject(i) then begin
+      lReturned.addObject(i);
+      yield i;
+    end;
 end;
 
 extension method Foundation.INSFastEnumeration.SequenceEqual(aSecond: not nullable Foundation.INSFastEnumeration): Boolean;
@@ -899,6 +917,11 @@ end;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Except(aSecond: not nullable Foundation.INSFastEnumeration; aComparator: NSComparator := nil): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
 begin
   exit Foundation.INSFastEnumeration(self).Except(aSecond, aComparator);
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Union(aSecond: not nullable Foundation.INSFastEnumeration; aComparator: NSComparator := nil): not nullable RemObjects.Elements.System.INSFastEnumeration<T>;
+begin
+  exit Foundation.INSFastEnumeration(self).Union(aSecond, aComparator);
 end;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.SequenceEqual(aSecond: not nullable RemObjects.Elements.System.INSFastEnumeration<T>): Boolean;
