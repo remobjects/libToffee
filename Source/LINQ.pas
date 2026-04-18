@@ -68,6 +68,8 @@ extension method Foundation.INSFastEnumeration.DefaultIfEmpty: not nullable Foun
 extension method Foundation.INSFastEnumeration.DefaultIfEmpty(aDefaultValue: id): not nullable Foundation.INSFastEnumeration; iterator; public;
 extension method Foundation.INSFastEnumeration.Count: NSInteger; public;
 extension method Foundation.INSFastEnumeration.Count(aBlock: not nullable PredicateBlock): NSInteger; public;
+extension method Foundation.INSFastEnumeration.LongCount: Int64; public;
+extension method Foundation.INSFastEnumeration.LongCount(aBlock: not nullable PredicateBlock): Int64; public;
 
 extension method Foundation.INSFastEnumeration.Max: id; public;
 extension method Foundation.INSFastEnumeration.Max(aBlock: not nullable IDBlock): id; public;
@@ -128,6 +130,8 @@ extension method RemObjects.Elements.System.INSFastEnumeration<T>.DefaultIfEmpty
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.DefaultIfEmpty(aDefaultValue: T): not nullable RemObjects.Elements.System.INSFastEnumeration<T>; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Count: NSInteger; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Count(aBlock: not nullable block(aItem: not nullable T): Boolean): NSInteger; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.LongCount: Int64; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.LongCount(aBlock: not nullable block(aItem: not nullable T): Boolean): Int64; inline; public;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Max: T; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Max<T,R>(aBlock: not nullable block(aItem: not nullable T): R): R; inline; public;
@@ -788,6 +792,31 @@ begin
       inc(result);
 end;
 
+extension method Foundation.INSFastEnumeration.LongCount: Int64;
+begin
+  if self is NSArray then
+    exit (self as NSArray).count;
+  if self.respondsToSelector(selector(count)) then
+    exit (self as id).count;
+
+  var lState: NSFastEnumerationState := default(NSFastEnumerationState);
+  var lObjects: array[0..LOOP_SIZE-1] of id;
+
+  result := 0;
+  loop begin
+    var lGot := Foundation.INSFastEnumeration(self).countByEnumeratingWithState(@lState) objects(lObjects) count(LOOP_SIZE); //cast is workaround, remove;
+    if lGot = 0 then break;
+    result := result+lGot;
+  end;
+end;
+
+extension method Foundation.INSFastEnumeration.LongCount(aBlock: not nullable PredicateBlock): Int64;
+begin
+  for each i in self do
+    if aBlock(i) then
+      inc(result);
+end;
+
 extension method Foundation.INSFastEnumeration.Max: id;
 begin
   for each i in self do
@@ -1100,6 +1129,16 @@ end;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Count(aBlock: not nullable block(aItem: not nullable T): Boolean): NSInteger;
 begin
   exit Foundation.INSFastEnumeration(self).Count(PredicateBlock(aBlock));
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.LongCount: Int64;
+begin
+  exit Foundation.INSFastEnumeration(self).LongCount;
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.LongCount(aBlock: not nullable block(aItem: not nullable T): Boolean): Int64;
+begin
+  exit Foundation.INSFastEnumeration(self).LongCount(PredicateBlock(aBlock));
 end;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Max: T;
