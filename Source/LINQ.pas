@@ -70,6 +70,8 @@ extension method Foundation.INSFastEnumeration.Count: NSInteger; public;
 extension method Foundation.INSFastEnumeration.Count(aBlock: not nullable PredicateBlock): NSInteger; public;
 extension method Foundation.INSFastEnumeration.LongCount: Int64; public;
 extension method Foundation.INSFastEnumeration.LongCount(aBlock: not nullable PredicateBlock): Int64; public;
+extension method Foundation.INSFastEnumeration.Aggregate(aBlock: not nullable ID2Block): id; public;
+extension method Foundation.INSFastEnumeration.Aggregate(aSeed: id; aBlock: not nullable ID2Block): id; public;
 
 extension method Foundation.INSFastEnumeration.Max: id; public;
 extension method Foundation.INSFastEnumeration.Max(aBlock: not nullable IDBlock): id; public;
@@ -132,6 +134,8 @@ extension method RemObjects.Elements.System.INSFastEnumeration<T>.Count: NSInteg
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Count(aBlock: not nullable block(aItem: not nullable T): Boolean): NSInteger; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.LongCount: Int64; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.LongCount(aBlock: not nullable block(aItem: not nullable T): Boolean): Int64; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Aggregate<T>(aBlock: not nullable block(aAccumulate: T; aItem: not nullable T): T): T; inline; public;
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Aggregate<T, TAccumulate>(aSeed: TAccumulate; aBlock: not nullable block(aAccumulate: TAccumulate; aItem: not nullable T): TAccumulate): TAccumulate; inline; public;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Max: T; inline; public;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Max<T,R>(aBlock: not nullable block(aItem: not nullable T): R): R; inline; public;
@@ -817,6 +821,30 @@ begin
       inc(result);
 end;
 
+extension method Foundation.INSFastEnumeration.Aggregate(aBlock: not nullable ID2Block): id;
+begin
+  var lHasValue := false;
+  for each i in self do begin
+    if not lHasValue then begin
+      result := i;
+      lHasValue := true;
+    end
+    else begin
+      result := aBlock(result, i);
+    end;
+  end;
+
+  if not lHasValue then
+    raise new Exception("Sequence is empty.");
+end;
+
+extension method Foundation.INSFastEnumeration.Aggregate(aSeed: id; aBlock: not nullable ID2Block): id;
+begin
+  result := aSeed;
+  for each i in self do
+    result := aBlock(result, i);
+end;
+
 extension method Foundation.INSFastEnumeration.Max: id;
 begin
   for each i in self do
@@ -1139,6 +1167,16 @@ end;
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.LongCount(aBlock: not nullable block(aItem: not nullable T): Boolean): Int64;
 begin
   exit Foundation.INSFastEnumeration(self).LongCount(PredicateBlock(aBlock));
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Aggregate<T>(aBlock: not nullable block(aAccumulate: T; aItem: not nullable T): T): T;
+begin
+  result := Foundation.INSFastEnumeration(self).Aggregate(ID2Block((a, b) -> aBlock(T(a), T(b))));
+end;
+
+extension method RemObjects.Elements.System.INSFastEnumeration<T>.Aggregate<T, TAccumulate>(aSeed: TAccumulate; aBlock: not nullable block(aAccumulate: TAccumulate; aItem: not nullable T): TAccumulate): TAccumulate;
+begin
+  result := Foundation.INSFastEnumeration(self).Aggregate(aSeed, ID2Block((a, b) -> aBlock(TAccumulate(a), T(b))));
 end;
 
 extension method RemObjects.Elements.System.INSFastEnumeration<T>.Max: T;
