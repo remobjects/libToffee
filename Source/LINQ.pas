@@ -454,21 +454,37 @@ end;
 type
   Grouping<K,T> = class(IGrouping<K,T>)
   private
-    var fArray := new NSMutableArray; implements public RemObjects.Elements.System.INSFastEnumeration<T>;
+    var fArray := new NSMutableArray;
   unit
     method addObject(aValue: T);
     begin
       fArray.addObject(aValue);
     end;
+
+    method countByEnumeratingWithState(aState: ^NSFastEnumerationState) objects(stackbuf: ^T) count(len: NSUInteger): NSUInteger;
+    begin
+      result := fArray.countByEnumeratingWithState(aState) objects(^id(stackbuf)) count(len);
+    end;
   public
     property Key: K read unit write;
+
+    [ToString]
+    method ToString: String; override;
+    begin
+      result := $"<Grouping {Key}: {fArray}>";
+    end;
   end;
 
   Lookup<K,T> = class(ILookup<K,T>)
   private
-    var fGroups := new NSMutableArray; implements public RemObjects.Elements.System.INSFastEnumeration<IGrouping<K,T>>;
+    var fGroups := new NSMutableArray;
     var fDictionary := new NSMutableDictionary;
     var fEmptyGroup := new Grouping<K,T>();
+
+    method countByEnumeratingWithState(aState: ^NSFastEnumerationState) objects(stackbuf: ^IGrouping<K,T>) count(len: NSUInteger): NSUInteger;
+    begin
+      result := fGroups.countByEnumeratingWithState(aState) objects(^id(stackbuf)) count(len);
+    end;
 
     method MappedKey(aKey: K): id;
     begin
