@@ -27,7 +27,7 @@ type
     operator NotEqual(object1: id; object2: __ElementsBoxedStruct): Boolean;
     { INSObject }
     method isEqual(object: id): Boolean; override;
-    method isEqualTo(object: id): Boolean; reintroduce;
+    method isEqualTo(object: id): Boolean; //reintroduce;
     { INSCopying }
     method copyWithZone(zone: ^NSZone): not nullable id;
     method mutableCopyWithZone(zone: ^NSZone): not nullable id;
@@ -53,11 +53,11 @@ type
     operator NotEqual(object1: id; object2: __ElementsBoxedChar): Boolean;
     { INSObject }
     method isEqual(object: id): Boolean; override;
-    method isEqualTo(object: id): Boolean; reintroduce;
-    method isGreaterThan(object: id): Boolean; reintroduce;
-    method isGreaterThanOrEqualTo(object: id): Boolean; reintroduce;
-    method isLessThan(object: id): Boolean; reintroduce;
-    method isLessThanOrEqualTo(object: id): Boolean; reintroduce;
+    method isEqualTo(object: id): Boolean; //reintroduce;
+    method isGreaterThan(object: id): Boolean; //reintroduce;
+    method isGreaterThanOrEqualTo(object: id): Boolean; //reintroduce;
+    method isLessThan(object: id): Boolean; //reintroduce;
+    method isLessThanOrEqualTo(object: id): Boolean; //reintroduce;
     { INSCopying }
     method copyWithZone(zone: ^NSZone): not nullable id;
     method mutableCopyWithZone(zone: ^NSZone): not nullable id;
@@ -83,11 +83,11 @@ type
     operator NotEqual(object1: id; object2: __ElementsBoxedAnsiChar): Boolean;
     { INSObject }
     method isEqual(object: id): Boolean; override;
-    method isEqualTo(object: id): Boolean; reintroduce;
-    method isGreaterThan(object: id): Boolean; reintroduce;
-    method isGreaterThanOrEqualTo(object: id): Boolean; reintroduce;
-    method isLessThan(object: id): Boolean; reintroduce;
-    method isLessThanOrEqualTo(object: id): Boolean; reintroduce;
+    method isEqualTo(object: id): Boolean; //reintroduce;
+    method isGreaterThan(object: id): Boolean; //reintroduce;
+    method isGreaterThanOrEqualTo(object: id): Boolean; //reintroduce;
+    method isLessThan(object: id): Boolean; //reintroduce;
+    method isLessThanOrEqualTo(object: id): Boolean; //reintroduce;
     { INSCopying }
     method copyWithZone(zone: ^NSZone): not nullable id;
     method mutableCopyWithZone(zone: ^NSZone): not nullable id;
