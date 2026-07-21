@@ -7,16 +7,20 @@ uses
 
 type
   __ElementsBoxedStructDestructor = public procedure (o: ^Void);
+  __ElementsBoxedStructDescription = public function (o: ^Void): String;
 
   __ElementsBoxedStruct = public class(NSObject) // We're explicitly NOT implementing INSCopying and INSCoding
   private
     fValue: ^Void;
     fDtor: __ElementsBoxedStructDestructor;
+    fDescription: __ElementsBoxedStructDescription;
   public
     constructor (aValue: ^Void; aDtor: __ElementsBoxedStructDestructor); // Presume already "copied" & malloced
+    constructor (aValue: ^Void; aDtor: __ElementsBoxedStructDestructor; aDescription: __ElementsBoxedStructDescription); // Presume already "copied" & malloced
     finalizer;
     method description: String; override;
     class method boxedStructWithValue(aValue: ^Void; aDtor: __ElementsBoxedStructDestructor): __ElementsBoxedStruct;
+    class method boxedStructWithValue(aValue: ^Void; aDtor: __ElementsBoxedStructDestructor; aDescription: __ElementsBoxedStructDescription): __ElementsBoxedStruct;
     class method valueForStruct(aStruct: Object; aDtor: __ElementsBoxedStructDestructor): ^Void;
     //
     property Dtor: __ElementsBoxedStructDestructor read fDtor;
@@ -342,8 +346,14 @@ end;
 
 constructor __ElementsBoxedStruct(aValue: ^Void; aDtor: __ElementsBoxedStructDestructor);
 begin
+  constructor (aValue, aDtor, nil);
+end;
+
+constructor __ElementsBoxedStruct(aValue: ^Void; aDtor: __ElementsBoxedStructDestructor; aDescription: __ElementsBoxedStructDescription);
+begin
   fValue := aValue;
   fDtor := aDtor;
+  fDescription := aDescription;
 end;
 
 finalizer __ElementsBoxedStruct;
@@ -355,12 +365,19 @@ end;
 
 method __ElementsBoxedStruct.description: String;
 begin
+  if assigned(fDescription) then
+    exit fDescription(fValue);
   result := "<Boxed Struct Type>"
 end;
 
 class method __ElementsBoxedStruct.boxedStructWithValue(aValue: ^Void; aDtor: __ElementsBoxedStructDestructor): __ElementsBoxedStruct;
 begin
   exit new __ElementsBoxedStruct(aValue, aDtor);
+end;
+
+class method __ElementsBoxedStruct.boxedStructWithValue(aValue: ^Void; aDtor: __ElementsBoxedStructDestructor; aDescription: __ElementsBoxedStructDescription): __ElementsBoxedStruct;
+begin
+  exit new __ElementsBoxedStruct(aValue, aDtor, aDescription);
 end;
 
 class method __ElementsBoxedStruct.valueForStruct(aStruct: Object; aDtor: __ElementsBoxedStructDestructor): ^Void;
