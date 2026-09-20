@@ -51,13 +51,28 @@ end;
 
 method __ElementsReadLine: String;
 begin
-  result := '';
+  var lBytes := new NSMutableData;
+  var lBuffer: array[0..255] of Byte;
+  var lCount := 0;
   loop begin
     var c := getchar();
-    if c in [10, 13] then
-      exit;
-    result := result+Char(c);
+    if (c < 0) or (c in [10, 13]) then
+      break;
+    lBuffer[lCount] := Byte(c);
+    inc(lCount);
+    if lCount = length(lBuffer) then begin
+      lBytes.appendBytes(@lBuffer[0]) length(lCount);
+      lCount := 0;
+    end;
   end;
+  if lCount > 0 then
+    lBytes.appendBytes(@lBuffer[0]) length(lCount);
+  if lBytes.length = 0 then
+    exit '';
+  // Decode the complete line; a UTF-8 character may span buffer boundaries.
+  result := new NSString withBytes(lBytes.bytes) length(lBytes.length) encoding(NSStringEncoding.UTF8StringEncoding);
+  if result = nil then
+    NSException.&raise('InvalidArgumentException') format('Standard input contains invalid UTF-8.');
 end;
 
 var __ElementsObjcClassInfoToStringValue: String;

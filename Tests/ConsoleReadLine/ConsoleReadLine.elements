@@ -1,0 +1,14 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProjectGuid>{DE85E251-F0DD-4C3B-A70F-F19EF2C216C2}</ProjectGuid>
+    <OutputType>Executable</OutputType>
+    <AssemblyName>ToffeeReadLineTests</AssemblyName>
+    <SDK>macOS</SDK>
+    <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
+    <OutputPath>bin</OutputPath>
+    <RuntimeLibrary Condition="'$(RuntimeLibrary)' == ''">../../Source/bin/Debug/macOS/libToffee.fx</RuntimeLibrary>
+  </PropertyGroup>
+  <ItemGroup><Reference Include="Foundation" /><Reference Include="rtl" /><Reference Include="Toffee"><HintPath>$(RuntimeLibrary)</HintPath></Reference></ItemGroup>
+  <ItemGroup><Compile Include="Program.pas" /></ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)/RemObjects Software/Elements/RemObjects.Elements.Toffee.targets" />
+</Project>
